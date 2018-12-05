@@ -98,7 +98,7 @@ class Db
 
 	public function lastId()
 	{
-		return $this->lastInsertId();
+		return $this->pdo->lastInsertId();
 	}
 
 	public function lastCount()

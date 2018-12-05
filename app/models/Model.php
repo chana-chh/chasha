@@ -196,56 +196,48 @@ abstract class Model
 		$keys = array_keys(get_object_vars($this));
 		$values = array_values(get_object_vars($this));
 		$properties = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
-		$props = [];
-		$this->params=[];
+		$this->params = [];
 		foreach ($properties as $prop) {
-			$props[] = $prop->name;
-			$this->params[':'.$prop->name]=$this->{$prop->name};
+			$this->params[$prop->name] = $this->{$prop->name};
 		}
-
-		dd($this->params, true);
 	}
 
-	// TODO: Prepraviti na QueryBuilder
 	public function insert()
 	{
 		$this->extractParams();
-		// foreach ($data as $key => $value) {
-		// 	$cols[] = $key;
-		// 	$pars[] = ':' . $key;
-		// 	$vals[] = $value;
-		// }
-		// $params = array_combine($pars, $vals);
-		// $c = '`' . implode('`, `', $cols) . '`';
-		// $v = implode(', ', $pars);
-		// $sql = "INSERT INTO `{$this->table}` ({$c}) VALUES ({$v});";
-		// return Db::qry($sql, $params);
+		foreach ($this->params as $key => $value) {
+			$cols[] = $key;
+			$pars[] = ':' . $key;
+			$vals[] = is_string($value) ? "'" . $value . "'" : $value;
+		}
+		$params = array_combine($pars, $vals);
+		$c = implode(', ', $cols);
+		$v = implode(', ', $pars);
+		$sql = "INSERT INTO {$this->table} ({$c}) VALUES ({$v});";
+		return $this->db->qry($sql, $params);
 	}
 
 	public function insertUpdate($data)
 	{
-
+		// Isto kao insert asmo u sql dodqti
+		// ON DUPLICATE KEY UPDATE opis = opis; ???: Kad ovo primeniti izasto nikad
 	}
 
 	// TODO: Prepraviti na QueryBuilder
-	public function update($data, $where)
+	public function update()
 	{
-		list($column, $operator, $value) = $where;
-		$cols = array_column($data, 0);
-		$pars = array_map(function ($col) {
-			return ':' . $col;
-		}, $cols);
-		$vals = array_column($data, 1);
-		$cv = array_combine($cols, $pars);
-		$params = array_combine($pars, $vals);
-		$c = '';
-		foreach ($cv as $key => $val) {
-			$c .= ", `{$key}` = {$val}";
+		$this->extractParams();
+		$id = $this->params[$this->pk];
+		foreach ($this->params as $key => $value) {
+			if ($key !== $this->pk) {
+				$s[] = $key . ' = :' . $key;
+			}
+			$pars[] = ':' . $key;
+			$vals[] = is_string($value) ? "'" . $value . "'" : $value;
 		}
-		$c = ltrim($c, ', ');
-
-		$sql = "UPDATE `{$this->table}` SET {$c} WHERE `{$column}` {$operator} :where_{$column};";
-		$params[":where_{$column}"] = $value;
+		$set = implode(', ', $s);
+		$params = array_combine($pars, $vals);
+		$sql = "UPDATE {$this->table} SET {$set} WHERE {$this->pk} = :{$this->pk};";
 		return $this->db->qry($sql, $params);
 	}
 

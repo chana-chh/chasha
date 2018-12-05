@@ -13,12 +13,12 @@
 	mollitia voluptatem maxime vel ipsa sunt porro totam eligendi.
 </p>
 <p>{{ sql }}</p>
-<h2>Predmeti</h2>
-<ul>
+<h2>Predmet</h2>
+<ol>
 	{% for predmet in predmeti %}
 	<li>{{ predmet.id }} - <strong>{{ predmet.broj() }}</strong> - {{ predmet.vrstaUpisnika.naziv }}</li>
 	{% endfor %}
-</ul>
+</ol>
 <p>{{ predmeti.id }} - <strong>{{ predmeti.broj() }}</strong> - {{ predmeti.vrstaUpisnika.naziv }}</p>
 <p>Korisnik: {{ auth.logged ? auth.user.name : "Gost" }}</p>
 {% endblock sadrzaj %}

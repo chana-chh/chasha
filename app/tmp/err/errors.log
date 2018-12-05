@@ -26,3 +26,5 @@
 [05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
 [05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
 [05-Dec-2018 10:22:00 Europe/Belgrade] PHP Notice:  Undefined variable: p in C:\xampp\htdocs\chasha\app\models\Model.php on line 202
+[05-Dec-2018 11:39:15 Europe/Belgrade] PHP Notice:  Undefined variable: predmet in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
+[05-Dec-2018 11:48:45 Europe/Belgrade] PHP Notice:  Undefined variable: predmet in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88

@@ -83,11 +83,29 @@ class HomeController extends Controller
 	public function getHome($request, $response)
 	{
 		$model = new Predmet();
-		// $predmeti = $model->select()->limit(20)->get();
-		$predmeti = $model->find(2500);
-		$model->opis_kp = 'KP 12666/3 KO Resnik';
-		$model->insert();
-		$sql = $model->getSql();
+		$predmet = $model->find(5616);
+		// $predmeti = $model->all();
+		// dd($predmet, true);
+		$predmet->arhiviran = 0;
+		// $predmet->vrsta_upisnika_id = 4;
+		// $predmet->broj_predmeta = 4;
+		// $predmet->godina_predmeta = 2020;
+		// $predmet->sud_id = 12;
+		// $predmet->vrsta_predmeta_id = 80;
+		// $predmet->opis = 'opis opis';
+		// $predmet->opis_kp = 'KP 222/3 KO Resnik';
+		// $predmet->opis_adresa = 'adresica';
+		// $predmet->vrednost_tuzbe = 20000.00;
+		// $predmet->datum_tuzbe = '2020-01-02';
+		// $predmet->referent_id = 2;
+		// $predmet->napomena = 'napomenica';
+		// $predmet->korisnik_id = 1;
+
+		$predmet->update();
+		// $id = $predmet->lastId();
+		// $predmeti = $predmet->find($id);
+		dd($predmet, true);
+		// $sql = $model->getSql();
 		$this->render($response, 'home.twig', compact('predmeti', 'sql'));
 	}
 
