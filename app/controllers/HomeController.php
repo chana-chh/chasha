@@ -83,7 +83,7 @@ class HomeController extends Controller
 	public function getHome($request, $response)
 	{
 		$model = new Predmet();
-		$predmet = $model->find(5616);
+		$predmet = $model->find(5606);
 		// $predmeti = $model->all();
 		// dd($predmet, true);
 		$predmet->arhiviran = 0;
@@ -101,7 +101,7 @@ class HomeController extends Controller
 		// $predmet->napomena = 'napomenica';
 		// $predmet->korisnik_id = 1;
 
-		$predmet->update();
+		// $predmet->update();
 		// $id = $predmet->lastId();
 		// $predmeti = $predmet->find($id);
 		dd($predmet, true);
