@@ -1,0 +1,11 @@
+<nav>
+	<h1 class="logo"><a href="{{ path_for('pocetna') }}">ChaSha</a></h1>
+	<a href="{{ path_for('pocetna') }}">Pocetna</a>
+	{% if auth.logged %}
+	<a href="{{ path_for('odjava') }}">Odjava</a>
+	{% else %}
+	<a href="{{ path_for('registracija') }}">Registracija</a>
+	<a href="{{ path_for('prijava') }}">Prijava</a>
+	{% endif %}
+
+</nav>

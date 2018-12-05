@@ -1,0 +1,8 @@
+IndexIgnore *
+Options -Indexes
+Options -MultiViews
+RewriteEngine On
+# RewriteBase /mvc/pub
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L]

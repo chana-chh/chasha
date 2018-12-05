@@ -1,0 +1,22 @@
+{#{{-- dump(flash()) --}}#}
+{% if flash('info') %}
+<div class="flash flash-info">
+	{% for msg in flash('info') %}
+	<p>{{ msg }}</p>
+	{% endfor %}
+</div>
+{% endif %}
+{% if flash('success') %}
+<div class="flash flash-success">
+	{% for msg in flash('success') %}
+	<p>{{ msg }}</p>
+	{% endfor %}
+</div>
+{% endif %}
+{% if flash('danger') %}
+<div class="flash flash-danger">
+	{% for msg in flash('danger') %}
+	<p>{{ msg }}</p>
+	{% endfor %}
+</div>
+{% endif %}

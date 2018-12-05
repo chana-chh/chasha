@@ -1,0 +1,65 @@
+body {
+  padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav {
+  /* margin: 1rem 0; */
+  font-size: 1.2rem;
+}
+
+nav .logo {
+  display: inline-block;
+  font-size: 3rem;
+  margin: 0;
+  padding-right: 3rem;
+}
+
+nav > .logo > a {
+  text-decoration: none;
+  color: rgb(4, 62, 138);
+}
+
+nav > .logo > a:hover {
+  color: rgb(255, 69, 1);
+}
+
+nav > a {
+  text-decoration: none;
+  color: rgb(60, 77, 228);
+  padding: 0.3rem 1.5rem;
+}
+
+nav > a:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(194, 182, 255);
+}
+
+.sql {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1rem;
+}
+
+.flash {
+  padding: 0 1rem;
+  margin: .5rem 0;
+  border-radius: 0.5rem;
+}
+
+.flash-info {
+  border: 1px solid rgb(0, 0, 150);
+  color: rgb(0, 0, 150);
+  background-color: rgb(200, 200, 250);
+}
+
+.flash-success {
+	border: 1px solid rgb(0, 150, 0);
+	color: rgb(0, 150, 0);
+	background-color: rgb(200, 250, 200);
+}
+
+.flash-danger {
+	border: 1px solid rgb(150, 0, 0);
+	color: rgb(150, 0, 0);
+	background-color: rgb(250, 200, 200);
+}

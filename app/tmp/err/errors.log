@@ -1,0 +1,28 @@
+# START ERROR LOG
+[04-Dec-2018 13:33:26 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 35
+[04-Dec-2018 20:48:24 Europe/Belgrade] PHP Warning:  A non-numeric value encountered in D:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 23
+[04-Dec-2018 23:28:31 Europe/Belgrade] PHP Notice:  Undefined variable: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:28:41 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:28:46 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:28:47 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:29:09 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:29:09 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:31:14 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:31:17 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[04-Dec-2018 23:31:22 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
+[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
+[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
+[05-Dec-2018 10:22:00 Europe/Belgrade] PHP Notice:  Undefined variable: p in C:\xampp\htdocs\chasha\app\models\Model.php on line 202

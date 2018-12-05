@@ -1,0 +1,24 @@
+{% extends "templates/app.twig" %}
+
+{% block sadrzaj %}
+<h1>Home page</h1>
+<p>
+	Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio animi quam aperiam doloremque vero
+	impedit, fugiat at maxime rem. Consequuntur rerum tenetur inventore officia eveniet optio neque animi repudiandae
+	tempore maxime distinctio suscipit iusto unde cupiditate voluptas obcaecati provident ea, non voluptatem cum
+	voluptatibus veniam quasi itaque! Commodi, incidunt libero!
+</p>
+<p>
+	Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis quam qui animi iste blanditiis voluptatum, sint,
+	mollitia voluptatem maxime vel ipsa sunt porro totam eligendi.
+</p>
+<p>{{ sql }}</p>
+<h2>Predmeti</h2>
+<ul>
+	{% for predmet in predmeti %}
+	<li>{{ predmet.id }} - <strong>{{ predmet.broj() }}</strong> - {{ predmet.vrstaUpisnika.naziv }}</li>
+	{% endfor %}
+</ul>
+<p>{{ predmeti.id }} - <strong>{{ predmeti.broj() }}</strong> - {{ predmeti.vrstaUpisnika.naziv }}</p>
+<p>Korisnik: {{ auth.logged ? auth.user.name : "Gost" }}</p>
+{% endblock sadrzaj %}

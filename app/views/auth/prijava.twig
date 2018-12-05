@@ -1,0 +1,14 @@
+{% extends "templates/app.twig" %}
+
+{% block sadrzaj %}
+<h1>Prijava</h1>
+<form action="{{ path_for('prijava') }}" method="POST">
+    {{ csrf|raw }}
+    <label for="username">Korisnicko ime</label><br>
+    <input type="text" name="username" id="username" value="{{ old.username }}" autocomplete="off"><br><br>
+    <label for="password">Lozinka</label><br>
+    <input type="password" name="password" id="password" autocomplete="off"><br><br>
+    <input type="submit" value="Prijavi se">
+    <a href="{{ path_for('pocetna') }}">Otkazi prijavu</a>
+</form>
+{% endblock sadrzaj %}
