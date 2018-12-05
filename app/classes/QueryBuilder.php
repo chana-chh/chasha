@@ -6,10 +6,10 @@ class QueryBuilder
 {
 
 	private $distinct = false;
-	private $columns = ['*'];
+	private $columns;
+	private $values;
+	private $type = 'START'; // SELECT, INSERT, UPDATE, DELETE
 	private $table;
-	private $alias;
-	private $from;
 	private $joins;
 	private $wheres;
 	private $groups;
@@ -23,15 +23,9 @@ class QueryBuilder
 	/**
 	 * new QueryBuilder("tabelica", "tbl")
 	 */
-	public function __construct($table, $alias = null)
+	public function __construct($table)
 	{
 		$this->table = $table;
-		$this->alias = $alias;
-		if ($alias) {
-			$this->from = "{$table} AS {$alias}";
-		} else {
-			$this->from = "{$table}";
-		}
 	}
 
 	/**
@@ -39,7 +33,12 @@ class QueryBuilder
 	 */
 	public function select($columns = [])
 	{
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze i 'SELECT' i '{$this->type}'");
+		}
+		$this->type = 'SELECT';
 		$cols = is_array($columns) ? $columns : func_get_args();
+		// dd($cols);
 		$cols = array_map('trim', $cols);
 		$this->columns = empty($cols) ? ['*'] : array_merge((array)$this->columns, $cols);
 		return $this;
@@ -50,22 +49,11 @@ class QueryBuilder
 	 */
 	public function distinct()
 	{
-		$this->distinct = true;
-		return $this;
-	}
-
-	/**
-	 * from("tabelica", "tbl")
-	 */
-	public function from($table, $alias = null)
-	{
-		$this->table = $table;
-		$this->alias = $alias;
-		if ($alias) {
-			$this->from = "{$table} AS {$alias}";
-		} else {
-			$this->from = "{$table}";
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze 'DISTINCT' sa '{$this->type}'");
 		}
+		$this->type = 'SELECT';
+		$this->distinct = true;
 		return $this;
 	}
 
@@ -74,6 +62,10 @@ class QueryBuilder
 	 */
 	public function join($join_table, $this_table_key, $join_table_key)
 	{
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
+		}
+		$this->type = 'SELECT';
 		$join_table = trim($join_table);
 		$this_table_key = trim($this_table_key);
 		$join_table_key = trim($join_table_key);
@@ -87,6 +79,10 @@ class QueryBuilder
 	 */
 	public function leftJoin($join_table, $this_table_key, $join_table_key)
 	{
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
+		}
+		$this->type = 'SELECT';
 		$join_table = trim($join_table);
 		$this_table_key = trim($this_table_key);
 		$join_table_key = trim($join_table_key);
@@ -100,6 +96,10 @@ class QueryBuilder
 	 */
 	public function rightJoin($join_table, $this_table_key, $join_table_key)
 	{
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
+		}
+		$this->type = 'SELECT';
 		$join_table = trim($join_table);
 		$this_table_key = trim($this_table_key);
 		$join_table_key = trim($join_table_key);
@@ -113,6 +113,10 @@ class QueryBuilder
 	 */
 	public function fullJoin($join_table, $this_table_key, $join_table_key)
 	{
+		if ($this->type !== 'SELECT' && $this->type !== 'START') {
+			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
+		}
+		$this->type = 'SELECT';
 		$join_table = trim($join_table);
 		$this_table_key = trim($this_table_key);
 		$join_table_key = trim($join_table_key);
@@ -202,20 +206,73 @@ class QueryBuilder
 		return $this;
 	}
 
+	public function insert($columns, array $values = null)
+	{
+		if ($this->type !== 'INSERT') {
+			$this->type = 'INSERT';
+			$this->columns = null;
+		}
+		$cols = is_array($columns) ? $columns : func_get_args();
+		$cols = array_map('trim', $cols);
+		$this->values = $values;
+		$this->columns = array_merge((array)$this->columns, $cols);
+		// return $this;
+	}
+
+	public function update()
+	{
+	}
+
+	public function delete()
+	{
+	}
+
 	private function compileSql()
 	{
 		$sql = "";
-		$sql .= $this->compileSelect();
-		$sql .= " FROM {$this->from}";
-		$sql .= $this->compileJoins();
-		$sql .= $this->compileWheres();
-		$sql .= $this->compileGroups();
-		$sql .= $this->compileHavings();
-		$sql .= $this->compileOrders();
-		$sql .= $this->compileLimit();
-		$sql .= $this->compileOffset();
-		$sql .= ';';
-		$this->sql = $sql;
+		switch ($this->type) {
+			case 'SELECT':
+				$sql .= $this->compileSelect();
+				$sql .= " FROM {$this->table}";
+				$sql .= $this->compileJoins();
+				$sql .= $this->compileWheres();
+				$sql .= $this->compileGroups();
+				$sql .= $this->compileHavings();
+				$sql .= $this->compileOrders();
+				$sql .= $this->compileLimit();
+				$sql .= $this->compileOffset();
+				$sql .= ';';
+				$this->sql = $sql;
+				break;
+			case 'INSERT':
+				$sql = $this->compileInsert();
+				$this->sql = $sql;
+				break;
+			default:
+				throw new \Exception("Koji je ovo tip upita???");
+
+				break;
+		}
+	}
+
+	private function compileInsert()
+	{
+		$sql = "INSERT INTO {$this->table} (";
+		$columns = implode(', ', $this->columns);
+		$sql .= "{$columns}) VALUES (";
+		$values = [];
+		if ($this->values) {
+			foreach ($this->values as $value) {
+				$values[] = is_string($value) ? "'" . $value . "'" : $value;
+			}
+		} else {
+			foreach ($this->columns as $value) {
+				$values[] = ":" . $value;
+			}
+		}
+		$vals = implode(', ', $values);
+		$sql .= "{$vals});";
+		return $sql;
 	}
 
 	private function compileSelect()
@@ -224,7 +281,7 @@ class QueryBuilder
 		if ($this->distinct) {
 			$sql .= "DISTINCT ";
 		}
-		$columns = implode(', ', $this->columns);
+		$columns = $this->columns ? implode(', ', $this->columns) : '*';
 		$sql .= $columns;
 		return $sql;
 	}
@@ -308,7 +365,7 @@ class QueryBuilder
 	public function reset()
 	{
 		$this->distinct = false;
-		$this->columns = ['*'];
+		$this->columns = null;
 		$this->joins = null;
 		$this->wheres = null;
 		$this->groups = null;
@@ -317,6 +374,7 @@ class QueryBuilder
 		$this->limit = null;
 		$this->offset = null;
 		$this->sql = '';
+		$this->type = 'START';
 		return $this;
 	}
 

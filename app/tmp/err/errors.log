@@ -1,33 +1,36 @@
-# START ERROR LOG
-[04-Dec-2018 13:33:26 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 35
-[04-Dec-2018 20:48:24 Europe/Belgrade] PHP Warning:  A non-numeric value encountered in D:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 23
-[04-Dec-2018 23:28:31 Europe/Belgrade] PHP Notice:  Undefined variable: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:28:41 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:28:46 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:28:47 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:29:09 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:29:09 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:31:14 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:31:17 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[04-Dec-2018 23:31:22 Europe/Belgrade] PHP Notice:  Undefined index: errors in D:\xampp\htdocs\chasha\app\middlewares\ValidationErrorsMiddleware.php on line 14
-[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 08:36:15 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:05 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$broj_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$godina_predmeta in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 11
-[05-Dec-2018 09:02:22 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrsta_upisnika_id in C:\xampp\htdocs\chasha\app\models\Model.php on line 373
-[05-Dec-2018 10:22:00 Europe/Belgrade] PHP Notice:  Undefined variable: p in C:\xampp\htdocs\chasha\app\models\Model.php on line 202
-[05-Dec-2018 11:39:15 Europe/Belgrade] PHP Notice:  Undefined variable: predmet in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
-[05-Dec-2018 11:48:45 Europe/Belgrade] PHP Notice:  Undefined variable: predmet in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88
-[05-Dec-2018 17:08:26 Europe/Belgrade] PHP Warning:  Attempt to assign property 'arhiviran' of non-object in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
-[05-Dec-2018 17:09:22 Europe/Belgrade] PHP Warning:  Attempt to assign property 'arhiviran' of non-object in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
-[05-Dec-2018 17:10:09 Europe/Belgrade] PHP Warning:  Attempt to assign property 'arhiviran' of non-object in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
+# START ERRORS LOG
+[05-Dec-2018 17:16:48 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 207
+[05-Dec-2018 17:17:02 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::insert() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 206
+[05-Dec-2018 17:17:11 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::update() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 207
+[05-Dec-2018 17:30:05 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 239
+[05-Dec-2018 17:31:41 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 239
+[05-Dec-2018 17:32:20 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:35:54 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:36:10 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:37:49 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 241
+[05-Dec-2018 17:39:32 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 241
+[05-Dec-2018 17:40:29 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:41:02 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:41:10 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[05-Dec-2018 17:44:59 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$columns in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 10
+[05-Dec-2018 18:26:28 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88
+[05-Dec-2018 18:26:33 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88
+[05-Dec-2018 18:27:08 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
+[05-Dec-2018 18:27:10 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
+[05-Dec-2018 21:46:03 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 227
+[05-Dec-2018 21:47:18 Europe/Belgrade] PHP Fatal error:  Variadic parameter cannot have a default value in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 34
+[05-Dec-2018 21:48:06 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 228
+[05-Dec-2018 21:48:16 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 228
+[05-Dec-2018 21:48:16 Europe/Belgrade] PHP Notice:  Undefined variable: str in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 92
+[05-Dec-2018 21:48:24 Europe/Belgrade] PHP Notice:  Undefined variable: str in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 89
+[05-Dec-2018 21:48:26 Europe/Belgrade] PHP Notice:  Undefined variable: str in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88
+[05-Dec-2018 21:55:53 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 228
+[05-Dec-2018 21:55:53 Europe/Belgrade] PHP Notice:  Undefined variable: SELECT * FROM ; in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 88
+[05-Dec-2018 22:15:31 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 231
+[05-Dec-2018 22:15:42 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 231
+[05-Dec-2018 22:16:27 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$from in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 231
+[05-Dec-2018 22:24:19 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 112
+[05-Dec-2018 22:24:19 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 113
+[05-Dec-2018 22:24:23 Europe/Belgrade] PHP Notice:  Undefined variable: qb_ in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 112
+[05-Dec-2018 22:24:26 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 112
+[05-Dec-2018 22:24:26 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 113

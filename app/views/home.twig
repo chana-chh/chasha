@@ -12,13 +12,10 @@
 	Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis quam qui animi iste blanditiis voluptatum, sint,
 	mollitia voluptatem maxime vel ipsa sunt porro totam eligendi.
 </p>
+<h2>SQL query</h2>
 <p>{{ sql }}</p>
-<h2>Predmet</h2>
-<ol>
-	{% for predmet in predmeti %}
-	<li>{{ predmet.id }} - <strong>{{ predmet.broj() }}</strong> - {{ predmet.vrstaUpisnika.naziv }}</li>
-	{% endfor %}
-</ol>
+<h2>QueryBuilder</h2>
+{{ dump(qb) }}
 <p>{{ predmeti.id }} - <strong>{{ predmeti.broj() }}</strong> - {{ predmeti.vrstaUpisnika.naziv }}</p>
 <p>Korisnik: {{ auth.logged ? auth.user.name : "Gost" }}</p>
 {% endblock sadrzaj %}
