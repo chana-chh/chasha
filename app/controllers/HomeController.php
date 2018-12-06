@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\Predmet;
 use App\Models\Korisnik;
 use App\Classes\QueryBuilder;
+use App\Classes\ClosureTest;
+use App\Classes\CTT;
 
 class HomeController extends Controller
 {
@@ -107,9 +109,24 @@ class HomeController extends Controller
 			"poslednji.st_naziv"
 		];
 		$qb->select($columns);
+		$qb->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', 's_vrste_upisnika.id');
+		$qb->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', 's_vrste_predmeta.id');
+		$qb->join('s_sudovi', 'predmeti.sud_id', 's_sudovi.id');
+		$qb->join('s_referenti', 'predmeti.referent_id', 's_referenti.id');
+		$qb->leftJoin('brojevi_predmeta_sud', 'predmeti.id', 'brojevi_predmeta_sud.predmet_id');
 
 		$sql = $qb->sql();
-		dd($sql);
+
+
+		$ct = new CTT;
+
+		$rez = $ct->test(function ($qb) {
+			$qb->select()->orderBy('godina_predmeta');
+			return $qb->sql();
+		});
+
+
+		dd($ct->stat(), true);
 
 
 

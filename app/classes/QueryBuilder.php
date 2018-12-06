@@ -17,6 +17,7 @@ class QueryBuilder
 	private $orders;
 	private $limit;
 	private $offset;
+	private $subqueries;
 	private $operators = ['=', '<>', '>', '<', '>=', '<=', 'BETWEEN', 'LIKE', 'IN'];
 	private $sql = '';
 
@@ -26,6 +27,11 @@ class QueryBuilder
 	public function __construct($table)
 	{
 		$this->table = $table;
+	}
+
+	public function sub()
+	{
+
 	}
 
 	/**
@@ -291,7 +297,7 @@ class QueryBuilder
 		if (!$this->joins) {
 			return '';
 		}
-		$joins = implode(' ', $this->joins);
+		$joins = implode('', $this->joins);
 		return $joins;
 	}
 

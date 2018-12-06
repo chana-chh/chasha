@@ -34,3 +34,7 @@
 [05-Dec-2018 22:24:23 Europe/Belgrade] PHP Notice:  Undefined variable: qb_ in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 112
 [05-Dec-2018 22:24:26 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 112
 [05-Dec-2018 22:24:26 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 113
+[06-Dec-2018 08:08:05 Europe/Belgrade] PHP Warning:  session_start(): open(C:\xampp\htdocs\chasha\\app\tmp\ses\sess_0m85cilgjbqeal1lhh0f6rf0r8, O_RDWR) failed: No such file or directory (2) in C:\xampp\htdocs\chasha\pub\index.php on line 5
+[06-Dec-2018 08:08:05 Europe/Belgrade] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\htdocs\chasha\\app\tmp\ses) in C:\xampp\htdocs\chasha\pub\index.php on line 5
+[06-Dec-2018 08:08:14 Europe/Belgrade] PHP Warning:  session_start(): open(C:\xampp\htdocs\chasha\\app\tmp\ses\sess_0m85cilgjbqeal1lhh0f6rf0r8, O_RDWR) failed: No such file or directory (2) in C:\xampp\htdocs\chasha\pub\index.php on line 5
+[06-Dec-2018 08:08:14 Europe/Belgrade] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\htdocs\chasha\\app\tmp\ses) in C:\xampp\htdocs\chasha\pub\index.php on line 5
