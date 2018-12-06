@@ -117,16 +117,19 @@ class HomeController extends Controller
 
 		$sql = $qb->sql();
 
+		// $ct = new ClosureTest;
+		// $ctt = new CTT;
 
-		$ct = new CTT;
+		// $rez = $ctt->test(function ($qb) {
+		// 	$qb->select()->orderBy('godina_predmeta');
+		// 	return $qb->sql();
+		// });
 
-		$rez = $ct->test(function ($qb) {
+
+		dd(CTT::test(function ($qb) {
 			$qb->select()->orderBy('godina_predmeta');
 			return $qb->sql();
-		});
-
-
-		dd($ct->stat(), true);
+		}), true);
 
 
 

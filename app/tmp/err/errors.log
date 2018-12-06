@@ -38,3 +38,20 @@
 [06-Dec-2018 08:08:05 Europe/Belgrade] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\htdocs\chasha\\app\tmp\ses) in C:\xampp\htdocs\chasha\pub\index.php on line 5
 [06-Dec-2018 08:08:14 Europe/Belgrade] PHP Warning:  session_start(): open(C:\xampp\htdocs\chasha\\app\tmp\ses\sess_0m85cilgjbqeal1lhh0f6rf0r8, O_RDWR) failed: No such file or directory (2) in C:\xampp\htdocs\chasha\pub\index.php on line 5
 [06-Dec-2018 08:08:14 Europe/Belgrade] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\htdocs\chasha\\app\tmp\ses) in C:\xampp\htdocs\chasha\pub\index.php on line 5
+[06-Dec-2018 17:10:39 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:10:39 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 9
+[06-Dec-2018 17:10:44 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:10:44 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 9
+[06-Dec-2018 17:10:49 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:10:49 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 9
+[06-Dec-2018 17:10:58 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:10:58 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 9
+[06-Dec-2018 17:11:39 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:11:39 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 10
+[06-Dec-2018 17:11:43 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:11:43 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 10
+[06-Dec-2018 17:11:59 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:11:59 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 10
+[06-Dec-2018 17:12:00 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[06-Dec-2018 17:12:00 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 10
+[06-Dec-2018 17:12:38 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8

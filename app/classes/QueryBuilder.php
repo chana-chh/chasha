@@ -17,8 +17,6 @@ class QueryBuilder
 	private $orders;
 	private $limit;
 	private $offset;
-	private $subqueries;
-	private $operators = ['=', '<>', '>', '<', '>=', '<=', 'BETWEEN', 'LIKE', 'IN'];
 	private $sql = '';
 
 	/**
