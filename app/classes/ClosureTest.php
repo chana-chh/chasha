@@ -9,7 +9,7 @@ class ClosureTest
     public function test(\Closure $closure)
     {
         $query = new QueryBuilder('predmet');
-        return $closure($query);
+        return $closure($query)->sql();
     }
 
     public function ttt()

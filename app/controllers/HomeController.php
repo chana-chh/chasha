@@ -85,51 +85,50 @@ class HomeController extends Controller
 	public function getHome($request, $response)
 	{
 		$qb = new QueryBuilder('predmeti');
-		$columns = [
-			"predmeti.id",
-			"predmeti.arhiviran",
-			"predmeti.broj_predmeta",
-			"predmeti.godina_predmeta",
-			"predmeti.opis AS opis_predmeta",
-			"predmeti.opis_kp",
-			"predmeti.opis_adresa",
-			"predmeti.datum_tuzbe",
-			"s_vrste_upisnika.slovo",
-			"s_vrste_upisnika.naziv",
-			"s_vrste_predmeta.naziv AS vp_naziv",
-			"CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS ceo_broj_predmeta",
-			"CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS puno_ime",
-			"s_referenti.ime", "s_referenti.prezime",
-			"s_sudovi.naziv AS sud_naziv",
-			"GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj",
-			"GROUP_CONCAT(DISTINCT st1_naziv.stt1 SEPARATOR ', ') AS stranka_1",
-			"GROUP_CONCAT(DISTINCT st2_naziv.stt2 SEPARATOR ', ') AS stranka_2",
-			"poslednji.opis",
-			"poslednji.datum",
-			"poslednji.st_naziv"
+		// $columns = [
+		// 	"predmeti.id",
+		// 	"predmeti.arhiviran",
+		// 	"predmeti.broj_predmeta",
+		// 	"predmeti.godina_predmeta",
+		// 	"predmeti.opis AS opis_predmeta",
+		// 	"predmeti.opis_kp",
+		// 	"predmeti.opis_adresa",
+		// 	"predmeti.datum_tuzbe",
+		// 	"s_vrste_upisnika.slovo",
+		// 	"s_vrste_upisnika.naziv",
+		// 	"s_vrste_predmeta.naziv AS vp_naziv",
+		// 	"CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS ceo_broj_predmeta",
+		// 	"CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS puno_ime",
+		// 	"s_referenti.ime", "s_referenti.prezime",
+		// 	"s_sudovi.naziv AS sud_naziv",
+		// 	"GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj",
+		// 	"GROUP_CONCAT(DISTINCT st1_naziv.stt1 SEPARATOR ', ') AS stranka_1",
+		// 	"GROUP_CONCAT(DISTINCT st2_naziv.stt2 SEPARATOR ', ') AS stranka_2",
+		// 	"poslednji.opis",
+		// 	"poslednji.datum",
+		// 	"poslednji.st_naziv"
+		// ];
+		// $qb->select($columns);
+		// $qb->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', 's_vrste_upisnika.id');
+		// $qb->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', 's_vrste_predmeta.id');
+		// $qb->join('s_sudovi', 'predmeti.sud_id', 's_sudovi.id');
+		// $qb->join('s_referenti', 'predmeti.referent_id', 's_referenti.id');
+		// $qb->leftJoin('brojevi_predmeta_sud', 'predmeti.id', 'brojevi_predmeta_sud.predmet_id');
+
+		$insert = [
+			'vrsta_upisnika_id',
+			'broj_predmeta',
+			'godina_predmeta',
+			'opis',
+			'napomena',
 		];
-		$qb->select($columns);
-		$qb->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', 's_vrste_upisnika.id');
-		$qb->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', 's_vrste_predmeta.id');
-		$qb->join('s_sudovi', 'predmeti.sud_id', 's_sudovi.id');
-		$qb->join('s_referenti', 'predmeti.referent_id', 's_referenti.id');
-		$qb->leftJoin('brojevi_predmeta_sud', 'predmeti.id', 'brojevi_predmeta_sud.predmet_id');
-
+		$qb->delete(true)->orderBy('broj')->limit(5);
 		$sql = $qb->sql();
-
-		// $ct = new ClosureTest;
-		// $ctt = new CTT;
-
-		// $rez = $ctt->test(function ($qb) {
-		// 	$qb->select()->orderBy('godina_predmeta');
-		// 	return $qb->sql();
-		// });
+		$params = $qb->params();
 
 
-		dd(CTT::test(function ($qb) {
-			$qb->select()->orderBy('godina_predmeta');
-			return $qb->sql();
-		}), true);
+		dd($sql, true, false);
+		dd($params, true);
 
 
 

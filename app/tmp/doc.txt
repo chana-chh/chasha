@@ -1,0 +1,16 @@
+@abstract - Document an abstract class or method
+@author - Author of current element
+@copyright - Document Copyright information
+@final - Document a class method that should never be overridden in a child class
+@global - Document a global variable, or its use in a function/method
+@license - Display a hyperlink to a URL for a license
+@link - Display a hyperlink to a URL in the documentation
+@method - "Magic" Method of a class.
+@param - Document a function parameter
+@property - "Magic" Property of a class
+@return - Specify the return type of a function or method
+@see - Display a link to the documentation for an element
+@static - Document a static property or method
+@staticvar - Document a static variable's use in a function/method
+@todo - Document changes that will be made in the future
+@var - Document the data type of a class variable

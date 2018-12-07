@@ -1,189 +1,98 @@
 <?php
 
+/**
+ * QueryBuilder za MySQL
+ * 
+ * Detaljan opis
+ * 
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
 namespace App\Classes;
 
+/**
+ * QueryBuilder za MySQL
+ * 
+ * @author ChaSha
+ */
 class QueryBuilder
 {
 
-	private $distinct = false;
-	private $columns;
-	private $values;
-	private $type = 'START'; // SELECT, INSERT, UPDATE, DELETE
-	private $table;
-	private $joins;
-	private $wheres;
-	private $groups;
-	private $havings;
-	private $orders;
-	private $limit;
-	private $offset;
-	private $sql = '';
+	/**
+	 * Konstante za tip upita
+	 */
+	protected const SELECT = 1; // select
+	protected const INSERT = 2; // insert
+	protected const UPDATE = 3; // update, where, oredrBy, limit
+	protected const DELETE = 4; // delete, where, oredrBy, limit
 
 	/**
-	 * new QueryBuilder("tabelica", "tbl")
+	 * SELECT, INSERT, UPDATE, DELETE
+	 * @var integer
 	 */
-	public function __construct($table)
+	protected $type;
+
+	/**
+	 * Naziv tabele u db
+	 * @var string
+	 */
+	protected $table;
+
+	/**
+	 * Filtriranje za SELECT, UPDATE, DELETE
+	 * @var array
+	 */
+	protected $wheres;
+
+	/**
+	 * Kolone za SELECT, INSERT, UPDATE
+	 * @var array
+	 */
+	protected $columns;
+
+	/**
+	 * Bind parametri
+	 * @var array
+	 */
+	protected $parameters;
+
+	/**
+	 * Sortiranje za SELECT, UPDATE, DELETE
+	 * @var array
+	 */
+	private $orders;
+
+	/**
+	 * Limit za SELECT, UPDATE, DELETE
+	 * @var array
+	 */
+	private $limit;
+
+	/**
+	 * SQl izraz - krajnji rezultat QueryBuilder-a
+	 * @var string
+	 */
+	protected $sql = '';
+
+	/**
+	 * Konstruktor
+	 * 
+	 * $qb = new QueryBuilder('tabela')
+	 * @param string $table Naziv tabele
+	 */
+	public function __construct(string $table)
 	{
 		$this->table = $table;
 	}
 
-	public function sub()
-	{
-
-	}
-
 	/**
-	 * select('komintent.naziv AS ime', 'korisnik.email')
-	 */
-	public function select($columns = [])
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze i 'SELECT' i '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$cols = is_array($columns) ? $columns : func_get_args();
-		// dd($cols);
-		$cols = array_map('trim', $cols);
-		$this->columns = empty($cols) ? ['*'] : array_merge((array)$this->columns, $cols);
-		return $this;
-	}
-
-	/**
-	 * distinct()
-	 */
-	public function distinct()
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze 'DISTINCT' sa '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$this->distinct = true;
-		return $this;
-	}
-
-	/**
-	 * INNER JOIN (samo gde su isti u obe tabele)
-	 */
-	public function join($join_table, $this_table_key, $join_table_key)
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$join_table = trim($join_table);
-		$this_table_key = trim($this_table_key);
-		$join_table_key = trim($join_table_key);
-		$join = " JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
-		$this->joins = array_merge((array)$this->joins, [$join]);
-		return $this;
-	}
-
-	/**
-	 * LEFT JOIN (svi iz leve i odgovarajuci iz desne tabele)
-	 */
-	public function leftJoin($join_table, $this_table_key, $join_table_key)
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$join_table = trim($join_table);
-		$this_table_key = trim($this_table_key);
-		$join_table_key = trim($join_table_key);
-		$join = " LEFT JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
-		$this->joins = array_merge((array)$this->joins, [$join]);
-		return $this;
-	}
-
-	/**
-	 * RIGHT JOIN (svi iz desne i odgovarajuci iz leve tabele)
-	 */
-	public function rightJoin($join_table, $this_table_key, $join_table_key)
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$join_table = trim($join_table);
-		$this_table_key = trim($this_table_key);
-		$join_table_key = trim($join_table_key);
-		$join = " RIGHT JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
-		$this->joins = array_merge((array)$this->joins, [$join]);
-		return $this;
-	}
-
-	/**
-	 * FULL JOIN (svi iz obe tabele)
-	 */
-	public function fullJoin($join_table, $this_table_key, $join_table_key)
-	{
-		if ($this->type !== 'SELECT' && $this->type !== 'START') {
-			throw new \Exception("Nece da moze 'JOIN' sa '{$this->type}'");
-		}
-		$this->type = 'SELECT';
-		$join_table = trim($join_table);
-		$this_table_key = trim($this_table_key);
-		$join_table_key = trim($join_table_key);
-		$join = " FULL JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
-		$this->joins = array_merge((array)$this->joins, [$join]);
-		return $this;
-	}
-
-	/**
-	 * where("id = 35")
-	 */
-	public function where(...$wheres)
-	{
-		foreach ($wheres as $where) {
-			$this->wheres = array_merge((array)$this->wheres, [[' AND ', trim($where)]]);
-		}
-		return $this;
-	}
-
-	/**
-	 * orWhere("name LIKE '%chana%'")
-	 */
-	public function orWhere(...$wheres)
-	{
-		foreach ($wheres as $where) {
-			$this->wheres = array_merge((array)$this->wheres, [[' OR ', trim($where)]]);
-		}
-		return $this;
-	}
-
-	/**
-	 * groupBy('prezime ASC', 'ime DESC')
-	 */
-	public function groupBy($groups)
-	{
-		$this->groups = array_map('trim', func_get_args());
-		return $this;
-	}
-
-	/**
-	 * having("suma >= 20000", "korisnik.email LIKE '%chana%'")
-	 */
-	public function having(...$havings)
-	{
-		foreach ($havings as $having) {
-			$this->havings = array_merge((array)$this->havings, [[' AND ', trim($having)]]);
-		}
-		return $this;
-	}
-
-	/**
-	 * orHaving("ime = 'Nenad'")
-	 */
-	public function orHaving(...$havings)
-	{
-		foreach ($havings as $having) {
-			$this->havings = array_merge((array)$this->havings, [[' OR ', trim($having)]]);
-		}
-		return $this;
-	}
-
-	/**
-	 * orderBy('tabelica.prezime ASC', 'tabelica.ime DESC')
+	 * ORDER BY - sortiranje podataka
+	 * 
+	 * $qb->orderBy('godina DESC', 'broj ASC');
+	 * @param mixed $orders Niz sortiranja ili svako sortiranje kao poseban argument
+	 * @return \App\Classes\QueryBuilder $this
 	 */
 	public function orderBy($orders)
 	{
@@ -193,110 +102,16 @@ class QueryBuilder
 	}
 
 	/**
-	 * limit(50)
+	 * LIMIT - ogranjicavanje broja zapisa
+	 * 
+	 * $qb->limit(100);
+	 * @param integer $limit Broj zapisa
+	 * @return \App\Classes\QueryBuilder $this
 	 */
-	public function limit($limit)
+	public function limit(int $limit)
 	{
 		$this->limit = $limit;
 		return $this;
-	}
-
-	/**
-	 * offset(100)
-	 */
-	public function offset($offset)
-	{
-		$this->offset = $offset;
-		return $this;
-	}
-
-	public function insert($columns, array $values = null)
-	{
-		if ($this->type !== 'INSERT') {
-			$this->type = 'INSERT';
-			$this->columns = null;
-		}
-		$cols = is_array($columns) ? $columns : func_get_args();
-		$cols = array_map('trim', $cols);
-		$this->values = $values;
-		$this->columns = array_merge((array)$this->columns, $cols);
-		// return $this;
-	}
-
-	public function update()
-	{
-	}
-
-	public function delete()
-	{
-	}
-
-	private function compileSql()
-	{
-		$sql = "";
-		switch ($this->type) {
-			case 'SELECT':
-				$sql .= $this->compileSelect();
-				$sql .= " FROM {$this->table}";
-				$sql .= $this->compileJoins();
-				$sql .= $this->compileWheres();
-				$sql .= $this->compileGroups();
-				$sql .= $this->compileHavings();
-				$sql .= $this->compileOrders();
-				$sql .= $this->compileLimit();
-				$sql .= $this->compileOffset();
-				$sql .= ';';
-				$this->sql = $sql;
-				break;
-			case 'INSERT':
-				$sql = $this->compileInsert();
-				$this->sql = $sql;
-				break;
-			default:
-				throw new \Exception("Koji je ovo tip upita???");
-
-				break;
-		}
-	}
-
-	private function compileInsert()
-	{
-		$sql = "INSERT INTO {$this->table} (";
-		$columns = implode(', ', $this->columns);
-		$sql .= "{$columns}) VALUES (";
-		$values = [];
-		if ($this->values) {
-			foreach ($this->values as $value) {
-				$values[] = is_string($value) ? "'" . $value . "'" : $value;
-			}
-		} else {
-			foreach ($this->columns as $value) {
-				$values[] = ":" . $value;
-			}
-		}
-		$vals = implode(', ', $values);
-		$sql .= "{$vals});";
-		return $sql;
-	}
-
-	private function compileSelect()
-	{
-		$sql = "SELECT ";
-		if ($this->distinct) {
-			$sql .= "DISTINCT ";
-		}
-		$columns = $this->columns ? implode(', ', $this->columns) : '*';
-		$sql .= $columns;
-		return $sql;
-	}
-
-	private function compileJoins()
-	{
-		if (!$this->joins) {
-			return '';
-		}
-		$joins = implode('', $this->joins);
-		return $joins;
 	}
 
 	private function compileWheres()
@@ -314,33 +129,10 @@ class QueryBuilder
 		return $sql;
 	}
 
-	private function compileGroups()
-	{
-		if (!$this->groups) {
-			return '';
-		}
-		$groups = implode(', ', $this->groups);
-		$sql = " GROUP BY {$groups}";
-		return $sql;
-	}
-
-	private function compileHavings()
-	{
-		if (!$this->havings) {
-			return '';
-		}
-		$havings = (array)$this->havings;
-		$sql = " HAVING ";
-		$first = array_shift($havings);
-		$sql .= "{$first[1]}";
-		foreach ($havings as $having) {
-			$sql .= "{$having[0]}{$having[1]}";
-		}
-		$this->sql = $sql;
-		return $sql;
-	}
-
-	private function compileOrders()
+	/**
+	 * Pravi ORDER BY deo upita
+	 */
+	protected function compileOrders()
 	{
 		if (!$this->orders) {
 			return '';
@@ -350,7 +142,10 @@ class QueryBuilder
 		return $sql;
 	}
 
-	private function compileLimit()
+	/**
+	 * Pravi LIMIT deo upita
+	 */
+	protected function compileLimit()
 	{
 		if (!$this->limit) {
 			return '';
@@ -358,33 +153,156 @@ class QueryBuilder
 		return " LIMIT {$this->limit}";
 	}
 
-	private function compileOffset()
+	/**
+	 * INSERT - upis podataka
+	 * 
+	 * $qb->insert('broj', 'godina', 'naziv');
+	 * @link https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/ ON DUPLICATE KEY UPDATE
+	 * @param array $columns Kolone koje se upisuju
+	 * @throws \Exception ako je zapocet neki drugi tip upita
+	 */
+	public function insert(array $columns)
 	{
-		if (!$this->offset) {
-			return '';
+		if ($this->type) {
+			throw new \Exception('Vec je zapocet neki drugi tip upita!');
 		}
-		return " OFFSET {$this->offset}";
+		$this->type = $this::INSERT;
+		$cols = array_map('trim', $columns);
+		$pars = [];
+		foreach ($cols as $c) {
+			$pars[] = ':' . $c;
+		}
+		$this->columns = $cols;
+		$this->parameters = $pars;
 	}
 
-	public function reset()
+	/**
+	 * Pravi INSERT parametrizovan sql upit
+	 */
+	protected function compileInsert()
 	{
-		$this->distinct = false;
-		$this->columns = null;
-		$this->joins = null;
-		$this->wheres = null;
-		$this->groups = null;
-		$this->havings = null;
-		$this->orders = null;
-		$this->limit = null;
-		$this->offset = null;
-		$this->sql = '';
-		$this->type = 'START';
+		$sql = "INSERT INTO {$this->table} (";
+		$cols = implode(', ', $this->columns);
+		$pars = implode(', ', $this->parameters);
+		$sql .= "{$cols}) VALUES ({$pars});";
+		return $sql;
+	}
+
+	/**
+	 * UPDATE - izmena podataka
+	 * 
+	 * $qb->update()->where()->orderBy()->limit();
+	 * @param array $columns Kolone koje se menjaju
+	 * @throws \Exception ako je zapocet neki drugi tip upita
+	 */
+	public function update(array $columns)
+	{
+		if ($this->type) {
+			throw new \Exception('Vec je zapocet neki drugi tip upita!');
+		}
+		$this->type = $this::UPDATE;
+		$cols = array_map('trim', $columns);
+		$pars = [];
+		foreach ($cols as $c) {
+			$pars[] = ':' . $c;
+		}
+		$this->columns = $cols;
+		$this->parameters = $pars;
 		return $this;
 	}
 
-	public function table()
+	/**
+	 * Pravi UPDATE parametrizovan sql upit
+	 * @return string
+	 */
+	protected function compileUpdate()
 	{
-		return $this->table;
+		if (count($this->columns) !== count($this->parameters)) {
+			throw new \Exception('Broj kolona i parametara mora da bude isti!');
+		}
+		$sql = "UPDATE {$this->table} SET ";
+		$pairs = [];
+		foreach ($this->columns as $col) {
+			if (in_array(':' . $col, $this->parameters))
+				$pairs[] = "{$col} = :{$col}";
+		}
+		$set = implode(', ', $pairs);
+		$sql .= "{$set}";
+		$sql .= $this->compileWheres();
+		$sql .= $this->compileOrders();
+		$sql .= $this->compileLimit();
+		$sql .= ";";
+		return $sql;
+	}
+
+	/**
+	 * DELETE - brisanje podataka
+	 * 
+	 * $qb->delete(1); // id
+	 * $qb->delete()->where('broj = :broj')->orderBy('godina ASC')->limit(1);
+	 * @param array $columns Kolone koje se menjaju
+	 * @throws \Exception ako je zapocet neki drugi tip upita
+	 * @return \App\Classes\QueryBuilder $this
+	 */
+	public function delete(bool $id = false)
+	{
+		if ($this->type) {
+			throw new \Exception('Vec je zapocet neki drugi tip upita!');
+		}
+		$this->type = $this::DELETE;
+		if ($id) {
+			$this->wheres = ['id'];
+			$this->parameters = [':id'];
+		}
+		return $this;
+	}
+
+	/**
+	 * Pravi DELETE parametrizovan sql upit
+	 * @return string
+	 */
+	protected function compileDelete()
+	{
+		$sql = "DELETE FROM {$this->table}";
+		$sql .= $this->compileWheres();
+		$sql .= $this->compileOrders();
+		$sql .= $this->compileLimit();
+		$sql .= ";";
+		return $sql;
+	}
+
+
+
+
+
+
+
+	protected function compileSQL()
+	{
+		$sql = "";
+		switch ($this->type) {
+			case $this::SELECT:
+				$sql = $this->compileSelect();
+				break;
+			case $this::INSERT:
+				$sql = $this->compileInsert();
+				break;
+			case $this::UPDATE:
+				$sql = $this->compileUpdate();
+				break;
+			case $this::DELETE:
+				$sql = $this->compileDelete();
+				break;
+			default:
+				throw new \Exception('Greska pri kompajliranju upita');
+				break;
+		}
+		$this->sql = $sql;
+	}
+
+	public function params()
+	{
+		return $this->parameters;
 	}
 
 	public function sql()
@@ -393,8 +311,4 @@ class QueryBuilder
 		return $this->sql;
 	}
 
-	public function __toString()
-	{
-		return $this->sql();
-	}
 }

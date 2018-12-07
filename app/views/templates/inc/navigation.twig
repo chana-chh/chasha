@@ -1,6 +1,8 @@
 <nav>
 	<h1 class="logo"><a href="{{ path_for('pocetna') }}">ChaSha</a></h1>
 	<a href="{{ path_for('pocetna') }}">Pocetna</a>
+	<a href="https://mariadb.org/" target="_blank">MariaDB</a>
+	<a href="http://www.mysqltutorial.org/" target="_blank">MySQL tutorial</a>
 	{% if auth.logged %}
 	<a href="{{ path_for('odjava') }}">Odjava</a>
 	{% else %}

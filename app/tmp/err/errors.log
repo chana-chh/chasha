@@ -55,3 +55,60 @@
 [06-Dec-2018 17:12:00 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
 [06-Dec-2018 17:12:00 Europe/Belgrade] PHP Fatal error:  Method App\Classes\CTT::__callStatic() must take exactly 2 arguments in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 10
 [06-Dec-2018 17:12:38 Europe/Belgrade] PHP Warning:  The magic method __callStatic() must have public visibility and be static in D:\xampp\htdocs\chasha\app\classes\CTT.php on line 8
+[07-Dec-2018 12:22:50 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:22:50 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 94
+[07-Dec-2018 12:22:52 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:22:52 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 94
+[07-Dec-2018 12:23:01 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:23:01 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 94
+[07-Dec-2018 12:23:02 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:23:02 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 94
+[07-Dec-2018 12:24:07 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 12:24:07 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:24:37 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 12:24:37 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:24:39 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 12:24:39 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:24:39 Europe/Belgrade] PHP Notice:  Undefined variable: sql in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 120
+[07-Dec-2018 12:24:39 Europe/Belgrade] PHP Notice:  Undefined variable: sql in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 123
+[07-Dec-2018 12:24:42 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 12:24:42 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:24:46 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 12:24:46 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:24:46 Europe/Belgrade] PHP Notice:  Undefined variable: sql in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 120
+[07-Dec-2018 12:24:46 Europe/Belgrade] PHP Notice:  Undefined variable: sql in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 123
+[07-Dec-2018 12:27:57 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::sql() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 104
+[07-Dec-2018 12:28:33 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$insert_parameters in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:28:33 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:28:43 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$insert_parameters in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:28:43 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:28:46 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$insert_parameters in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:28:46 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:31:14 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 28
+[07-Dec-2018 12:31:15 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 28
+[07-Dec-2018 12:43:11 Europe/Belgrade] PHP Fatal error:  Cannot redefine class constant App\Classes\QueryBuilder::SELECT in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 24
+[07-Dec-2018 12:43:15 Europe/Belgrade] PHP Fatal error:  Cannot redefine class constant App\Classes\QueryBuilder::SELECT in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 25
+[07-Dec-2018 12:43:21 Europe/Belgrade] PHP Fatal error:  Cannot redefine class constant App\Classes\QueryBuilder::SELECT in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 25
+[07-Dec-2018 12:43:24 Europe/Belgrade] PHP Fatal error:  Cannot redefine class constant App\Classes\QueryBuilder::SELECT in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 25
+[07-Dec-2018 12:43:31 Europe/Belgrade] PHP Fatal error:  Cannot redefine class constant App\Classes\QueryBuilder::SELECT in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 26
+[07-Dec-2018 12:44:59 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 12:44:59 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:44:59 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:44:59 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:44:59 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 107
+[07-Dec-2018 12:45:06 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 12:45:06 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:45:06 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:45:06 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:45:06 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 107
+[07-Dec-2018 12:45:11 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 12:45:11 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:45:11 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 90
+[07-Dec-2018 12:45:11 Europe/Belgrade] PHP Notice:  Undefined variable: cols in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 93
+[07-Dec-2018 12:45:11 Europe/Belgrade] PHP Warning:  implode(): Invalid arguments passed in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 107
+[07-Dec-2018 12:45:13 Europe/Belgrade] PHP Notice:  Object of class App\Classes\QueryBuilder could not be converted to int in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 13:03:34 Europe/Belgrade] PHP Notice:  Undefined variable: th in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 80
+[07-Dec-2018 13:28:39 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileInsert() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 152
+[07-Dec-2018 14:22:36 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[07-Dec-2018 14:22:37 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[07-Dec-2018 14:22:40 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
