@@ -122,9 +122,9 @@ class HomeController extends Controller
 			'opis',
 			'napomena',
 		];
-		$qb->delete(true)->orderBy('broj')->limit(5);
-		$sql = $qb->sql();
-		$params = $qb->params();
+		$qb->delete(true)->orderBy(['broj'])->limit(1);
+		$sql = $qb->getSql();
+		$params = $qb->getParams();
 
 
 		dd($sql, true, false);

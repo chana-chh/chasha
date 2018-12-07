@@ -2,9 +2,9 @@
 
 /**
  * QueryBuilder za MySQL
- * 
- * Detaljan opis
- * 
+ *
+ * Svaki upit mora da pocne sa select(), insert(), update() ili delete()
+ *
  * @version v 0.0.1
  * @author ChaSha
  * @copyright Copyright (c) 2019, ChaSha
@@ -14,7 +14,7 @@ namespace App\Classes;
 
 /**
  * QueryBuilder za MySQL
- * 
+ *
  * @author ChaSha
  */
 class QueryBuilder
@@ -23,13 +23,13 @@ class QueryBuilder
 	/**
 	 * Konstante za tip upita
 	 */
-	protected const SELECT = 1; // select
-	protected const INSERT = 2; // insert
-	protected const UPDATE = 3; // update, where, oredrBy, limit
-	protected const DELETE = 4; // delete, where, oredrBy, limit
+	protected const SELECT = 1;
+	protected const INSERT = 2;
+	protected const UPDATE = 3;
+	protected const DELETE = 4;
 
 	/**
-	 * SELECT, INSERT, UPDATE, DELETE
+	 * Tip upita SELECT, INSERT, UPDATE, DELETE
 	 * @var integer
 	 */
 	protected $type;
@@ -41,10 +41,57 @@ class QueryBuilder
 	protected $table;
 
 	/**
-	 * Filtriranje za SELECT, UPDATE, DELETE
+	 * Naziv primarnog kljuca
+	 * @var string
+	 */
+	protected $pk;
+
+	/**
+	 * Da li je upit DISTINCT
+	 * @var boolean
+	 */
+	protected $distinct = false;
+
+	/**
+	 * WHERE za SELECT, UPDATE, DELETE
 	 * @var array
 	 */
 	protected $wheres;
+
+	/**
+	 * JOIN tabele za SELECT
+	 * @var array
+	 */
+	protected $joins;
+
+	/**
+	 * GROUP BY za SELECT
+	 */
+	protected $groups;
+
+	/**
+	 * HAVING za SELECT GROUP BY
+	 * @var array
+	 */
+	protected $havings;
+
+	/**
+	 * ORDER BY za SELECT, UPDATE, DELETE
+	 * @var array
+	 */
+	protected $orders;
+
+	/**
+	 * LIMIT za SELECT, UPDATE, DELETE
+	 * @var integer
+	 */
+	protected $limit;
+
+	/**
+	 * OFFSET za SELECT
+	 * @var integer
+	 */
+	protected $offset;
 
 	/**
 	 * Kolone za SELECT, INSERT, UPDATE
@@ -59,18 +106,6 @@ class QueryBuilder
 	protected $parameters;
 
 	/**
-	 * Sortiranje za SELECT, UPDATE, DELETE
-	 * @var array
-	 */
-	private $orders;
-
-	/**
-	 * Limit za SELECT, UPDATE, DELETE
-	 * @var array
-	 */
-	private $limit;
-
-	/**
 	 * SQl izraz - krajnji rezultat QueryBuilder-a
 	 * @var string
 	 */
@@ -78,88 +113,72 @@ class QueryBuilder
 
 	/**
 	 * Konstruktor
-	 * 
+	 *
 	 * $qb = new QueryBuilder('tabela')
 	 * @param string $table Naziv tabele
+	 * @param string $pk Naziv primarnog kljuca
 	 */
-	public function __construct(string $table)
+	public function __construct(string $table, string $pk = 'id')
 	{
 		$this->table = $table;
+		$this->pk = $pk;
 	}
 
 	/**
-	 * ORDER BY - sortiranje podataka
-	 * 
-	 * $qb->orderBy('godina DESC', 'broj ASC');
-	 * @param mixed $orders Niz sortiranja ili svako sortiranje kao poseban argument
-	 * @return \App\Classes\QueryBuilder $this
+	 * Postavlja naziv primarnog kljuca ako nije 'id'
+	 * @param string $pk Naziv primarnog kljuca
 	 */
-	public function orderBy($orders)
+	public function setPrimaryKeyName(string $pk = 'id')
 	{
-		$ord = array_map('trim', func_get_args());
-		$this->orders = array_merge((array)$this->orders, $ord);
+		$this->pk = $pk;
+	}
+
+	/**
+	 * SELECT - odabir podataka
+	 *
+	 * $qb->select('broj', 'godina', 'naziv AS ime');
+	 * @param array $columns Kolone koje se biraju
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet neki drugi tip upita
+	 */
+	public function select(array $columns = [])
+	{
+		if ($this->type) {
+			throw new \Exception('Vec je zapocet neki drugi tip upita!');
+		}
+		$this->type = $this::SELECT;
+		$columns = array_map('trim', $columns);
+		$this->columns = empty($columns) ? ['*'] : $columns;
 		return $this;
 	}
 
 	/**
-	 * LIMIT - ogranjicavanje broja zapisa
-	 * 
-	 * $qb->limit(100);
-	 * @param integer $limit Broj zapisa
+	 * Dodavanje SELECT-a
+	 *
+	 * $qb->select('broj')->addSelect('godina')->addSelect('druga_tabela.id');
+	 * @param array $columns Kolone koje se biraju
+	 * @throws \Exception ako nije zapocet SELECT upit
 	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
 	 */
-	public function limit(int $limit)
+	public function addSelect(array $columns)
 	{
-		$this->limit = $limit;
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('Nije zapocet SELECT tip upita!');
+		}
+		$columns = array_map('trim', $columns);
+		$this->columns = array_merge((array)$this->columns, $columns);
 		return $this;
-	}
-
-	private function compileWheres()
-	{
-		if (!$this->wheres) {
-			return '';
-		}
-		$wheres = (array)$this->wheres;
-		$sql = " WHERE ";
-		$first = array_shift($wheres);
-		$sql .= "{$first[1]}";
-		foreach ($wheres as $where) {
-			$sql .= "{$where[0]}{$where[1]}";
-		}
-		return $sql;
-	}
-
-	/**
-	 * Pravi ORDER BY deo upita
-	 */
-	protected function compileOrders()
-	{
-		if (!$this->orders) {
-			return '';
-		}
-		$orders = implode(', ', $this->orders);
-		$sql = " ORDER BY {$orders}";
-		return $sql;
-	}
-
-	/**
-	 * Pravi LIMIT deo upita
-	 */
-	protected function compileLimit()
-	{
-		if (!$this->limit) {
-			return '';
-		}
-		return " LIMIT {$this->limit}";
 	}
 
 	/**
 	 * INSERT - upis podataka
-	 * 
+	 *
 	 * $qb->insert('broj', 'godina', 'naziv');
 	 * @link https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/ ON DUPLICATE KEY UPDATE
 	 * @param array $columns Kolone koje se upisuju
-	 * @throws \Exception ako je zapocet neki drugi tip upita
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
 	public function insert(array $columns)
 	{
@@ -177,23 +196,12 @@ class QueryBuilder
 	}
 
 	/**
-	 * Pravi INSERT parametrizovan sql upit
-	 */
-	protected function compileInsert()
-	{
-		$sql = "INSERT INTO {$this->table} (";
-		$cols = implode(', ', $this->columns);
-		$pars = implode(', ', $this->parameters);
-		$sql .= "{$cols}) VALUES ({$pars});";
-		return $sql;
-	}
-
-	/**
 	 * UPDATE - izmena podataka
-	 * 
+	 *
 	 * $qb->update()->where()->orderBy()->limit();
 	 * @param array $columns Kolone koje se menjaju
-	 * @throws \Exception ako je zapocet neki drugi tip upita
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
 	public function update(array $columns)
 	{
@@ -209,6 +217,288 @@ class QueryBuilder
 		$this->columns = $cols;
 		$this->parameters = $pars;
 		return $this;
+	}
+
+	/**
+	 * DELETE - brisanje podataka
+	 *
+	 * $qb->delete(true); // id
+	 * $qb->delete()->where('broj = :broj')->orderBy('godina ASC')->limit(1);
+	 * @param array $columns Kolone koje se menjaju
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet neki drugi tip upita
+	 */
+	public function delete(bool $id = false)
+	{
+		if ($this->type) {
+			throw new \Exception('Vec je zapocet neki drugi tip upita!');
+		}
+		$this->type = $this::DELETE;
+		if ($id) {
+			$this->wheres = [$this->pk];
+			$this->parameters = [':' . $this->pk];
+		}
+		return $this;
+	}
+
+	/**
+	 * DISTINCT - upit
+	 *
+	 * $qb->distinct();
+	 * @throws \Exception ako upit nije SELECT
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function distinct()
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('DISTINCT moze samo uz SELECT upit!');
+		}
+		$this->distinct = true;
+		return $this;
+	}
+
+	/**
+	 * INNER JOIN (samo gde su isti u obe tabele)
+	 *
+	 * $qb->join('sifarnik','sifra_id', 'id');
+	 * @param string $join_table Naziv tabele koja se vezuje
+	 * @param string $this_table_key FK u ovoj tabeli koji gadja PK u tabeli koja se vezuje
+	 * @param string $join_table_key PK u tabeli koja se vezuje
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function join($join_table, $this_table_key, $join_table_key)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('JOIN moze samo uz SELECT upit!');
+		}
+		$join_table = trim($join_table);
+		$this_table_key = trim($this_table_key);
+		$join_table_key = trim($join_table_key);
+		$join = " JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
+		$this->joins = array_merge((array)$this->joins, [$join]);
+		return $this;
+	}
+
+	/**
+	 * LEFT JOIN (svi iz leve i odgovarajuci iz desne tabele)
+	 *
+	 * $qb->leftJoin('sifarnik','sifra_id', 'id');
+	 * @param string $join_table Naziv tabele koja se vezuje
+	 * @param string $this_table_key FK u ovoj tabeli koji gadja PK u tabeli koja se vezuje
+	 * @param string $join_table_key PK u tabeli koja se vezuje
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function leftJoin($join_table, $this_table_key, $join_table_key)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('JOIN moze samo uz SELECT upit!');
+		}
+		$join_table = trim($join_table);
+		$this_table_key = trim($this_table_key);
+		$join_table_key = trim($join_table_key);
+		$join = " LEFT JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
+		$this->joins = array_merge((array)$this->joins, [$join]);
+		return $this;
+	}
+
+	/**
+	 * RIGHT JOIN (svi iz desne i odgovarajuci iz leve tabele)
+	 *
+	 * $qb->rightJoin('sifarnik','sifra_id', 'id');
+	 * @param string $join_table Naziv tabele koja se vezuje
+	 * @param string $this_table_key FK u ovoj tabeli koji gadja PK u tabeli koja se vezuje
+	 * @param string $join_table_key PK u tabeli koja se vezuje
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function rightJoin($join_table, $this_table_key, $join_table_key)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('JOIN moze samo uz SELECT upit!');
+		}
+		$join_table = trim($join_table);
+		$this_table_key = trim($this_table_key);
+		$join_table_key = trim($join_table_key);
+		$join = " RIGHT JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
+		$this->joins = array_merge((array)$this->joins, [$join]);
+		return $this;
+	}
+
+	/**
+	 * FULL JOIN (svi iz obe tabele)
+	 *
+	 * $qb->rightJoin('sifarnik','sifra_id', 'id');
+	 * @param string $join_table Naziv tabele koja se vezuje
+	 * @param string $this_table_key FK u ovoj tabeli koji gadja PK u tabeli koja se vezuje
+	 * @param string $join_table_key PK u tabeli koja se vezuje
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function fullJoin($join_table, $this_table_key, $join_table_key)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('JOIN moze samo uz SELECT upit!');
+		}
+		$join_table = trim($join_table);
+		$this_table_key = trim($this_table_key);
+		$join_table_key = trim($join_table_key);
+		$join = " FULL JOIN {$join_table} ON {$this->table}.{$this_table_key} = {$join_table}.{$join_table_key}";
+		$this->joins = array_merge((array)$this->joins, [$join]);
+		return $this;
+	}
+	// TODO: Dovde je sve pregledano
+	/**
+	 * where("id = 35")
+	 */
+	public function where(...$wheres)
+	{
+		// FIXME:
+		foreach ($wheres as $where) {
+			$this->wheres = array_merge((array)$this->wheres, [[' AND ', trim($where)]]);
+		}
+		return $this;
+	}
+
+	/**
+	 * orWhere("name LIKE '%chana%'")
+	 */
+	public function orWhere(...$wheres)
+	{
+		// FIXME:
+		foreach ($wheres as $where) {
+			$this->wheres = array_merge((array)$this->wheres, [[' OR ', trim($where)]]);
+		}
+		return $this;
+	}
+
+	/**
+	 * GROUP BY - grupisanje podataka
+	 *
+	 * $qb->groupBy('prezime ASC', 'ime DESC')
+	 * @param array $groups Niz sa grupisanjima
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function groupBy(array $groups)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('JOIN moze samo uz SELECT upit!');
+		}
+		$this->groups = array_map('trim', $groups);
+		return $this;
+	}
+
+	/**
+	 * having("suma >= 20000", "korisnik.email LIKE '%chana%'")
+	 */
+	public function having(...$havings)
+	{
+		// FIXME:
+		foreach ($havings as $having) {
+			$this->havings = array_merge((array)$this->havings, [[' AND ', trim($having)]]);
+		}
+		return $this;
+	}
+
+	/**
+	 * orHaving("ime = 'Nenad'")
+	 */
+	public function orHaving(...$havings)
+	{
+		// FIXME:
+		foreach ($havings as $having) {
+			$this->havings = array_merge((array)$this->havings, [[' OR ', trim($having)]]);
+		}
+		return $this;
+	}
+
+	/**
+	 * ORDER BY - sortiranje podataka
+	 *
+	 * $qb->orderBy(['godina DESC', 'broj ASC']);
+	 * @param array $orders Niz sortiranja
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT, UPDATE ili DELETE tip upita
+	 */
+	public function orderBy(array $orders)
+	{
+		if ($this->type !== $this::SELECT && $this->type !== $this::UPDATE && $this->type !== $this::DELETE) {
+			throw new \Exception('ORDER BY moze samo uz SELECT, UPDATE ili DELETE upit!');
+		}
+		$this->orders = array_map('trim', $orders);
+		return $this;
+	}
+
+	/**
+	 * LIMIT - ogranjicavanje broja zapisa
+	 *
+	 * $qb->limit(100);
+	 * @param integer $limit Broj zapisa
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT, UPDATE ili DELETE tip upita
+	 */
+	public function limit(int $limit)
+	{
+		if ($this->type !== $this::SELECT && $this->type !== $this::UPDATE && $this->type !== $this::DELETE) {
+			throw new \Exception('LIMIT moze samo uz SELECT, UPDATE ili DELETE upit!');
+		}
+		$this->limit = $limit;
+		return $this;
+	}
+
+	/**
+	 * OFFSET - pomeranje pocetnog zapisa
+	 *
+	 * $qb->offset(200);
+	 * @param integer $offset Broj zapisa koji se preskacu
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function offset(int $offset)
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('OFFSET moze samo uz SELECT upit!');
+		}
+		$this->offset = $offset;
+		return $this;
+	}
+
+	/**
+	 * Pravi SELECT parametrizovan sql upit
+	 */
+	protected function compileSelect()
+	{
+		$sql = "SELECT ";
+		if ($this->distinct) {
+			$sql .= "DISTINCT ";
+		}
+		$columns = $this->columns ? implode(', ', $this->columns) : '*';
+		$sql .= $columns;
+		$sql .= " FROM {$this->table}";
+		$sql .= $this->compileJoins();
+		$sql .= $this->compileWheres();
+		$sql .= $this->compileGroups();
+		$sql .= $this->compileHavings();
+		$sql .= $this->compileOrders();
+		$sql .= $this->compileLimit();
+		$sql .= $this->compileOffset();
+		$sql .= ";";
+		return $sql;
+	}
+
+	/**
+	 * Pravi INSERT parametrizovan sql upit
+	 */
+	protected function compileInsert()
+	{
+		$sql = "INSERT INTO {$this->table} (";
+		$cols = implode(', ', $this->columns);
+		$pars = implode(', ', $this->parameters);
+		$sql .= "{$cols}) VALUES ({$pars});";
+		return $sql;
 	}
 
 	/**
@@ -236,28 +526,6 @@ class QueryBuilder
 	}
 
 	/**
-	 * DELETE - brisanje podataka
-	 * 
-	 * $qb->delete(1); // id
-	 * $qb->delete()->where('broj = :broj')->orderBy('godina ASC')->limit(1);
-	 * @param array $columns Kolone koje se menjaju
-	 * @throws \Exception ako je zapocet neki drugi tip upita
-	 * @return \App\Classes\QueryBuilder $this
-	 */
-	public function delete(bool $id = false)
-	{
-		if ($this->type) {
-			throw new \Exception('Vec je zapocet neki drugi tip upita!');
-		}
-		$this->type = $this::DELETE;
-		if ($id) {
-			$this->wheres = ['id'];
-			$this->parameters = [':id'];
-		}
-		return $this;
-	}
-
-	/**
 	 * Pravi DELETE parametrizovan sql upit
 	 * @return string
 	 */
@@ -271,12 +539,112 @@ class QueryBuilder
 		return $sql;
 	}
 
+	protected function compileJoins()
+	{
+		if (!$this->joins) {
+			return '';
+		}
+		$joins = implode('', $this->joins);
+		return $joins;
+	}
 
+	/**
+	 * Pravi WHERE deo upita
+	 * @return string
+	 */
+	protected function compileWheres()
+	{
+		// FIXME: prepraviti za parametre
+		if (!$this->wheres) {
+			return '';
+		}
+		$wheres = (array)$this->wheres;
+		$sql = " WHERE ";
+		$first = array_shift($wheres);
+		$sql .= "{$first[1]}";
+		foreach ($wheres as $where) {
+			$sql .= "{$where[0]}{$where[1]}";
+		}
+		return $sql;
+	}
 
+	/**
+	 * Pravi GROUP BY deo upita
+	 * @return string
+	 */
+	protected function compileGroups()
+	{
+		if (!$this->groups) {
+			return '';
+		}
+		$groups = implode(', ', $this->groups);
+		$sql = " GROUP BY {$groups}";
+		return $sql;
+	}
 
+	/**
+	 * Pravi HAVING deo upita
+	 * @return string
+	 */
+	protected function compileHavings()
+	{
+		// FIXME: prepraviti za parametre
+		if (!$this->havings) {
+			return '';
+		}
+		$havings = (array)$this->havings;
+		$sql = " HAVING ";
+		$first = array_shift($havings);
+		$sql .= "{$first[1]}";
+		foreach ($havings as $having) {
+			$sql .= "{$having[0]}{$having[1]}";
+		}
+		$this->sql = $sql;
+		return $sql;
+	}
 
+	/**
+	 * Pravi ORDER BY deo upita
+	 * @return string
+	 */
+	protected function compileOrders()
+	{
+		if (!$this->orders) {
+			return '';
+		}
+		$orders = implode(', ', $this->orders);
+		$sql = " ORDER BY {$orders}";
+		return $sql;
+	}
 
+	/**
+	 * Pravi LIMIT deo upita
+	 * @return string
+	 */
+	protected function compileLimit()
+	{
+		if (!$this->limit) {
+			return '';
+		}
+		return " LIMIT {$this->limit}";
+	}
 
+	/**
+	 * Pravi OFFSET deo upita
+	 * @return string
+	 */
+	protected function compileOffset()
+	{
+		if (!$this->offset) {
+			return '';
+		}
+		return " OFFSET {$this->offset}";
+	}
+
+	/**
+	 * Pravi konacni upit ($this->sql)
+	 * @throws \Exception Ako nije poznat tip upita
+	 */
 	protected function compileSQL()
 	{
 		$sql = "";
@@ -294,18 +662,49 @@ class QueryBuilder
 				$sql = $this->compileDelete();
 				break;
 			default:
-				throw new \Exception('Greska pri kompajliranju upita');
+				throw new \Exception('Nepoznat tip upita!');
 				break;
 		}
 		$this->sql = $sql;
 	}
 
-	public function params()
+	protected function reset()
+	{
+
+	}
+
+	/**
+	 * Vraca naziv tabele
+	 * @return string
+	 */
+	public function getTable()
+	{
+		return $this->table;
+	}
+
+	/**
+	 * Vraca naziv primarnog kljuca
+	 * @return string
+	 */
+	public function getPimaryKeyName()
+	{
+		return $this->pk;
+	}
+
+	/**
+	 * Vraca parametre upita
+	 * @return array
+	 */
+	public function getParams()
 	{
 		return $this->parameters;
 	}
 
-	public function sql()
+	/**
+	 * Pravi i vraca konacni parametrizovani upit
+	 * @return string
+	 */
+	public function getSql()
 	{
 		$this->compileSQL();
 		return $this->sql;

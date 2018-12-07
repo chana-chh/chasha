@@ -112,3 +112,45 @@
 [07-Dec-2018 14:22:36 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
 [07-Dec-2018 14:22:37 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
 [07-Dec-2018 14:22:40 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::compileUpdate() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 240
+[07-Dec-2018 20:35:11 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 49
+[07-Dec-2018 21:33:49 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$wheres in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 62
+[07-Dec-2018 21:33:53 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 84
+[07-Dec-2018 21:34:01 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 84
+[07-Dec-2018 21:34:13 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 85
+[07-Dec-2018 21:34:25 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 87
+[07-Dec-2018 21:34:32 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 87
+[07-Dec-2018 21:34:33 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 21:34:35 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 21:34:39 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 88
+[07-Dec-2018 21:34:42 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:34:49 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:34:53 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:35:23 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:35:26 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:35:27 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:35:29 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:35:40 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:36:00 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:36:08 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 89
+[07-Dec-2018 21:36:16 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 21:36:52 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 21:36:54 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 21:37:00 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 21:37:01 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 92
+[07-Dec-2018 21:37:04 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 94
+[07-Dec-2018 21:37:08 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 96
+[07-Dec-2018 21:37:15 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 96
+[07-Dec-2018 21:37:27 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 96
+[07-Dec-2018 21:37:28 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 96
+[07-Dec-2018 21:37:32 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 96
+[07-Dec-2018 21:37:35 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::$orders in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 97
+[07-Dec-2018 22:29:53 Europe/Belgrade] PHP Notice:  Undefined variable: th in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 238
+[07-Dec-2018 22:45:01 Europe/Belgrade] PHP Warning:  trim() expects parameter 1 to be string, array given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 389
+[07-Dec-2018 22:45:48 Europe/Belgrade] PHP Warning:  trim() expects parameter 1 to be string, array given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 389
+[07-Dec-2018 23:03:22 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 689
+[07-Dec-2018 23:03:33 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 689
+[07-Dec-2018 23:03:37 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 698
+[07-Dec-2018 23:03:41 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 698
+[07-Dec-2018 23:03:53 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 698
+[07-Dec-2018 23:03:58 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 698
+[07-Dec-2018 23:04:03 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\QueryBuilder::getParams() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 698
