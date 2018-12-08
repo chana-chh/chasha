@@ -10,9 +10,16 @@
 </head>
 
 <body>
-	{% include 'templates/inc/navigation.twig' %}
-	{% include 'templates/inc/flash.twig' %}
-	{% block sadrzaj %}{% endblock sadrzaj %}
+	<header>
+		{% include 'templates/inc/navigation.twig' %}
+	</header>
+	<main>
+		{% include 'templates/inc/flash.twig' %}
+		{% block sadrzaj %}{% endblock sadrzaj %}
+	</main>
+	<footer>
+		{% include 'templates/inc/footer.twig' %}
+	</footer>
 	<script src="js/app.js"></script>
 </body>
 

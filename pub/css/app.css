@@ -1,10 +1,37 @@
+html,
 body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main,
+header,
+footer {
   padding: 1rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+main {
+  flex: 1;
+}
+
+header,
+footer {
+  background-color: rgb(130, 130, 250);
 }
 
 nav {
-  /* margin: 1rem 0; */
   font-size: 1.2rem;
 }
 
@@ -15,29 +42,38 @@ nav .logo {
   padding-right: 3rem;
 }
 
-nav > .logo > a {
+nav>.logo>a {
   text-decoration: none;
-  color: rgb(4, 62, 138);
+  color: rgb(0, 62, 138);
 }
 
-nav > .logo > a:hover {
+nav>.logo>a:hover {
   color: rgb(255, 69, 1);
 }
 
-nav > a {
+nav>a {
   text-decoration: none;
   color: rgb(60, 77, 228);
   padding: 0.3rem 1.5rem;
 }
 
-nav > a:hover {
+nav>a:hover {
   color: rgb(255, 255, 255);
   background-color: rgb(194, 182, 255);
 }
 
 .sql {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 1.1rem;
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: rgb(170, 30, 30);
+  overflow-wrap: break-word;
+}
+
+.params {
+  font-family: monospace;
+  font-size: 1.3rem;
+  color: rgb(30, 170, 30);
+  overflow-wrap: break-word;
 }
 
 .flash {
@@ -53,13 +89,13 @@ nav > a:hover {
 }
 
 .flash-success {
-	border: 1px solid rgb(0, 150, 0);
-	color: rgb(0, 150, 0);
-	background-color: rgb(200, 250, 200);
+  border: 1px solid rgb(0, 150, 0);
+  color: rgb(0, 150, 0);
+  background-color: rgb(200, 250, 200);
 }
 
 .flash-danger {
-	border: 1px solid rgb(150, 0, 0);
-	color: rgb(150, 0, 0);
-	background-color: rgb(250, 200, 200);
+  border: 1px solid rgb(150, 0, 0);
+  color: rgb(150, 0, 0);
+  background-color: rgb(250, 200, 200);
 }

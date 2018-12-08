@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * ChaSha - Application initialization
+ *
+ * Definisanje globalnih promenjivih. Ukljucivanje potrebnih fajlova.
+ * Instanciranje aplikacije. Podesavanje PHP-a
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
+define('APP_NAME', 'ChaSha');
+
 define('DS', DIRECTORY_SEPARATOR);
 define('DIR', dirname(__DIR__) . DS);
 
@@ -18,8 +31,6 @@ define('URL', HOST . $container['request']->getUri()->getBasePath() . '/');
 
 require DIR . 'app/mid.php';
 require DIR . 'app/routes.php';
-
-define('APP_NAME', 'ChaSha');
 
 date_default_timezone_set('Europe/Belgrade');
 

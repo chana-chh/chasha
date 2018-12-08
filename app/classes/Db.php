@@ -82,7 +82,7 @@ class Db
 		return (int)$count[0]->count;
 	}
 
-	protected static function pdoType($param)
+	protected function pdoType($param)
 	{
 		switch (gettype($param)) {
 			case 'NULL':

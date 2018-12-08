@@ -59,6 +59,14 @@ class QueryBuilder
 	protected $wheres;
 
 	/**
+	 * Validni operatori za WHERE
+	 */
+	protected $where_operators = [
+		'=', '<>', '!=', '<', '>', '<=', '>=',
+		'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'
+	];
+
+	/**
 	 * JOIN tabele za SELECT
 	 * @var array
 	 */
@@ -148,7 +156,7 @@ class QueryBuilder
 		}
 		$this->type = $this::SELECT;
 		$columns = array_map('trim', $columns);
-		$this->columns = empty($columns) ? ['*'] : $columns;
+		$this->columns = empty($columns) ? ["{$this->table}.*"] : $columns;
 		return $this;
 	}
 
@@ -189,7 +197,7 @@ class QueryBuilder
 		$cols = array_map('trim', $columns);
 		$pars = [];
 		foreach ($cols as $c) {
-			$pars[] = ':' . $c;
+			$pars[] = ':insert_' . $c;
 		}
 		$this->columns = $cols;
 		$this->parameters = $pars;
@@ -212,7 +220,7 @@ class QueryBuilder
 		$cols = array_map('trim', $columns);
 		$pars = [];
 		foreach ($cols as $c) {
-			$pars[] = ':' . $c;
+			$pars[] = ':update_' . $c;
 		}
 		$this->columns = $cols;
 		$this->parameters = $pars;
@@ -235,8 +243,9 @@ class QueryBuilder
 		}
 		$this->type = $this::DELETE;
 		if ($id) {
-			$this->wheres = [$this->pk];
+			$this->addWhere($this->pk, '=', 'AND');
 			$this->parameters = [':' . $this->pk];
+			return;
 		}
 		return $this;
 	}
@@ -349,27 +358,72 @@ class QueryBuilder
 		$this->joins = array_merge((array)$this->joins, [$join]);
 		return $this;
 	}
-	// TODO: Dovde je sve pregledano
+
 	/**
-	 * where("id = 35")
+	 * Dodaje jedan WHERE
+	 * @param string $column
+	 * @param string $operator
+	 * @param string $bool
+	 * @throws \Exception Ako operator nije u listi operatora ($this->where_operators) ili je prvi WHERE OR
 	 */
-	public function where(...$wheres)
+	protected function addWhere(string $column, string $operator, string $bool = 'AND')
 	{
-		// FIXME:
+		$operator = mb_strtoupper($operator);
+		if (!$this->wheres && $bool === 'OR') {
+			throw new \Exception("Prvi WHERE ne moze da bude OR!");
+		}
+		if (!in_array($operator, $this->where_operators)) {
+			throw new \Exception("Nepostojeci operator [{$operator}]!");
+		}
+		if ($operator === 'IN' || $operator === 'NOT IN') {
+			$this->wheres[] = "{$bool} {$column} {$operator} (:{$column}_in_operator)";
+			$this->parameters[] = ":{$column}_in_operator)";
+			return;
+		}
+		if ($operator === 'BETWEEN' || $operator === 'NOT BETWEEN') {
+			$this->wheres[] = "{$bool} {$column} {$operator} :{$column}_between_1 AND :{$column}_between_2";
+			$this->parameters[] = ":{$column}_between_1";
+			$this->parameters[] = ":{$column}_between_2";
+			return;
+		}
+		$this->wheres[] = "{$bool} {$column} {$operator} :{$column}";
+		$this->parameters[] = ":{$column}";
+	}
+
+	/**
+	 * WHERE - filtriranje podataka
+	 *
+	 * jedan where izgleda ovako [$column, $operator]
+	 * @param array $wheres Niz WHERE izraza
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet INSERT tip upita
+	 */
+	public function where(array $wheres)
+	{
+		if ($this->type === $this::INSERT) {
+			throw new \Exception('WHERE ne moze uz INSERT upit!');
+		}
 		foreach ($wheres as $where) {
-			$this->wheres = array_merge((array)$this->wheres, [[' AND ', trim($where)]]);
+			$this->addWhere($where[0], $where[1]);
 		}
 		return $this;
 	}
 
 	/**
-	 * orWhere("name LIKE '%chana%'")
+	 * WHERE - filtriranje podataka
+	 *
+	 * jedan where izgleda ovako [$column, $operator]
+	 * @param array $wheres Niz WHERE izraza
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako je zapocet INSERT tip upita
 	 */
-	public function orWhere(...$wheres)
+	public function orWhere(array $wheres)
 	{
-		// FIXME:
+		if ($this->type === $this::INSERT) {
+			throw new \Exception('WHERE ne moze uz INSERT upit!');
+		}
 		foreach ($wheres as $where) {
-			$this->wheres = array_merge((array)$this->wheres, [[' OR ', trim($where)]]);
+			$this->addWhere($where[0], $where[1], 'OR');
 		}
 		return $this;
 	}
@@ -385,7 +439,7 @@ class QueryBuilder
 	public function groupBy(array $groups)
 	{
 		if ($this->type !== $this::SELECT) {
-			throw new \Exception('JOIN moze samo uz SELECT upit!');
+			throw new \Exception('GROUP BY moze samo uz SELECT upit!');
 		}
 		$this->groups = array_map('trim', $groups);
 		return $this;
@@ -504,17 +558,18 @@ class QueryBuilder
 	/**
 	 * Pravi UPDATE parametrizovan sql upit
 	 * @return string
+	 * @throws \Exception Ako je UPDATE cele tabele
 	 */
 	protected function compileUpdate()
 	{
-		if (count($this->columns) !== count($this->parameters)) {
-			throw new \Exception('Broj kolona i parametara mora da bude isti!');
+		if ($this->compileWheres() === '' && $this->compileLimit() === '') {
+			throw new \Exception('Nije dozvoljeno menjanje cele tabele!');
 		}
 		$sql = "UPDATE {$this->table} SET ";
 		$pairs = [];
 		foreach ($this->columns as $col) {
-			if (in_array(':' . $col, $this->parameters))
-				$pairs[] = "{$col} = :{$col}";
+			if (in_array(':update_' . $col, $this->parameters))
+				$pairs[] = "{$col} = :update_{$col}";
 		}
 		$set = implode(', ', $pairs);
 		$sql .= "{$set}";
@@ -528,9 +583,13 @@ class QueryBuilder
 	/**
 	 * Pravi DELETE parametrizovan sql upit
 	 * @return string
+	 * @throws \Exception Ako je DELETE cele tabele
 	 */
 	protected function compileDelete()
 	{
+		if ($this->compileWheres() === '' && $this->compileLimit() === '') {
+			throw new \Exception('Nije dozvoljeno brisanje cele tabele!');
+		}
 		$sql = "DELETE FROM {$this->table}";
 		$sql .= $this->compileWheres();
 		$sql .= $this->compileOrders();
@@ -554,18 +613,16 @@ class QueryBuilder
 	 */
 	protected function compileWheres()
 	{
-		// FIXME: prepraviti za parametre
 		if (!$this->wheres) {
 			return '';
 		}
 		$wheres = (array)$this->wheres;
 		$sql = " WHERE ";
-		$first = array_shift($wheres);
-		$sql .= "{$first[1]}";
-		foreach ($wheres as $where) {
-			$sql .= "{$where[0]}{$where[1]}";
-		}
-		return $sql;
+		$first = ltrim(array_shift($wheres), 'AND ');
+		$sql .= "{$first}";
+		$rest = implode('', $wheres);
+		$sql .= " {$rest}";
+		return rtrim($sql);
 	}
 
 	/**
@@ -588,7 +645,7 @@ class QueryBuilder
 	 */
 	protected function compileHavings()
 	{
-		// FIXME: prepraviti za parametre
+		// FIXME:
 		if (!$this->havings) {
 			return '';
 		}

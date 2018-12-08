@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Classes\Model;
+
 class Predmet extends Model
 {
 	protected $table = 'predmeti';

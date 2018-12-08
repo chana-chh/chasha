@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Models;
-
-use App\Classes\Db;
-use App\Classes\QueryBuilder;
-
+namespace App\Classes;
 
 abstract class Model
 {

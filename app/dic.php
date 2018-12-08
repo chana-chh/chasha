@@ -1,14 +1,28 @@
 <?php
 
+/**
+ * ChaSha - Slim dependency container
+ *
+ * Postavljanje instanci klasa u DC radi kasnijeg koriscenja
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
+/**
+ * App dependency container
+ * @var array $container
+ */
 $container = $app->getContainer();
 
-// TODO: ovo je suvisno
+// PDO wrapper - db
 $container['db'] = function ($container) {
-    $conf = $container['settings']['db'];
-    $db = new \App\Classes\Db($conf);
+    $db = new \App\Classes\Db();
     return $db;
 };
 
+// Monolog instance - logger
 $container['logger'] = function ($container) {
     $conf = $container['settings']['logger'];
     $logger = new \Monolog\Logger($conf['name']);
@@ -17,18 +31,22 @@ $container['logger'] = function ($container) {
     return $logger;
 };
 
+// CSRF protection instance - csrf
 $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
+// Authorization instance - auth
 $container['auth'] = function ($container) {
     return new \App\Classes\Auth(new \App\Models\Korisnik());
 };
 
+// Flash messages instance - flash
 $container['flash'] = function () {
     return new \Slim\Flash\Messages();
 };
 
+// Twig view instance - view
 $container['view'] = function ($container) {
     $conf = $container['settings']['renderer'];
     $view = new \Slim\Views\Twig($conf['template_path'], ['cache' => $conf['cache_path'], 'debug' => true]);

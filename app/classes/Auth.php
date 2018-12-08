@@ -48,4 +48,5 @@ class Auth
 	{
 		return password_verify($password, $hash);
 	}
+
 }

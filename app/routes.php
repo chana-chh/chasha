@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * ChaSha - Putanje (rute) aplikacije
+ *
+ * Sve putanje aplikacije
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
+
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
 
 $app->get('/registracija', '\App\Controllers\AuthController:getRegistracija')->setName('registracija');

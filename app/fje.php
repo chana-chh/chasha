@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * ChaSha - Pomocne funkcije (helper funkcije)
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
+/**
+ * Vraca deo stringa izmedju dva stringa
+ * @param string $string String koji se pretrazuje
+ * @param string $start Prvi string
+ * @param string $end Drugi string
+ * @return string Deo izmedju prvog i drugog stringa
+ */
 function getStringBetween($string, $start, $end)
 {
     $string = " " . $string;
@@ -11,40 +26,52 @@ function getStringBetween($string, $start, $end)
     return substr($string, $ini, $len);
 }
 
-function error($opis, $parametar = null)
+/**
+ * Prikaz greske
+ * @param string $description Opis greske
+ * @param mixed $param Parametar koji detaljnije opisuje gresku
+ */
+function error($description, $param = null)
 {
-
     echo '<h1 style="font-family: sans-serif; color: red">GREŠKA</h1>';
-    echo '<p style="font-family: sans-serif; font-size: 18px;">' . $opis . '</p>';
-    if ($parametar) {
-        echo '<p style="font-family: monospace; font-size: 18px;"><code>[' . $parametar . ']</code></p>';
+    echo '<p style="font-family: sans-serif; font-size: 18px;">' . $description . '</p>';
+    if ($param) {
+        echo '<p style="font-family: monospace; font-size: 18px;"><code>[' . $param . ']</code></p>';
     }
     die();
 }
 
-function dd($v, $print = false, $die = true)
+/**
+ * Dump promenjive
+ * @param mixed $var Promenjiva koja se dump-uje
+ * @param boolean $print Da li se koristi print_r umesto podrazumevanog var_dump
+ * @param boolean $die Da li se prekida dalje izvrsavanje skripta
+ * @param boolean $backtrace Da li se prikazuje i backtrace (debug_backtrace)
+ */
+function dd($var, $print = false, $die = true, $backtrace = false)
 {
-
     echo '<h3 style="color:#900">VARIABLE</h1>';
     echo '<pre style="background-color:#fdd; color:#000; padding:1rem;">';
     if ($print) {
-        print_r($v);
+        print_r($var);
     } else {
-        var_dump($v);
+        var_dump($var);
     }
     echo '</pre>';
 
-    if (gettype($v) === 'object') {
-        echo '<h3 style="color:#090">Object: ' . get_class($v) . '</h1>';
+    if (gettype($var) === 'object') {
+        echo '<h3 style="color:#090">Object: ' . get_class($var) . '</h1>';
         echo '<pre style="background-color:#dfd; color:#000; padding:1rem;">';
-        print_r(get_class_methods($v));
+        print_r(get_class_methods($var));
         echo '</pre>';
     }
 
-	// echo '<h3 style="color:#009">BACKTRACE</h1>';
-    // echo '<pre style="background-color:#ddf; color:#000; padding:1rem;">';
-    // print_r(debug_backtrace());
-    // echo '</pre>';
+    if ($backtrace) {
+        echo '<h3 style="color:#009">BACKTRACE</h1>';
+        echo '<pre style="background-color:#ddf; color:#000; padding:1rem;">';
+        print_r(debug_backtrace());
+        echo '</pre>';
+    }
 
     if ($die) {
         die();

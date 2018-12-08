@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Classes\Model;
+
 class VrstaUpisnika extends Model
 {
 	protected $table = 's_vrste_upisnika';
