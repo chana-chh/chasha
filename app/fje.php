@@ -10,6 +10,7 @@
 
 /**
  * Vraca deo stringa izmedju dva stringa
+ *
  * @param string $string String koji se pretrazuje
  * @param string $start Prvi string
  * @param string $end Drugi string
@@ -28,6 +29,7 @@ function getStringBetween($string, $start, $end)
 
 /**
  * Prikaz greske
+ *
  * @param string $description Opis greske
  * @param mixed $param Parametar koji detaljnije opisuje gresku
  */
@@ -43,6 +45,7 @@ function error($description, $param = null)
 
 /**
  * Dump promenjive
+ * 
  * @param mixed $var Promenjiva koja se dump-uje
  * @param boolean $print Da li se koristi print_r umesto podrazumevanog var_dump
  * @param boolean $die Da li se prekida dalje izvrsavanje skripta

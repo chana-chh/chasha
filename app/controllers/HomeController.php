@@ -19,25 +19,34 @@ class HomeController extends Controller
 			'broj',
 			'godina',
 			'naziv',
+			'vezana.naziv AS veza',
 		];
 
 		// SELECT - test
-		// $qb->select();
+		$qb->select($columns);
+		$qb->leftJoin('vezana', 'vezana_id', 'id');
+		$qb->where([['broj', '>']]);
+		$qb->groupBy(['premeti.id DESC']);
+		$qb->having([['SUM(broj)', '>=']]);
+		$qb->orderBy(['godina']);
+		$qb->limit(100);
+		$qb->offset(300);
 
 		// INSERT - test
 		// $qb->insert($columns);
 
 		// UPDATE - test
-		$qb->update($columns)->where([['broj','>=']])->orderBy(['broj'])->limit(2);
-		/*
-			Pojavljuje se isti parametar iz update i iz where
-		*/
+		// $qb->update($columns)->where([['broj','>=']])->orderBy(['broj'])->limit(2);
 
 		// DELETE - test
 		// $qb->delete()->where([['broj', '=']])->orderBy(['broj'])->limit(2);
 
 		$sql = $qb->getSql();
 		$params = $qb->getParams();
+
+		$model = new Predmet($qb);
+
+		dd($model, true);
 
 		$this->render($response, 'home.twig', compact('params', 'sql'));
 	}

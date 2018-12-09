@@ -18,7 +18,7 @@ $container = $app->getContainer();
 
 // PDO wrapper - db
 $container['db'] = function ($container) {
-    $db = new \App\Classes\Db();
+    $db = new \App\Classes\Db;
     return $db;
 };
 
@@ -36,6 +36,11 @@ $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
+// Validation instance - validator
+$container['validator'] = function ($container) {
+    return new \App\Classes\Validator;
+};
+
 // Authorization instance - auth
 $container['auth'] = function ($container) {
     return new \App\Classes\Auth(new \App\Models\Korisnik());
@@ -43,7 +48,7 @@ $container['auth'] = function ($container) {
 
 // Flash messages instance - flash
 $container['flash'] = function () {
-    return new \Slim\Flash\Messages();
+    return new \Slim\Flash\Messages;
 };
 
 // Twig view instance - view
@@ -57,7 +62,7 @@ $container['view'] = function ($container) {
         'logged' => $container->auth->isLoggedIn(),
         'user' => $container->auth->user(),
     ]);
-    $view->addExtension(new Knlv\Slim\Views\TwigMessages(new Slim\Flash\Messages()));
-    $view->addExtension(new Twig_Extension_Debug());
+    $view->addExtension(new Knlv\Slim\Views\TwigMessages(new Slim\Flash\Messages));
+    $view->addExtension(new Twig_Extension_Debug);
     return $view;
 };

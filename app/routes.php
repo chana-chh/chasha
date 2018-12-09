@@ -10,13 +10,18 @@
  * @copyright Copyright (c) 2019, ChaSha
  */
 
+use App\Middlewares\AuthMiddleware;
+use App\Middlewares\GuestMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
 
-$app->get('/registracija', '\App\Controllers\AuthController:getRegistracija')->setName('registracija');
-$app->post('/registracija', '\App\Controllers\AuthController:postRegistracija');
+$app->group('', function () {
+	$this->get('/registracija', '\App\Controllers\AuthController:getRegistracija')->setName('registracija');
+	$this->post('/registracija', '\App\Controllers\AuthController:postRegistracija');
+	$this->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
+	$this->post('/prijava', '\App\Controllers\AuthController:postPrijava');
+})->add(new GuestMiddleware($container));
 
-$app->get('/prijava', '\App\Controllers\AuthController:getPrijava')->setName('prijava');
-$app->post('/prijava', '\App\Controllers\AuthController:postPrijava');
-
-$app->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
+$app->group('', function () {
+	$this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
+})->add(new AuthMiddleware($container));

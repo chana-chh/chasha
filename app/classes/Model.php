@@ -1,24 +1,84 @@
 <?php
 
+/**
+ * Osnovni model
+ *
+ * Svaki model mora da nasledi ovu klasu
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
 namespace App\Classes;
 
+/**
+ * Model
+ *
+ * @author ChaSha
+ * @abstract
+ */
 abstract class Model
 {
 
+	/**
+	 * PDO wrapper
+	 * @var App\Classes\Db
+	 */
 	protected $db;
-	protected $table;
-	protected $alias;
-	protected $pk = 'id';
-	protected $model;
-	protected $qb;
-	protected $params = null;
 
+	/**
+	 * Naziv tabele modela
+	 * @var string
+	 */
+	protected $table;
+	// protected $alias;
+
+	/**
+	 * Primarni kljuc tabele modela
+	 * @var string
+	 */
+	protected $pk = 'id';
+
+	/**
+	 * Naziv momdela
+	 * @var string
+	 */
+	protected $model;
+
+	/**
+	 * Query builder
+	 * @var App\Classes\QueryBuilder
+	 */
+	protected $qb;
+
+	/**
+	 * Vrednosti parametara
+	 * @var array
+	 */
+	protected $params;
+
+	/**
+	 * Konfiguracija za model
+	 * @var array
+	 */
+	protected $config = [
+		'per_page' => 10,
+		'page_span' => 3,
+	];
+
+	/**
+	 * Konstruktor
+	 *
+	 * @param App\Classes\QueryBuilder Query builder
+	 * @throws \Exception Ako tabele u QueryBuilder-u i Model-u nisu iste
+	 */
 	public function __construct($qb = null)
 	{
-		$this->db = new Db();
+		$this->db = new Db;
 		if ($qb) {
-			if ($qb->table() !== $this->table) {
-				throw new \Exception("Tabela iz QueryBuilder-a ne odgovara tabeli iz Model-a");
+			if ($qb->getTable() !== $this->table) {
+				throw new \Exception('Tabela iz QueryBuilder-a ne odgovara tabeli iz Model-a');
 			}
 			$this->qb = $qb;
 		} else {
@@ -27,15 +87,9 @@ abstract class Model
 		$this->model = get_class($this);
 	}
 
-	public function getTable()
-	{
-		return $this->table;
-	}
 
-	public function getPrimaryKey()
-	{
-		return $this->pk;
-	}
+
+	// ???
 
 	public function setParams(array $params)
 	{
@@ -49,125 +103,56 @@ abstract class Model
 		return $this;
 	}
 
-	protected function query($sql, $params = null)
+	protected function extractParams()
+	{
+		$keys = array_keys(get_object_vars($this));
+		$values = array_values(get_object_vars($this));
+		$properties = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+		$this->params = [];
+		foreach ($properties as $prop) {
+			$this->params[$prop->name] = $this->{$prop->name};
+		}
+	}
+
+	// ???
+
+
+
+	/**
+	 * Izvrsava upit preko PDO
+	 *
+	 * Za upite koji menjaju podatke u bazi
+	 * INSERT, UPDATE, DELETE
+	 *
+	 * @param string $sql SQL izraz
+	 * @param array $params Parametri za parametrizovani upit
+	 * @return \PDOStatement
+	 */
+	protected function query(string $sql, array $params = null)
 	{
 		return $this->db->qry($sql, $params, $this->model);
 	}
 
+	/**
+	 * Izvrsava upit preko PDO
+	 *
+	 * Za upite koji vracaju podatke iz baze
+	 * SELECT
+	 *
+	 * @param string $sql SQL izraz
+	 * @param array $params Parametri za parametrizovani upit
+	 * @return array Niz rezultata (instanci Model-a) upita
+	 */
 	protected function fetch($sql, $params = null)
 	{
 		return $this->db->sel($sql, $params, $this->model);
 	}
 
-	public function lastId()
-	{
-		return $this->db->lastId();
-	}
+	/*
+	 * METODE ZA PREUZIMANJE PODATAKA
+	 */
 
-	public function lastCount()
-	{
-		return $this->db->lastCount();
-	}
-
-	public function lastError()
-	{
-		return $this->db->lastError();
-	}
-
-	public function lastQuery()
-	{
-		return $this->db->lastQuery();
-	}
-
-	public function select(...$columns)
-	{
-		$this->qb->select($columns);
-		return $this;
-	}
-
-	public function distinct()
-	{
-		$this->qb->distinct();
-		return $this;
-	}
-
-	public function join($join_table, $this_table_key, $join_table_key)
-	{
-		$this->qb->join($join_table, $this_table_key, $join_table_key);
-		return $this;
-	}
-
-	public function leftJoin($join_table, $this_table_key, $join_table_key)
-	{
-		$this->qb->leftJoin($join_table, $this_table_key, $join_table_key);
-		return $this;
-	}
-
-	public function rightJoin($join_table, $this_table_key, $join_table_key)
-	{
-		$this->qb->rightJoin($join_table, $this_table_key, $join_table_key);
-		return $this;
-	}
-
-	public function fullJoin($join_table, $this_table_key, $join_table_key)
-	{
-		$this->qb->fullJoin($join_table, $this_table_key, $join_table_key);
-		return $this;
-	}
-
-	public function where(...$wheres)
-	{
-		$this->qb->where(...$wheres);
-		return $this;
-	}
-
-	public function orWhere(...$wheres)
-	{
-		$this->qb->orWhere(...$wheres);
-		return $this;
-	}
-
-	public function groupBy($groups)
-	{
-		$this->qb->groupBy($groups);
-		return $this;
-	}
-
-	public function having(...$havings)
-	{
-		$this->qb->having(...$havings);
-		return $this;
-	}
-
-	public function orHaving(...$havings)
-	{
-		$this->qb->orHaving(...$havings);
-		return $this;
-	}
-
-	public function orderBy($orders)
-	{
-		$this->qb->orderBy($orders);
-		return $this;
-	}
-
-	public function limit($limit)
-	{
-		$this->qb->limit($limit);
-		return $this;
-	}
-
-	public function offset($offset)
-	{
-		$this->qb->offset($offset);
-		return $this;
-	}
-
-	public function getSql()
-	{
-		return $this->qb->sql();
-	}
-
+	// FIXME: Odavde
 	public function all($sort_column = null, $sort = 'ASC')
 	{
 		$order_by = trim($sort_column) ? "{$sort_column} {$sort}" : null;
@@ -179,23 +164,6 @@ abstract class Model
 	{
 		$this->qb->reset();
 		return $this->where("id = :id")->setParams([':id' => $id])->get();
-	}
-
-	// Za $this->query
-	public function get()
-	{
-		return $this->fetch($this->qb->sql(), $this->params);
-	}
-
-	protected function extractParams()
-	{
-		$keys = array_keys(get_object_vars($this));
-		$values = array_values(get_object_vars($this));
-		$properties = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
-		$this->params = [];
-		foreach ($properties as $prop) {
-			$this->params[$prop->name] = $this->{$prop->name};
-		}
 	}
 
 	public function insert()
@@ -213,13 +181,6 @@ abstract class Model
 		return $this->db->qry($sql, $params);
 	}
 
-	public function insertUpdate($data)
-	{
-		// Isto kao insert asmo u sql dodqti
-		// ON DUPLICATE KEY UPDATE opis = opis; ???: Kad ovo primeniti izasto nikad
-	}
-
-	// TODO: Prepraviti na QueryBuilder
 	public function update()
 	{
 		$this->extractParams();
@@ -237,7 +198,6 @@ abstract class Model
 		return $this->db->qry($sql, $params);
 	}
 
-	// TODO: Prepraviti na QueryBuilder
 	public function delete($where)
 	{
 		list($column, $operator, $value) = $where;
@@ -246,7 +206,6 @@ abstract class Model
 		return Db::qry($sql, $params);
 	}
 
-	// TODO: Prepraviti na QueryBuilder
 	public function deleteId(int $id)
 	{
 		$sql = "DELETE FROM `{$this->table}` WHERE `{$this->pk}` = :id";
@@ -254,24 +213,46 @@ abstract class Model
 		return Db::qry($sql, $params);
 	}
 
+	public function get()
+	{
+		return $this->fetch($this->qb->sql(), $this->params);
+	}
 
 	public function run()
 	{
 		return $this->query($this->qb->sql(), $this->params);
 	}
+	// FIXME: Dovde
 
+	/**
+	 * Vraca listu vrednosti iz enum ili set kolone
+	 *
+	 * Za padajuci meini (<<select>>) sa predefinisanim vrednostima kolone
+	 *
+	 * @param string $column Enum ili set kolona u tabeli
+	 * @return array|null Lista vrednosti ili NULL ako kolona nije enum ili set
+	 */
 	public function enumOrSetList($column)
 	{
-		$sql = "SELECT DATA_TYPE, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE `TABLE_NAME` = :table AND `COLUMN_NAME` = :column;";
+		$sql = "SELECT DATA_TYPE, COLUMN_TYPE
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE `TABLE_NAME` = :table AND `COLUMN_NAME` = :column;";
 		$params = [':table' => $this->table, ':column' => $column];
 		$result = $this->db->sel($sql, $params);
 		if ($result['DATA_TYPE'] === 'enum' || $result['DATA_TYPE'] === 'set') {
-			$list = explode(",", str_replace("'", "", substr($result['COLUMN_TYPE'], 5, (strlen($result['COLUMN_TYPE']) - 6))));
+			$list = explode(
+				",",
+				str_replace(
+					"'",
+					"",
+					substr($result['COLUMN_TYPE'], 5, (strlen($result['COLUMN_TYPE']) - 6))
+				)
+			);
 			if (is_array($list) && !empty($list)) {
 				return $list;
 			}
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -292,6 +273,12 @@ abstract class Model
 		$sql .= " LIMIT {$limit} OFFSET {$offset};";
 		$data = $this->query($sql, $params);
 		return $data;
+	}
+
+	protected function foundRows()
+	{
+		$count = $this->query("SELECT FOUND_ROWS() AS count;");
+		return (int)$count[0]->count;
 	}
 
 	public function pageLinks($page, $perpage, $span)
@@ -334,6 +321,12 @@ abstract class Model
 		return $links;
 	}
 
+
+	/*
+	 * RELACIJE
+	 */
+
+
 	public function hasOne($model_class, $foreign_table_fk)
 	{
 		$m = new $model_class();
@@ -372,6 +365,86 @@ abstract class Model
 		$sql = "SELECT `{$tbl}`.* FROM `{$tbl}` JOIN `{$pivot_table}` ON `{$tbl}`.`{$m->getPrimaryKey()}` = `{$pivot_table}`.`{$pt_foreign_table_fk}` WHERE `{$pivot_table}`.`{$pt_this_table_fk}` = :pk;";
 		$result = $this->db->sel($sql, $params, $model_class);
 		return $result;
+	}
+
+	/**
+	 * Vraca naziv tabele Model-a
+	 *
+	 * @return string
+	 */
+	public function getTable()
+	{
+		return $this->table;
+	}
+
+	/**
+	 * Vraca naziv primarnog kljuca tabele Model-a
+	 *
+	 * @return string
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->pk;
+	}
+
+	/**
+	 * Vraca poslednji uneti ID
+	 *
+	 * @return string
+	 */
+	public function getLastId()
+	{
+		return $this->db->getLastId();
+	}
+
+	/**
+	 * Vraca poslednji broj redova tabele
+	 *
+	 * @return integer
+	 */
+	public function getLastCount()
+	{
+		return $this->db->getLastCount();
+	}
+
+	/**
+	 * Vraca poslednju PDO gresku
+	 *
+	 * @return string
+	 */
+	public function getLastError()
+	{
+		return $this->db->getLastError();
+	}
+
+	/**
+	 * Vraca poslednji izvrseni PDO upit
+	 *
+	 * @return string
+	 */
+	public function getLastQuery()
+	{
+		return $this->db->getLastQuery();
+	}
+
+	/**
+	 * Vraca poslednji parametrizovani upit
+	 *
+	 * @return string
+	 */
+	public function getSql()
+	{
+		return $this->qb->getSql();
+	}
+
+	/**
+	 * Vraca prethodni parametrizovani upit
+	 *
+	 * @return string
+	 */
+	public function getLastSql()
+	{
+		return $this->qb->getLastSql();
 	}
 
 }

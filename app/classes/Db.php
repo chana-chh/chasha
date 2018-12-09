@@ -1,16 +1,55 @@
 <?php
 
+/**
+ * Database PDO wrapper
+ *
+ * Osnovna klasa za maipulaciju bazom podataka
+ *
+ * @version v 0.0.1
+ * @author ChaSha
+ * @copyright Copyright (c) 2019, ChaSha
+ */
+
 namespace App\Classes;
 
 use PDO;
 
+/**
+ * Db za PDO MySQL
+ *
+ * @author ChaSha
+ */
 class Db
 {
 
-	private $pdo = null;
+	/**
+	 * PDO instanca
+	 * @var \PDO
+	 */
+	private $pdo;
+
+	/**
+	 * PDO greska
+	 * @var string
+	 */
 	private $error;
+
+	/**
+	 * Broj redova u tabeli na koje je upit uticao
+	 * @var integer
+	 */
 	private $count;
+
+	/**
+	 * Poslednji upit koji je izvrsio PDO
+	 * @var string
+	 */
 	private $lastQuery;
+
+	/**
+	 * PDO konfiguracija
+	 * @var array
+	 */
 	private $config = [
 		'dsn' => 'mysql:host=127.0.0.1;dbname=jp;charset=utf8',
 		'username' => 'root',
@@ -24,23 +63,29 @@ class Db
 		],
 	];
 
+	/**
+	 * Konstruktor
+	 *
+	 * Postavlja instancu PDO konekcije na bazu
+	 */
 	public function __construct()
 	{
 		try {
 			$this->pdo = new PDO($this->config['dsn'], $this->config['username'], $this->config['password'], $this->config['options']);
 		} catch (PDOException $e) {
 			self::$error = $e->getMessage();
-			greska('Bre, nemos se okachi, bre.', $e->getMessage());
 		}
-
 	}
 
-	public function connection()
-	{
-		return $this->pdo;
-	}
-
-	public function qry($sql, $params = null)
+	/**
+	 * Izvrsava PDO upit koji ne vraca rezultat
+	 *
+	 * INSERT, UPDATE, DELETE
+	 *
+	 * @param string $sql SQL upit
+	 * @param array $params Parametri za upit
+	 */
+	public function qry(string $sql, array $params = null)
 	{
 		try {
 			$stmt = $this->pdo->prepare($sql);
@@ -50,16 +95,24 @@ class Db
 				}
 			}
 			$stmt->execute();
-			$this->count = $stmt->rowCount();
+			$this->count = (int)$stmt->rowCount();
 			$this->lastQuery = $stmt->queryString;
 		} catch (PDOException $e) {
 			$this->error = $e->getMessage();
-			greska('Bre, nece pukne upit, bre.', $e->getMessage());
 		}
-
 		return $stmt;
 	}
 
+	/**
+	 * Izvrsava PDO upit koji vraca rezultat
+	 *
+	 * SELECT
+	 *
+	 * @param string $sql SQL upit
+	 * @param array $params Parametri za upit
+	 * @param string $model Model koji se vraca
+	 * @return array Niz Model-a koji predstavljaju red u tabeli
+	 */
 	public function sel($sql, $params = null, $model = null)
 	{
 		try {
@@ -71,17 +124,16 @@ class Db
 			}
 		} catch (PDOException $e) {
 			$this->error = $e->getMessage();
-			greska('Bre, nece povuche podatke, bre.', $e->getMessage());
 		}
 		return $this->count === 1 ? $data[0] : $data;
 	}
 
-	public function foundRows()
-	{
-		$count = $this->sel("SELECT FOUND_ROWS() AS count;");
-		return (int)$count[0]->count;
-	}
-
+	/**
+	 * Odredjuje PDO tip parametra
+	 *
+	 * @param mixed $param Parametar za upit
+	 * @return integer PDO tip parametra
+	 */
 	protected function pdoType($param)
 	{
 		switch (gettype($param)) {
@@ -96,21 +148,50 @@ class Db
 		}
 	}
 
-	public function lastId()
+	/**
+	 * Vraca PDO instancu
+	 * @return \PDO
+	 */
+	public function getPDO()
+	{
+		return $this->pdo;
+	}
+
+	/**
+	 * Vraca posledni uneti ID
+	 *
+	 * @return string
+	 */
+	public function getLastId()
 	{
 		return $this->pdo->lastInsertId();
 	}
 
-	public function lastCount()
+	/**
+	 * Vraca poslednji broj redova tabele
+	 *
+	 * @return integer
+	 */
+	public function getLastCount()
 	{
 		return $this->count;
 	}
 
-	public function lastError()
+	/**
+	 * Vraca poslednju PDO gresku
+	 *
+	 * @return string
+	 */
+	public function getLastError()
 	{
 		return $this->error;
 	}
 
+	/**
+	 * Vraca poslednji izvrseni PDO upit
+	 *
+	 * @return string
+	 */
 	public function lastQuery()
 	{
 		return $this->lastQuery;
