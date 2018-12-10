@@ -14,6 +14,31 @@ class AuthController extends Controller
 
     public function postRegistracija($request, $response)
     {
+        $data = $request->getParams();
+        $validation_rules = [
+            'ime' => [
+                'required' => true,
+                'minlen' => 5,
+                'alnum' => true,
+            ],
+            'korisnicko_ime' => [
+                'required' => true,
+                'minlen' => 3,
+                'maxlen' => 50,
+                'alnum' => true,
+            ],
+            'lozinka' => [
+                'required' => true,
+                'minlen' => 6,
+            ],
+            'potvrda_lozinke' => [
+                'match_field' => 'lozinka',
+            ],
+        ];
+
+        $this->validator->validate($data, $validation_rules);
+        dd($this->validator, true);
+
         return $response->withRedirect($this->router->pathFor('prijava'));
     }
 
@@ -24,11 +49,11 @@ class AuthController extends Controller
 
     public function postPrijava($request, $response)
     {
-        $ok=$this->auth->login($request->getParam('username'), $request->getParam('password'));
+        $ok = $this->auth->login($request->getParam('username'), $request->getParam('password'));
         if ($ok) {
             $this->flash->addMessage('success', 'Al si se logovo. Svaka chas!');
             return $response->withRedirect($this->router->pathFor('pocetna'));
-        }else{
+        } else {
             $this->flash->addMessage('danger', 'Negde si se zahebo!');
             return $response->withRedirect($this->router->pathFor('prijava'));
         }

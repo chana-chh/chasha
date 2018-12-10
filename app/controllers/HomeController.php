@@ -7,6 +7,7 @@ use App\Models\Korisnik;
 use App\Classes\QueryBuilder;
 use App\Classes\ClosureTest;
 use App\Classes\CTT;
+use App\Classes\Validator;
 
 class HomeController extends Controller
 {
@@ -44,9 +45,11 @@ class HomeController extends Controller
 		$sql = $qb->getSql();
 		$params = $qb->getParams();
 
+		$v = new Validator;
+
 		$model = new Predmet($qb);
 
-		dd($model, true);
+		// dd($v, true);
 
 		$this->render($response, 'home.twig', compact('params', 'sql'));
 	}
