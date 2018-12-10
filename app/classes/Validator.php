@@ -21,6 +21,12 @@ class Validator
 {
 
     /**
+     * PDO wrapper
+     * @var App\Classes\Db
+     */
+    protected $db;
+
+    /**
      * Polja (podaci) za proveru
      * @var array
      */
@@ -43,6 +49,7 @@ class Validator
         'email',
         'alnum',
         'match_field',
+        'unique',
     ];
 
     /**
@@ -56,11 +63,22 @@ class Validator
         'email' => "Polje :field mora da sadrzi ispravnu email adresu",
         'alnum' => "Polje :field sme da sadrzi samo slova i brojeve",
         'match_field' => "Polja :field i :option moraju da budu ista",
+        'unique' => "U bazi vec postoji :field sa istom vrednoscu",
     ];
 
     /**
+     * Konstruktor
+     *
+     * @param App\Classes\Db $db PDO wrapper
+     */
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
+
+    /**
      * Vrsi validaciju podataka prema pravilima
-     * 
+     *
      * @param array $data Niz podataka koji se proveravaju
      * @param array $rules Niz pravila za proveru podataka
      */
@@ -81,7 +99,7 @@ class Validator
 
     /**
      * Validacija jednog podatka na osnovi seta pravila
-     * 
+     *
      * @param array $item Podatak sa setom pravila za validaciju
      */
     protected function val($item)
@@ -103,7 +121,7 @@ class Validator
 
     /**
      * Pravilo - obavezan podatak
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -115,7 +133,7 @@ class Validator
 
     /**
      * Pravilo - minimalna duzina
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -127,7 +145,7 @@ class Validator
 
     /**
      * Pravilo - maksimalna duzina
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -139,7 +157,7 @@ class Validator
 
     /**
      * Pravilo - validan email
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -151,7 +169,7 @@ class Validator
 
     /**
      * Pravilo - alfanumerik
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -163,7 +181,7 @@ class Validator
 
     /**
      * Pravilo - mora da odgovara drugom polju
-     * 
+     *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
      * @param mixed $option Vrednost parametra za zadovoljavanje pravila
@@ -174,8 +192,23 @@ class Validator
     }
 
     /**
+     * Pravilo - mora da bude jedinstven u bazi
+     *
+     * @param string $field Naziv podatka
+     * @param string $field Vrednost podatka
+     * @param mixed $option Vrednost parametra za zadovoljavanje pravila
+     */
+    protected function unique($field, $value, $option)
+    {
+        $option = explode('.', $option);
+        $sql = "SELECT COUNT(*) AS broj FROM {$option[0]} WHERE {$option[1]} = :par";
+        $res = $this->db->sel($sql, [':par' => $value]);
+        return (int)$res->broj > 0 ? false : true;
+    }
+
+    /**
      * Dezinfekcija podataka
-     * 
+     *
      * @param array $data Niz sa podacima
      * @return array Niz sa dezinfikovanim podacima
      */
@@ -186,7 +219,7 @@ class Validator
 
     /**
      * Da li postoje greske validacije
-     * 
+     *
      * @return boolean
      */
     public function hasErrors()
@@ -196,11 +229,11 @@ class Validator
 
     /**
      * Preuzimanje gresaka validacije
-     * 
+     *
      * Ako je prosledjen naziv podatka vraca sve greske za taj podatak
      * ili NULL ako nema gresaka. Ako se ne prosledi naziv podatka vraca
      * sve greske validacije.
-     * 
+     *
      * @param string $key Naziv podatka
      * @return array|null Niz gresaka ili NULL ako nema gresaka
      */
@@ -215,7 +248,7 @@ class Validator
 
     /**
      * Vraca prvu gresku za podatak
-     * 
+     *
      * @param string $key Naziv podatka
      * @return string|null Prva greska za podatak ili NULL ako nema greske
      */

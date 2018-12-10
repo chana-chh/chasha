@@ -38,7 +38,7 @@ $container['csrf'] = function ($container) {
 
 // Validation instance - validator
 $container['validator'] = function ($container) {
-    return new \App\Classes\Validator;
+    return new \App\Classes\Validator($container->db);
 };
 
 // Authorization instance - auth

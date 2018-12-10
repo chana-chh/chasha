@@ -26,6 +26,7 @@ class AuthController extends Controller
                 'minlen' => 3,
                 'maxlen' => 50,
                 'alnum' => true,
+                'unique' => 'korisnici.username', // tabela.kolona
             ],
             'lozinka' => [
                 'required' => true,

@@ -45,11 +45,10 @@ class HomeController extends Controller
 		$sql = $qb->getSql();
 		$params = $qb->getParams();
 
-		$v = new Validator;
+		$predmet = new Predmet($qb);
 
-		$model = new Predmet($qb);
 
-		// dd($v, true);
+		//dd($predmet, true);
 
 		$this->render($response, 'home.twig', compact('params', 'sql'));
 	}

@@ -64,7 +64,7 @@ abstract class Model
 	 */
 	protected $config = [
 		'per_page' => 10,
-		'page_span' => 3,
+		'page_span' => 10,
 	];
 
 	/**
@@ -155,7 +155,7 @@ abstract class Model
 	// FIXME: Odavde
 	public function all($sort_column = null, $sort = 'ASC')
 	{
-		$order_by = trim($sort_column) ? "{$sort_column} {$sort}" : null;
+		$order_by = trim($sort_column) ? ["{$sort_column} {$sort}"] : null;
 		$this->qb->reset();
 		return $order_by ? $this->orderBy($order_by)->get() : $this->get();
 	}
@@ -163,6 +163,8 @@ abstract class Model
 	public function find(int $id)
 	{
 		$this->qb->reset();
+		$this->qb->where([['id','=']]);
+		
 		return $this->where("id = :id")->setParams([':id' => $id])->get();
 	}
 
