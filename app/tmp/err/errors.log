@@ -363,3 +363,109 @@
 [11-Dec-2018 10:46:05 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 440
 [11-Dec-2018 10:46:05 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 536
 [11-Dec-2018 14:48:57 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$params in C:\xampp\htdocs\chasha\app\classes\Model.php on line 219
+[11-Dec-2018 18:03:18 Europe/Belgrade] PHP Notice:  Undefined variable: tes in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 59
+[11-Dec-2018 18:07:42 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$orW in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 39
+[11-Dec-2018 18:07:44 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$orWhere in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 39
+[11-Dec-2018 18:07:48 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:48 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:48 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:54 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:54 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:57 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:57 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:07:59 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:08:03 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:08:03 Europe/Belgrade] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 399
+[11-Dec-2018 18:08:03 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 401
+[11-Dec-2018 18:08:07 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:08:07 Europe/Belgrade] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 399
+[11-Dec-2018 18:08:07 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 401
+[11-Dec-2018 18:08:10 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:08:10 Europe/Belgrade] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 399
+[11-Dec-2018 18:08:10 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 401
+[11-Dec-2018 18:08:53 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 57
+[11-Dec-2018 18:14:10 Europe/Belgrade] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 399
+[11-Dec-2018 18:14:10 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 401
+[11-Dec-2018 18:22:13 Europe/Belgrade] PHP Recoverable fatal error:  Object of class App\Controllers\HomeController could not be converted to string in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 56
+[11-Dec-2018 18:27:40 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 51
+[11-Dec-2018 18:27:42 Europe/Belgrade] PHP Notice:  Object of class App\Classes\QueryBuilder could not be converted to int in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 51
+[11-Dec-2018 18:27:42 Europe/Belgrade] PHP Warning:  A non-numeric value encountered in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 51
+[11-Dec-2018 18:27:44 Europe/Belgrade] PHP Notice:  Undefined variable: sql in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 51
+[11-Dec-2018 18:29:40 Europe/Belgrade] PHP Warning:  compact() expects at least 1 parameter, 0 given in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 18
+[11-Dec-2018 18:29:40 Europe/Belgrade] PHP Warning:  array_merge(): Argument #2 is not an array in D:\xampp\htdocs\chasha\vendor\slim\twig-view\src\Twig.php on line 86
+[11-Dec-2018 18:31:54 Europe/Belgrade] PHP Recoverable fatal error:  Object of class App\Controllers\HomeController could not be converted to string in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 22
+[11-Dec-2018 18:31:59 Europe/Belgrade] PHP Recoverable fatal error:  Object of class App\Controllers\HomeController could not be converted to string in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 22
+[11-Dec-2018 18:32:08 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:11 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:11 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:16 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:16 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:18 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:18 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:25 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:43 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:47 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:32:48 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:33:52 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:34:00 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:34:05 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:34:09 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:34:14 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:35:09 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:35:09 Europe/Belgrade] PHP Notice:  Undefined variable: params in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 26
+[11-Dec-2018 18:35:14 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:40:21 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:40:36 Europe/Belgrade] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:40:50 Europe/Belgrade] PHP Notice:  Undefined variable: thiarray_key_exists in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:40:51 Europe/Belgrade] PHP Notice:  Undefined variable: thisarray_key_exists in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 879
+[11-Dec-2018 18:44:24 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:24 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:24 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:43 Europe/Belgrade] PHP Warning:  Use of undefined constant id - assumed 'id' (this will throw an Error in a future version of PHP) in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 22
+[11-Dec-2018 18:44:43 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:43 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:46 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:44:46 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:45:31 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$orWhere in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 22
+[11-Dec-2018 18:45:35 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:45:35 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:45:35 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:45:37 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:45:37 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 454
+[11-Dec-2018 18:46:41 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 411
+[11-Dec-2018 18:46:41 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 412
+[11-Dec-2018 18:47:18 Europe/Belgrade] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 399
+[11-Dec-2018 18:47:18 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 401
+[11-Dec-2018 18:48:50 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:50 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:50 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:54 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:54 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:59 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:48:59 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:04 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:04 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:06 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:06 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:10 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:11 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:13 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 531
+[11-Dec-2018 18:49:39 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$orH in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 25
+[11-Dec-2018 18:49:40 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$orHaving in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 25
+[11-Dec-2018 18:57:42 Europe/Belgrade] PHP Warning:  Use of undefined constant godina - assumed 'godina' (this will throw an Error in a future version of PHP) in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 34
+[11-Dec-2018 18:59:14 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:14 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:14 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:15 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:15 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:17 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:17 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:19 Europe/Belgrade] PHP Notice:  Undefined offset: 1 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:19 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:20 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:21 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:23 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
+[11-Dec-2018 18:59:42 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$o in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 41
+[11-Dec-2018 18:59:44 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$or in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 41
+[11-Dec-2018 20:18:00 Europe/Belgrade] PHP Warning:  Use of undefined constant la - assumed 'la' (this will throw an Error in a future version of PHP) in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 50
+[11-Dec-2018 20:18:06 Europe/Belgrade] PHP Warning:  Use of undefined constant latinicaUCirilicu - assumed 'latinicaUCirilicu' (this will throw an Error in a future version of PHP) in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 50

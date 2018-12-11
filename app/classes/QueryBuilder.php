@@ -185,7 +185,7 @@ class QueryBuilder
 	/**
 	 * INSERT - upis podataka
 	 *
-	 * $qb->insert(['broj', 'godina', 'naziv']);
+	 * $qb->insert(['broj' => 200, 'godina' => 2018, 'naziv' => 'ime']);
 	 *
 	 * @link https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/ ON DUPLICATE KEY UPDATE
 	 * @param array $columns Kolone sa vrednostima koje se upisuju
@@ -214,7 +214,7 @@ class QueryBuilder
 	/**
 	 * UPDATE - izmena podataka
 	 *
-	 * $qb->update(['godina'])->where([['id', '=']])->orderBy(['broj'])->limit(1);
+	 * $qb->update(['godina' => 2017])->where([['id', '=', 3]])->orderBy(['broj'])->limit(1);
 	 *
 	 * @param array $columns Kolone sa vrednostima koje se menjaju
 	 * @return \App\Classes\QueryBuilder $this
@@ -244,20 +244,20 @@ class QueryBuilder
 	/**
 	 * DELETE - brisanje podataka
 	 *
-	 * $qb->delete(true); // id
+	 * $qb->delete(1244); // id
 	 * $qb->delete()->where(['broj = :broj'])->orderBy(['godina ASC'])->limit(1);
 	 *
 	 * @param array $columns Kolone koje se menjaju
 	 * @return \App\Classes\QueryBuilder $this
 	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
-	public function delete(int $id = 0)
+	public function delete(int $id = null)
 	{
 		if ($this->type) {
 			throw new \Exception('Vec je zapocet neki drugi tip upita!');
 		}
 		$this->type = $this::DELETE;
-		if ($id > 0) {
+		if ($id !== null) {
 			$this->addWhere($this->pk, '=', $id, 'AND');
 			return;
 		}
@@ -380,10 +380,10 @@ class QueryBuilder
 	/**
 	 * Dodaje jedan WHERE
 	 *
-	 * @param string $column
-	 * @param string $operator
-	 * @param mixed $value
-	 * @param string $bool
+	 * @param string $column Kolona po kojoj se filtrira
+	 * @param string $operator Operator filtriranja kolone
+	 * @param mixed $value Vrednost filtriranja kolone
+	 * @param string $bool Veznik za WHERE
 	 * @throws \Exception Ako operator nije u listi operatora ($this->operators) ili je prvi WHERE OR
 	 */
 	protected function addWhere(string $column, string $operator, $value, string $bool = 'AND')
@@ -393,7 +393,7 @@ class QueryBuilder
 			throw new \Exception("Prvi WHERE ne moze da bude OR!");
 		}
 		if (!in_array($operator, $this->operators)) {
-			throw new \Exception("Nepostojeci operator [{$operator}]!");
+			throw new \Exception("Nedozvoljeni operator [{$operator}]!");
 		}
 		if ($operator === 'IN' || $operator === 'NOT IN') {
 			$p = count($value);
@@ -403,23 +403,23 @@ class QueryBuilder
 				$this->parameters[] = $v;
 			}
 			$in = rtrim($in, ', ');
-			$this->wheres[] = "{$bool} {$column} {$operator} ({$in})";
+			$this->wheres[] = " {$bool} {$column} {$operator} ({$in})";
 			return;
 		}
 		if ($operator === 'BETWEEN' || $operator === 'NOT BETWEEN') {
-			$this->wheres[] = "{$bool} {$column} {$operator} ? AND ?";
+			$this->wheres[] = " {$bool} {$column} {$operator} ? AND ?";
 			$this->parameters[] = $value[0];
 			$this->parameters[] = $value[1];
 			return;
 		}
-		$this->wheres[] = "{$bool} {$column} {$operator} ?";
+		$this->wheres[] = " {$bool} {$column} {$operator} ?";
 		$this->parameters[] = $value;
 	}
 
 	/**
 	 * WHERE - filtriranje podataka
 	 *
-	 * $qb->where([['sifra','='], ['godina', '>=']]);
+	 * $qb->where([['sifra','=', 23], ['godina', '>=', 2015]]);
 	 *
 	 * @param array $wheres Niz WHERE izraza
 	 * @return \App\Classes\QueryBuilder $this
@@ -439,7 +439,7 @@ class QueryBuilder
 	/**
 	 * WHERE - filtriranje podataka
 	 *
-	 * $qb->orWhere([['sifra','='], ['godina', '>=']]);
+	 * $qb->orWhere([['sifra','=', 23], ['godina', '>=', 2015]]);
 	 *
 	 * @param array $wheres Niz WHERE izraza
 	 * @return \App\Classes\QueryBuilder $this
@@ -477,9 +477,10 @@ class QueryBuilder
 	/**
 	 * Dodaje jedan HAVING
 	 *
-	 * @param string $column
-	 * @param string $operator
-	 * @param string $bool
+	 * @param string $column Kolona/izraz po kojoj se filtrira
+	 * @param string $operator Operator filtriranja kolone/izraza
+	 * @param mixed $value Vrednost filtriranja kolone/izraza
+	 * @param string $bool Veznik za HAVING
 	 * @throws \Exception Ako operator nije u listi operatora ($this->operators) ili je prvi HAVING OR
 	 */
 	protected function addHaving(string $column, string $operator, $value, string $bool = 'AND')
@@ -499,23 +500,23 @@ class QueryBuilder
 				$this->parameters[] = $v;
 			}
 			$in = rtrim($in, ', ');
-			$this->havings[] = "{$bool} {$column} {$operator} ({$in})";
+			$this->havings[] = " {$bool} {$column} {$operator} ({$in})";
 			return;
 		}
 		if ($operator === 'BETWEEN' || $operator === 'NOT BETWEEN') {
-			$this->havings[] = "{$bool} {$column} {$operator} ? AND ?";
+			$this->havings[] = " {$bool} {$column} {$operator} ? AND ?";
 			$this->parameters[] = $value[0];
 			$this->parameters[] = $value[1];
 			return;
 		}
-		$this->havings[] = "{$bool} {$column} {$operator} ?";
+		$this->havings[] = " {$bool} {$column} {$operator} ?";
 		$this->parameters[] = $value;
 	}
 
 	/**
 	 * HAVING - filtriranje podataka
 	 *
-	 * $qb->having([['sifra','='], ['godina', '>=']]);
+	 * $qb->having([['sifra','=', 130], ['godina', '>=', 2000]]);
 	 *
 	 * @param array $havings Niz HAVING izraza
 	 * @return \App\Classes\QueryBuilder $this
@@ -535,7 +536,7 @@ class QueryBuilder
 	/**
 	 * HAVING - filtriranje podataka
 	 *
-	 * $qb->orHaving([['sifra','='], ['godina', '>=']]);
+	 * $qb->having([['sifra','=', 130], ['godina', '>=', 2000]]);
 	 *
 	 * @param array $havings Niz HAVING izraza
 	 * @return \App\Classes\QueryBuilder $this
@@ -543,11 +544,11 @@ class QueryBuilder
 	 */
 	public function orHaving(array $havings)
 	{
-		if ($this->type === $this::SELECT) {
+		if ($this->type !== $this::SELECT) {
 			throw new \Exception('HAVING moze samo uz SELECT tip upita!');
 		}
 		foreach ($havings as $having) {
-			$this->addWhere($having[0], $having[1], $having[2], 'OR');
+			$this->addHaving($having[0], $having[1], $having[2], 'OR');
 		}
 		return $this;
 	}
@@ -875,6 +876,13 @@ class QueryBuilder
 	 */
 	public function getParams()
 	{
+		if ($this->parameters && array_key_exists(0, $this->parameters)) {
+			$params = $this->parameters;
+			$this->parameters = [];
+			foreach ($params as $k => $v) {
+				$this->parameters[$k + 1] = $v;
+			}
+		}
 		return $this->parameters;
 	}
 

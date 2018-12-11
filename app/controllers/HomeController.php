@@ -15,49 +15,37 @@ class HomeController extends Controller
 	{
 		$qb = new QueryBuilder('predmeti');
 
-		// $columns = [
-		// 	'vrsta' => 2,
-		// 	'broj' => 153,
+		// SELECT
+		$qb->select(['id', 'broj', 'godina']);
+		$qb->leftJoin('vezana', 'vezana_id', 'id');
+		$qb->join('druga', 'druga_id', 'id');
+		$qb->where([['id', '>=', '500']])->orWhere([['broj', '<', '1000']]);
+		$qb->where([['godina', 'BETWEEN', [2000, 2010]]])->orWhere([['broj', 'NOT IN', [222, 333, 444, 555]]]);
+		$qb->groupBy(['id DESC']);
+		$qb->having([['SUM(broj)','>',5623]])->orHaving([['godina','>',2017]]);
+		$qb->having([['godina', 'NOT BETWEEN', [2000, 2010]]])->orHaving([['broj', 'IN', [222, 333, 444, 555]]]);
+		$qb->orderBy(['godina DESC']);
+		$qb->limit(100);
+		$qb->offset(500);
+
+		// INSERT
+		// $qb->insert([
+		// 	'broj' => 123,
 		// 	'godina' => 2018,
-		// 	'naziv' => 'neki naziv',
-		// ];
+		// ]);
 
-		$columns = [
-			'id',
-			'vrsta',
-			'broj',
-			'godina',
-			'naziv',
-		];
+		// UPDATE
+		// $qb->update([
+		// 	'broj' => 123,
+		// 	'godina' => 2018,
+		// ])->where([['id','=',3]])->orderBy(['broj DESC'])->limit(1);
 
-		// SELECT - test
-		$qb->select();
-		$qb->where([['id', '>', 100]])->where([['vrsta_upisnika_id', '=', 6]]);
+		// DELETE
+		// $qb->delete(123);
+		// $qb->delete()->where([['id', '=', 3]])->orderBy(['broj DESC'])->limit(1);
 
-		// INSERT - test
-		// $qb->insert($columns);
-
-		$in = [
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-		];
-		// UPDATE - test
-		// $qb->update($columns)->where([['broj', '>=', 500]])->orWhere([['broj', 'IN', $in]])->orderBy(['broj'])->limit(5);
-
-		// DELETE - test
-		// $qb->delete(5);//->where([['broj', '=', 200]])->orderBy(['broj'])->limit(2);
-
-		$sql = $qb->getSql();
 		$params = $qb->getParams();
-
-		$predmet = new Predmet($qb);
-		$tes=$predmet->get();
-
-		// $sql = "DESCRIBE predmeti;";
-		// $sql = "SHOW COLUMNS FROM predmeti;";
-		// $sql = "SHOW KEYS FROM predmeti;";
-		// dd($this->db->sel("select * from predmeti where id = 1"), true);
-		// $predmet->fetch("select * from predmeti where id = 1")->extractInstanceFielsds();
-		dd($tes, true);
+		$sql = $qb->getSql();
 
 		$this->render($response, 'home.twig', compact('params', 'sql'));
 	}

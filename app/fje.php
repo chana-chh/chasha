@@ -29,20 +29,20 @@ function getStringBetween($string, $start, $end)
 
 /**
  * Konverter latinica-cirilica-latinica
- * 
+ *
  * @param string $tekst Tekst koji se konvertuje
  * @param boolean $cirilica_u_latinicu Da li je konverzija cir u lat (default je lat u cir)
  */
 function latinicaUCirilicu(string $tekst, bool $cirilica_u_latinicu = false)
 {
     $latinica = [
-        'Đ', 'DJ', 'Dj', 'Lj', 'Nj', 'Dž',
+        'Đ', 'Dj', 'DJ', 'Lj', 'LJ', 'Nj', 'NJ', 'Dž', 'DŽ',
         'A', 'B', 'V', 'G', 'D', 'E', 'Ž', 'Z', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'Ć', 'U', 'F', 'H', 'C', 'Č', 'Š',
         'đ', 'dj', 'lj', 'nj', 'dž',
         'a', 'b', 'v', 'g', 'd', 'e', 'ž', 'z', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'ć', 'u', 'f', 'h', 'c', 'č', 'š',
     ];
     $cirilica = [
-        'Ђ', 'Ђ', 'Ђ', 'Љ', 'Њ', 'Џ',
+        'Ђ', 'Ђ', 'Ђ', 'Љ', 'Љ', 'Њ', 'Њ', 'Џ', 'Џ',
         'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш',
         'ђ', 'ђ', 'љ', 'њ', 'џ',
         'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'ј', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'ћ', 'у', 'ф', 'х', 'ц', 'ч', 'ш',
@@ -72,7 +72,7 @@ function error($description, $param = null)
 
 /**
  * Dump promenjive
- * 
+ *
  * @param mixed $var Promenjiva koja se dump-uje
  * @param boolean $print Da li se koristi print_r umesto podrazumevanog var_dump
  * @param boolean $die Da li se prekida dalje izvrsavanje skripta

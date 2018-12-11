@@ -38,7 +38,6 @@ abstract class Model
 	 * @var string
 	 */
 	protected $table;
-	// protected $alias;
 
 	/**
 	 * Primarni kljuc tabele modela
@@ -61,10 +60,22 @@ abstract class Model
 		'page_span' => 10,
 	];
 
-	protected $params;
-
+	/**
+	 * Kolone u tabeli
+	 * @var array
+	 */
 	protected $table_fields;
+
+	/**
+	 * Kljucevi u tabeli
+	 * @var array
+	 */
 	protected $table_keys;
+
+	/**
+	 * Polja modela sa vrednostima
+	 * @var array
+	 */
 	protected $instance_fields;
 
 	/**
@@ -85,12 +96,12 @@ abstract class Model
 			$this->qb = new QueryBuilder($this->table);
 		}
 		$this->model = get_class($this);
-		// $this->extractInstanceFielsds();
-		// $this->extractTableFields();
-		// $this->extractTableKeys();
 	}
 
-	public function extractInstanceFielsds()
+	/**
+	 * Popunjava polja sa vrednostima instance modela
+	 */
+	protected function extractInstanceFields()
 	{
 		$fields = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
 		foreach ($fields as $field) {
@@ -98,6 +109,9 @@ abstract class Model
 		}
 	}
 
+	/**
+	 * Popunjava nazive i svojstva kolona u tabeli
+	 */
 	protected function extractTableFields()
 	{
 		$columns = $this->db->sel("SHOW COLUMNS FROM predmeti;");
@@ -108,6 +122,9 @@ abstract class Model
 		}
 	}
 
+	/**
+	 * Popunjava nazive i svojstva kljuceva u tabeli
+	 */
 	protected function extractTableKeys()
 	{
 		$keys = $this->db->sel("SHOW KEYS FROM predmeti;");
@@ -144,9 +161,9 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return array Niz rezultata (instanci Model-a) upita
 	 */
-	public function fetch($sql, $params = null)
+	protected function fetch($sql, $params = null)
 	{
-		return $this->db->sel($sql, $this->params, $this->model);
+		return $this->db->sel($sql, $params, $this->model);
 	}
 
 	/*
@@ -154,9 +171,12 @@ abstract class Model
 	 */
 
 	// FIXME: Odavde
+	/**
+	 * Vraca sve zapise iz tabele (sortirane)
+	 */
 	public function all($sort_column = null, $sort = 'ASC')
 	{
-		$order_by = trim($sort_column) ? ["{$sort_column} {$sort}"] : null;
+		$order_by = !empty(trim($sort_column)) ? ["{$sort_column} {$sort}"] : null;
 		$this->qb->reset();
 		return $order_by ? $this->orderBy($order_by)->get() : $this->get();
 	}
@@ -218,12 +238,7 @@ abstract class Model
 
 	public function get()
 	{
-		$params = $this->qb->getParams();
-		$this->params = [];
-		foreach ($params as $k => $v) {
-			$this->params[$k + 1] = $v;
-		}
-		return $this->fetch($this->qb->getSql(), $this->params);
+		return $this->fetch($this->qb->getSql(), $this->qb->getParams());
 	}
 
 	public function run()
@@ -244,16 +259,16 @@ abstract class Model
 	{
 		$sql = "SELECT DATA_TYPE, COLUMN_TYPE
 				FROM INFORMATION_SCHEMA.COLUMNS
-				WHERE `TABLE_NAME` = :table AND `COLUMN_NAME` = :column;";
-		$params = [':table' => $this->table, ':column' => $column];
+				WHERE TABLE_NAME = ? AND COLUMN_NAME = ?;";
+		$params = [1 => $this->table, 2 => $column];
 		$result = $this->db->sel($sql, $params);
-		if ($result['DATA_TYPE'] === 'enum' || $result['DATA_TYPE'] === 'set') {
+		if ($result->DATA_TYPE === 'enum' || $result->DATA_TYPE === 'set') {
 			$list = explode(
 				",",
 				str_replace(
 					"'",
 					"",
-					substr($result['COLUMN_TYPE'], 5, (strlen($result['COLUMN_TYPE']) - 6))
+					substr($result->COLUMN_TYPE, 5, (strlen($result->COLUMN_TYPE) - 6))
 				)
 			);
 			if (is_array($list) && !empty($list)) {
@@ -264,6 +279,7 @@ abstract class Model
 		}
 	}
 
+	// FIXME:
 	public function pagination($page, $perpage, $span, $sql, $params = null)
 	{
 		$data = $this->pageData($page, $perpage, $sql, $params);
@@ -271,6 +287,7 @@ abstract class Model
 		return ['data' => $data, 'links' => $links];
 	}
 
+	// FIXME:
 	public function pageData($page, $perpage, $sql, $params = null)
 	{
 		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $sql);
@@ -289,6 +306,7 @@ abstract class Model
 		return (int)$count[0]->count;
 	}
 
+	// FIXME:
 	public function pageLinks($page, $perpage, $span)
 	{
 		$count = $this->foundRows();
@@ -446,13 +464,23 @@ abstract class Model
 	}
 
 	/**
-	 * Vraca prethodni parametrizovani upit
+	 * Vraca parametre za upit upit
 	 *
 	 * @return string
 	 */
-	public function getLastSql()
+	public function getParams()
 	{
-		return $this->qb->getLastSql();
+		return $this->qb->getParams();
+	}
+
+	/**
+	 * Vraca polja sa vrednostima instance modela
+	 *
+	 * @return array
+	 */
+	public function getInstanceFields()
+	{
+		return $this->instance_fields;
 	}
 
 }
