@@ -2,9 +2,7 @@
 
 namespace App\Classes;
 
-
-
-class ClosureTest
+class Test
 {
     public function test(\Closure $closure)
     {

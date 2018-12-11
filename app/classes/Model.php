@@ -28,6 +28,12 @@ abstract class Model
 	protected $db;
 
 	/**
+	 * Query builder
+	 * @var App\Classes\QueryBuilder
+	 */
+	protected $qb;
+
+	/**
 	 * Naziv tabele modela
 	 * @var string
 	 */
@@ -47,18 +53,6 @@ abstract class Model
 	protected $model;
 
 	/**
-	 * Query builder
-	 * @var App\Classes\QueryBuilder
-	 */
-	protected $qb;
-
-	/**
-	 * Vrednosti parametara
-	 * @var array
-	 */
-	protected $params;
-
-	/**
 	 * Konfiguracija za model
 	 * @var array
 	 */
@@ -66,6 +60,12 @@ abstract class Model
 		'per_page' => 10,
 		'page_span' => 10,
 	];
+
+	protected $params;
+
+	protected $table_fields;
+	protected $table_keys;
+	protected $instance_fields;
 
 	/**
 	 * Konstruktor
@@ -85,38 +85,39 @@ abstract class Model
 			$this->qb = new QueryBuilder($this->table);
 		}
 		$this->model = get_class($this);
+		// $this->extractInstanceFielsds();
+		// $this->extractTableFields();
+		// $this->extractTableKeys();
 	}
 
-
-
-	// ???
-
-	public function setParams(array $params)
+	public function extractInstanceFielsds()
 	{
-		$this->params = $params;
-		return $this;
-	}
-
-	public function addParams(array $params)
-	{
-		$this->params = array_merge((array)$this->params, $params);
-		return $this;
-	}
-
-	protected function extractParams()
-	{
-		$keys = array_keys(get_object_vars($this));
-		$values = array_values(get_object_vars($this));
-		$properties = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
-		$this->params = [];
-		foreach ($properties as $prop) {
-			$this->params[$prop->name] = $this->{$prop->name};
+		$fields = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+		foreach ($fields as $field) {
+			$this->instance_fields[$field->name] = $this->{$field->name};
 		}
 	}
 
-	// ???
+	protected function extractTableFields()
+	{
+		$columns = $this->db->sel("SHOW COLUMNS FROM predmeti;");
+		foreach ($columns as $column) {
+			$this->table_fields[$column->Field]['type'] = $column->Type;
+			$this->table_fields[$column->Field]['key'] = $column->Key;
+			$this->table_fields[$column->Field]['default'] = $column->Default;
+		}
+	}
 
-
+	protected function extractTableKeys()
+	{
+		$keys = $this->db->sel("SHOW KEYS FROM predmeti;");
+		foreach ($keys as $key) {
+			$this->table_keys[$key->Key_name][$key->Seq_in_index]['column'] = $key->Column_name;
+			$this->table_keys[$key->Key_name][$key->Seq_in_index]['unique'] = $key->Non_unique === 0 ? true : false;
+			$this->table_keys[$key->Key_name][$key->Seq_in_index]['colation'] = $key->Collation;
+			$this->table_keys[$key->Key_name][$key->Seq_in_index]['cardinality'] = $key->Cardinality;
+		}
+	}
 
 	/**
 	 * Izvrsava upit preko PDO
@@ -143,9 +144,9 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return array Niz rezultata (instanci Model-a) upita
 	 */
-	protected function fetch($sql, $params = null)
+	public function fetch($sql, $params = null)
 	{
-		return $this->db->sel($sql, $params, $this->model);
+		return $this->db->sel($sql, $this->params, $this->model);
 	}
 
 	/*
@@ -163,8 +164,8 @@ abstract class Model
 	public function find(int $id)
 	{
 		$this->qb->reset();
-		$this->qb->where([['id','=']]);
-		
+		$this->qb->where([['id', '=']]);
+
 		return $this->where("id = :id")->setParams([':id' => $id])->get();
 	}
 
@@ -217,12 +218,17 @@ abstract class Model
 
 	public function get()
 	{
-		return $this->fetch($this->qb->sql(), $this->params);
+		$params = $this->qb->getParams();
+		$this->params = [];
+		foreach ($params as $k => $v) {
+			$this->params[$k + 1] = $v;
+		}
+		return $this->fetch($this->qb->getSql(), $this->params);
 	}
 
 	public function run()
 	{
-		return $this->query($this->qb->sql(), $this->params);
+		return $this->query($this->qb->getSql(), $this->params);
 	}
 	// FIXME: Dovde
 

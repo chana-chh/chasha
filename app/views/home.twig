@@ -11,8 +11,8 @@
 <p class="sql">{{ sql }}</p>
 <h2>Parameters</h2>
 <ul>
-	{% for param in params %}
-	<li class="params">{{ param }}</li>
+	{% for key,value in params %}
+	<li class="params">{{ key }} => {{ value }}</li>
 	{% endfor %}
 </ul>
 {% endblock sadrzaj %}

@@ -120,12 +120,6 @@ class QueryBuilder
 	protected $sql = '';
 
 	/**
-	 * Poslednji SQl izraz - krajnji rezultat QueryBuilder-a
-	 * @var string
-	 */
-	protected $last_sql = '';
-
-	/**
 	 * Konstruktor
 	 *
 	 * $qb = new QueryBuilder('tabela')
@@ -194,7 +188,7 @@ class QueryBuilder
 	 * $qb->insert(['broj', 'godina', 'naziv']);
 	 *
 	 * @link https://mariadb.com/kb/en/library/insert-on-duplicate-key-update/ ON DUPLICATE KEY UPDATE
-	 * @param array $columns Kolone koje se upisuju
+	 * @param array $columns Kolone sa vrednostima koje se upisuju
 	 * @return \App\Classes\QueryBuilder $this
 	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
@@ -204,10 +198,14 @@ class QueryBuilder
 			throw new \Exception('Vec je zapocet neki drugi tip upita!');
 		}
 		$this->type = $this::INSERT;
-		$cols = array_map('trim', $columns);
+		$keys = array_map('trim', array_keys($columns));
+		$values = array_map('trim', $columns);
+		$columns = array_combine($keys, $values);
+		$cols = [];
 		$pars = [];
-		foreach ($cols as $c) {
-			$pars[] = ':insert_' . $c;
+		foreach ($columns as $k => $v) {
+			$cols[] = $k;
+			$pars[] = $v;
 		}
 		$this->columns = $cols;
 		$this->parameters = $pars;
@@ -218,7 +216,7 @@ class QueryBuilder
 	 *
 	 * $qb->update(['godina'])->where([['id', '=']])->orderBy(['broj'])->limit(1);
 	 *
-	 * @param array $columns Kolone koje se menjaju
+	 * @param array $columns Kolone sa vrednostima koje se menjaju
 	 * @return \App\Classes\QueryBuilder $this
 	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
@@ -228,10 +226,15 @@ class QueryBuilder
 			throw new \Exception('Vec je zapocet neki drugi tip upita!');
 		}
 		$this->type = $this::UPDATE;
-		$cols = array_map('trim', $columns);
+
+		$keys = array_map('trim', array_keys($columns));
+		$values = array_map('trim', $columns);
+		$columns = array_combine($keys, $values);
+		$cols = [];
 		$pars = [];
-		foreach ($cols as $c) {
-			$pars[] = ':update_' . $c;
+		foreach ($columns as $k => $v) {
+			$cols[] = $k;
+			$pars[] = $v;
 		}
 		$this->columns = $cols;
 		$this->parameters = $pars;
@@ -248,15 +251,14 @@ class QueryBuilder
 	 * @return \App\Classes\QueryBuilder $this
 	 * @throws \Exception Ako je zapocet neki drugi tip upita
 	 */
-	public function delete(bool $id = false)
+	public function delete(int $id = 0)
 	{
 		if ($this->type) {
 			throw new \Exception('Vec je zapocet neki drugi tip upita!');
 		}
 		$this->type = $this::DELETE;
-		if ($id) {
-			$this->addWhere($this->pk, '=', 'AND');
-			$this->parameters = [':' . $this->pk];
+		if ($id > 0) {
+			$this->addWhere($this->pk, '=', $id, 'AND');
 			return;
 		}
 		return $this;
@@ -380,10 +382,11 @@ class QueryBuilder
 	 *
 	 * @param string $column
 	 * @param string $operator
+	 * @param mixed $value
 	 * @param string $bool
 	 * @throws \Exception Ako operator nije u listi operatora ($this->operators) ili je prvi WHERE OR
 	 */
-	protected function addWhere(string $column, string $operator, string $bool = 'AND')
+	protected function addWhere(string $column, string $operator, $value, string $bool = 'AND')
 	{
 		$operator = mb_strtoupper($operator);
 		if (!$this->wheres && $bool === 'OR') {
@@ -393,18 +396,24 @@ class QueryBuilder
 			throw new \Exception("Nepostojeci operator [{$operator}]!");
 		}
 		if ($operator === 'IN' || $operator === 'NOT IN') {
-			$this->wheres[] = "{$bool} {$column} {$operator} (:where_{$column}_in_operator)";
-			$this->parameters[] = ":where_{$column}_in_operator)";
+			$p = count($value);
+			$in = "";
+			foreach ($value as $k => $v) {
+				$in .= "?, ";
+				$this->parameters[] = $v;
+			}
+			$in = rtrim($in, ', ');
+			$this->wheres[] = "{$bool} {$column} {$operator} ({$in})";
 			return;
 		}
 		if ($operator === 'BETWEEN' || $operator === 'NOT BETWEEN') {
-			$this->wheres[] = "{$bool} {$column} {$operator} :where_{$column}_between_1 AND :where_{$column}_between_2";
-			$this->parameters[] = ":where_{$column}_between_1";
-			$this->parameters[] = ":where_{$column}_between_2";
+			$this->wheres[] = "{$bool} {$column} {$operator} ? AND ?";
+			$this->parameters[] = $value[0];
+			$this->parameters[] = $value[1];
 			return;
 		}
-		$this->wheres[] = "{$bool} {$column} {$operator} :where_{$column}";
-		$this->parameters[] = ":where_{$column}";
+		$this->wheres[] = "{$bool} {$column} {$operator} ?";
+		$this->parameters[] = $value;
 	}
 
 	/**
@@ -422,7 +431,7 @@ class QueryBuilder
 			throw new \Exception('WHERE ne moze uz INSERT tip upita!');
 		}
 		foreach ($wheres as $where) {
-			$this->addWhere($where[0], $where[1]);
+			$this->addWhere($where[0], $where[1], $where[2]);
 		}
 		return $this;
 	}
@@ -442,7 +451,7 @@ class QueryBuilder
 			throw new \Exception('WHERE ne moze uz INSERT tip upita!');
 		}
 		foreach ($wheres as $where) {
-			$this->addWhere($where[0], $where[1], 'OR');
+			$this->addWhere($where[0], $where[1], $where[2], 'OR');
 		}
 		return $this;
 	}
@@ -473,7 +482,7 @@ class QueryBuilder
 	 * @param string $bool
 	 * @throws \Exception Ako operator nije u listi operatora ($this->operators) ili je prvi HAVING OR
 	 */
-	protected function addHaving(string $column, string $operator, string $bool = 'AND')
+	protected function addHaving(string $column, string $operator, $value, string $bool = 'AND')
 	{
 		$operator = mb_strtoupper($operator);
 		if (!$this->havings && $bool === 'OR') {
@@ -483,18 +492,24 @@ class QueryBuilder
 			throw new \Exception("Nepostojeci operator [{$operator}]!");
 		}
 		if ($operator === 'IN' || $operator === 'NOT IN') {
-			$this->havings[] = "{$bool} {$column} {$operator} (:having_{$column}_in_operator)";
-			$this->parameters[] = ":having_{$column}_in_operator)";
+			$p = count($value);
+			$in = "";
+			foreach ($value as $k => $v) {
+				$in .= "?, ";
+				$this->parameters[] = $v;
+			}
+			$in = rtrim($in, ', ');
+			$this->havings[] = "{$bool} {$column} {$operator} ({$in})";
 			return;
 		}
 		if ($operator === 'BETWEEN' || $operator === 'NOT BETWEEN') {
-			$this->havings[] = "{$bool} {$column} {$operator} :having_{$column}_between_1 AND :where_{$column}_between_2";
-			$this->parameters[] = ":having_{$column}_between_1";
-			$this->parameters[] = ":having_{$column}_between_2";
+			$this->havings[] = "{$bool} {$column} {$operator} ? AND ?";
+			$this->parameters[] = $value[0];
+			$this->parameters[] = $value[1];
 			return;
 		}
-		$this->havings[] = "{$bool} {$column} {$operator} :having_{$column}";
-		$this->parameters[] = ":having_{$column}";
+		$this->havings[] = "{$bool} {$column} {$operator} ?";
+		$this->parameters[] = $value;
 	}
 
 	/**
@@ -512,7 +527,7 @@ class QueryBuilder
 			throw new \Exception('HAVING moze samo uz SELECT tip upita!');
 		}
 		foreach ($havings as $having) {
-			$this->addHaving($having[0], $having[1]);
+			$this->addHaving($having[0], $having[1], $having[2]);
 		}
 		return $this;
 	}
@@ -532,7 +547,7 @@ class QueryBuilder
 			throw new \Exception('HAVING moze samo uz SELECT tip upita!');
 		}
 		foreach ($havings as $having) {
-			$this->addWhere($having[0], $having[1], 'OR');
+			$this->addWhere($having[0], $having[1], $having[2], 'OR');
 		}
 		return $this;
 	}
@@ -570,6 +585,7 @@ class QueryBuilder
 			throw new \Exception('LIMIT ne moze uz INSERT tip upita!');
 		}
 		$this->limit = $limit;
+		$this->parameters[] = $limit;
 		return $this;
 	}
 
@@ -588,6 +604,7 @@ class QueryBuilder
 			throw new \Exception('OFFSET moze samo uz SELECT tip upita!');
 		}
 		$this->offset = $offset;
+		$this->parameters[] = $offset;
 		return $this;
 	}
 
@@ -625,7 +642,8 @@ class QueryBuilder
 	{
 		$sql = "INSERT INTO {$this->table} (";
 		$cols = implode(', ', $this->columns);
-		$pars = implode(', ', $this->parameters);
+		$p = count($this->parameters);
+		$pars = rtrim(str_repeat('?, ', $p), ', ');
 		$sql .= "{$cols}) VALUES ({$pars});";
 		return $sql;
 	}
@@ -638,14 +656,14 @@ class QueryBuilder
 	 */
 	protected function compileUpdate()
 	{
-		if ($this->compileWheres() === '' && $this->compileLimit() === '') {
+		if (!$this->wheres && !$this->limit) {
 			throw new \Exception('Nije dozvoljeno menjanje cele tabele!');
 		}
 		$sql = "UPDATE {$this->table} SET ";
 		$pairs = [];
+		$keys = array_keys($this->parameters);
 		foreach ($this->columns as $col) {
-			if (in_array(':update_' . $col, $this->parameters))
-				$pairs[] = "{$col} = :update_{$col}";
+			$pairs[] = "{$col} = ?";
 		}
 		$set = implode(', ', $pairs);
 		$sql .= "{$set}";
@@ -767,7 +785,7 @@ class QueryBuilder
 		if (!$this->limit) {
 			return '';
 		}
-		return " LIMIT {$this->limit}";
+		return " LIMIT ?";
 	}
 
 	/**
@@ -780,7 +798,7 @@ class QueryBuilder
 		if (!$this->offset) {
 			return '';
 		}
-		return " OFFSET {$this->offset}";
+		return " OFFSET ?";
 	}
 
 	/**
@@ -814,7 +832,7 @@ class QueryBuilder
 	/**
 	 * Resetuje sve parametre QueryBuildera
 	 */
-	protected function reset()
+	public function reset()
 	{
 		$this->type = null;
 		$this->distinct = false;
@@ -861,16 +879,6 @@ class QueryBuilder
 	}
 
 	/**
-	 * Vraca prethodni parametrizovani upit
-	 *
-	 * @return string
-	 */
-	public function getLastSql()
-	{
-		return $this->last_sql;
-	}
-
-	/**
 	 * Pravi i vraca konacni parametrizovani upit
 	 *
 	 * @return string
@@ -878,7 +886,6 @@ class QueryBuilder
 	public function getSql()
 	{
 		$this->compileSQL();
-		$this->last_sql = $this->sql;
 		return $this->sql;
 	}
 

@@ -327,3 +327,39 @@
 [09-Dec-2018 20:35:55 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in D:\xampp\htdocs\chasha\app\classes\Model.php on line 69
 [09-Dec-2018 20:48:05 Europe/Belgrade] PHP Warning:  Unterminated comment starting line 323 in D:\xampp\htdocs\chasha\app\classes\Model.php on line 323
 [09-Dec-2018 21:04:34 Europe/Belgrade] PHP Fatal error:  Cannot redeclare App\Classes\Model::getLastError() in D:\xampp\htdocs\chasha\app\classes\Model.php on line 419
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 632
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 632
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 632
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 632
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:46:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:48:56 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 55
+[11-Dec-2018 08:50:12 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:50:12 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:50:12 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 08:50:12 Europe/Belgrade] PHP Notice:  Undefined variable: c in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 214
+[11-Dec-2018 09:00:43 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 654
+[11-Dec-2018 09:03:17 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 654
+[11-Dec-2018 09:22:32 Europe/Belgrade] PHP Warning:  in_array() expects parameter 2 to be array, string given in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 657
+[11-Dec-2018 09:22:32 Europe/Belgrade] PHP Warning:  in_array() expects parameter 2 to be array, string given in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 657
+[11-Dec-2018 09:22:32 Europe/Belgrade] PHP Warning:  in_array() expects parameter 2 to be array, string given in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 657
+[11-Dec-2018 09:22:32 Europe/Belgrade] PHP Warning:  in_array() expects parameter 2 to be array, string given in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 657
+[11-Dec-2018 09:52:26 Europe/Belgrade] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 407
+[11-Dec-2018 09:52:26 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 412
+[11-Dec-2018 09:52:42 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 412
+[11-Dec-2018 10:46:05 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 440
+[11-Dec-2018 10:46:05 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 536
+[11-Dec-2018 14:48:57 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$params in C:\xampp\htdocs\chasha\app\classes\Model.php on line 219
