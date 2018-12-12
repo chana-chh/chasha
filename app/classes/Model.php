@@ -170,14 +170,30 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return array Niz rezultata (instanci Model-a) upita
 	 */
-	protected function fetch($sql, $params = null)
+	protected function fetch(string $sql, array $params = null)
 	{
 		return $this->db->sel($sql, $params, $this->model, [$this->qb]);
 	}
 
 	/**
+	 * Izvrsava sirovi upit
+	 *
+	 * @param string $sql SQL izraz
+	 * @param array $params Parametri za parametrizovani upit
+	 * @return array|\PDOStatement Niz rezultata (instanci Model-a) upita ili PDOStatement
+	 */
+	public function raw(string $sql, array $params = null)
+	{
+		if (strpos($sql, 'SELECT') !== false) {
+			return $this->fetch($sql, $params);
+		} else {
+			return $this->query($sql, $params);
+		}
+	}
+
+	/**
 	 * Vraca sve zapise iz tabele (sortirane)
-	 * 
+	 *
 	 * @param string $sort_column Naziv kolone za sortiranje
 	 * @param string $sort Ncin sortiranja
 	 * @return array|\App\Classes\Model Niz modela ili jedan model
@@ -192,7 +208,7 @@ abstract class Model
 
 	/**
 	 * Pronalazi red po PK
-	 * 
+	 *
 	 * @param $id Vrednost PK reda koji se trazi
 	 * @return \App\Classes\Model
 	 */
@@ -203,7 +219,11 @@ abstract class Model
 		return $this->get();
 	}
 
-	// TODO:
+	/**
+	 * Snima novi ili izmenjeni red
+	 *
+	 * @throws \Exception Ako je pozvan save na prazan model
+	 */
 	public function save()
 	{
 		$this->instance_fields = $this->getInstanceFields();
@@ -230,27 +250,19 @@ abstract class Model
 		}
 		throw new \Exception('Nije moguce uneti prazan red u tabelu');
 	}
-	
-	// FIXME: Da li da bude samo za odabrani model ili da moze da se bira sta se brise
-	public function delete($where)
+
+
+	public function delete()
 	{
-		list($column, $operator, $value) = $where;
-		$sql = "DELETE FROM `{$this->table}` WHERE `{$column}` {$operator} :where_{$column};";
-		$params = [":where_{$column}" => $value];
-		return Db::qry($sql, $params);
-	}
-	
-	// FIXME: Da li da bude samo za odabrani model ili da moze da se bira sta se brise
-	public function deleteId(int $id)
-	{
-		$sql = "DELETE FROM `{$this->table}` WHERE `{$this->pk}` = :id";
-		$params = [':id' => $id];
-		return Db::qry($sql, $params);
+		// TODO: Brisanje povezanih sranja
+		$this->qb->reset();
+		$this->qb->delete($this->{$this->pk});
+		$this->run();
 	}
 
 	/**
 	 * Kada se nizanje zavrsi ovom metodom se vracaju redovi
-	 * 
+	 *
 	 * @return array Niz Model-a koji predstavljaju red u tabeli
 	 */
 	public function get()
@@ -261,7 +273,7 @@ abstract class Model
 
 	/**
 	 * Kada se nizanje zavrsi ovom metodom se izvrsava upit
-	 * 
+	 *
 	 * @return \PDOStatement
 	 */
 	public function run()
@@ -541,6 +553,18 @@ abstract class Model
 	{
 		$this->extractTableKeys();
 		return $this->table_keys;
+	}
+
+	public function __call($method, $arguments)
+	{
+		if (is_callable([$this->qb, $method])) {
+			if ($arguments) {
+				$this->qb->$method($arguments[0]);
+			} else {
+				$this->qb->$method();
+			}
+			return $this;
+		}
 	}
 
 }

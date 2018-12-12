@@ -897,4 +897,11 @@ class QueryBuilder
 		return $this->sql;
 	}
 
+	public function tes()
+	{
+		$sql = str_replace('?', '%s', $this->getSql());
+		$tes = vsprintf($sql, $this->parameters);
+		return $tes;
+	}
+
 }

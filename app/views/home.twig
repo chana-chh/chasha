@@ -4,10 +4,11 @@
 <h1>Home page</h1>
 
 <h2>SQL query</h2>
-<p class="sql">{{ sql }}</p>
+<p class="sql">{{ sql1 }}</p>
+<p class="sql">{{ sql2 }}</p>
 
 <h2>Parameters</h2>
-<ul>
+<ul style="list-style-type: none; padding: 0;">
 	{% for key,value in params %}
 	<li class="params">{{ key }} => {{ value }}</li>
 	{% endfor %}
@@ -16,7 +17,7 @@
 <h2>Rezultat</h2>
 <ol>
 	{% for r in rezultat %}
-	<li class="params">{{ r.broj() }} - {{ r.vrstaUpisnika().naziv }}</li>
+	<li class="params"><strong>{{ r.id }}</strong> : {{ r.naziv }} - {{ r.slovo }}</li>
 	{% endfor %}
 </ol>
 <p><strong>{{ rezultat.broj() }}</strong> {{ rezultat.opis }}</p>

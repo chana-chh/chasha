@@ -14,20 +14,22 @@ class HomeController extends Controller
 {
 	public function getHome($request, $response)
 	{
-		// $qb = new QueryBuilder('predmeti');
+		$qb = new QueryBuilder('predmeti');
 
 		// SELECT
-		// $qb->select(['id', 'broj', 'godina']);
-		// $qb->leftJoin('vezana', 'vezana_id', 'id');
-		// $qb->join('druga', 'druga_id', 'id');
-		// $qb->where([['id', '>=', '500']])->orWhere([['broj', '<', '1000']]);
-		// $qb->where([['godina', 'BETWEEN', [2000, 2010]]])->orWhere([['broj', 'NOT IN', [222, 333, 444, 555]]]);
-		// $qb->groupBy(['id DESC']);
-		// $qb->having([['SUM(broj)', '>', 5623]])->orHaving([['godina', '>', 2017]]);
-		// $qb->having([['godina', 'NOT BETWEEN', [2000, 2010]]])->orHaving([['broj', 'IN', [222, 333, 444, 555]]]);
-		// $qb->orderBy(['godina DESC']);
-		// $qb->limit(100);
-		// $qb->offset(500);
+		$qb->select(['id', 'broj', 'godina']);
+		$qb->leftJoin('vezana', 'vezana_id', 'id');
+		$qb->join('druga', 'druga_id', 'id');
+		$qb->where([['id', '>=', 500]])->orWhere([['broj', '<', 1000]]);
+		$qb->where([['godina', 'BETWEEN', [2000, 2010]]])->orWhere([['napomena', '=', 'chana']]);
+		$qb->groupBy(['id DESC']);
+		$qb->having([['SUM(broj)', '>', 5623]])->orHaving([['godina', '>', 2017]]);
+		$qb->having([['godina', 'NOT BETWEEN', [2000, 2010]]])->orHaving([['broj', 'IN', [222, 333, 444, 555]]]);
+		$qb->orderBy(['godina DESC']);
+		$qb->limit(100);
+		$qb->offset(500);
+
+		// dd($qb->tes());
 
 		// INSERT
 		// $qb->insert([
@@ -46,21 +48,18 @@ class HomeController extends Controller
 		// $qb->delete()->where([['id', '=', 3]])->orderBy(['broj DESC'])->limit(1);
 
 
-		$rezultat = new Predmet;
-		$rezultat = $rezultat->find(5619);
+		$model = new VrstaUpisnika;
+		$model->select();
+		$model->limit(5);
+		$model->offset(1);
 
+		$rezultat = $model->get();
 
+		$params = $qb->getParams();
+		$sql1 = $qb->getSql();
+		$sql2 = $qb->tes();
 
-		$params = $rezultat->getParams();
-		$sql = $rezultat->getSql();
-		// dd($rezultat->getInstanceFields(), true);
-		// dd($vr->predmeti(), true);
-		// dd($vr->getTableKeys(), true);
-		// dd($vr->getTableFields(), true);
-		// dd($vr->getSql(), true);
-		// dd($model, true);
-
-		$this->render($response, 'home.twig', compact('params', 'sql', 'rezultat'));
+		$this->render($response, 'home.twig', compact('params', 'sql1', 'sql2', 'rezultat'));
 	}
 
 }

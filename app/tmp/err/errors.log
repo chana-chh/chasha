@@ -489,3 +489,11 @@
 [12-Dec-2018 11:45:08 Europe/Belgrade] PHP Notice:  Undefined offset: 2 in C:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 434
 [12-Dec-2018 14:23:36 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$params in C:\xampp\htdocs\chasha\app\classes\Model.php on line 290
 [12-Dec-2018 14:59:07 Europe/Belgrade] PHP Recoverable fatal error:  Object of class App\Models\Predmet could not be converted to string in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 50
+[12-Dec-2018 16:59:35 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 54
+[12-Dec-2018 20:49:02 Europe/Belgrade] PHP Notice:  Undefined property: App\Models\Predmet::$vrstaUpisnika in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 53
+[12-Dec-2018 20:53:12 Europe/Belgrade] PHP Fatal error:  Multiple access type modifiers are not allowed in D:\xampp\htdocs\chasha\app\classes\Model.php on line 186
+[12-Dec-2018 21:29:45 Europe/Belgrade] PHP Notice:  Undefined variable: rezultat in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 51
+[12-Dec-2018 21:31:49 Europe/Belgrade] PHP Warning:  trim() expects parameter 1 to be string, array given in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 161
+[12-Dec-2018 22:07:00 Europe/Belgrade] PHP Notice:  Undefined property: App\Classes\QueryBuilder::$te in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 32
+[12-Dec-2018 22:08:57 Europe/Belgrade] PHP Notice:  Array to string conversion in D:\xampp\htdocs\chasha\app\classes\QueryBuilder.php on line 902
+[12-Dec-2018 22:42:20 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in D:\xampp\htdocs\chasha\app\classes\Model.php on line 561
