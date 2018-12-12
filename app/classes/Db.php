@@ -87,6 +87,7 @@ class Db
 	 *
 	 * @param string $sql SQL upit
 	 * @param array $params Parametri za upit
+	 * @return \PDOStatement
 	 */
 	public function qry(string $sql, array $params = null)
 	{
@@ -116,12 +117,12 @@ class Db
 	 * @param string $model Model koji se vraca
 	 * @return array Niz Model-a koji predstavljaju red u tabeli
 	 */
-	public function sel($sql, $params = null, $model = null)
+	public function sel($sql, $params = null, $model = null, $args = null)
 	{
 		try {
 			$stmt = $this->qry($sql, $params);
 			if ($model) {
-				$data = $stmt->fetchAll(PDO::FETCH_CLASS, $model);
+				$data = $stmt->fetchAll(PDO::FETCH_CLASS, $model, $args);
 			} else {
 				$data = $stmt->fetchAll();
 			}

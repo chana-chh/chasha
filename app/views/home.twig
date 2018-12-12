@@ -2,17 +2,22 @@
 
 {% block sadrzaj %}
 <h1>Home page</h1>
-<p>
-	Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam maiores esse quae, praesentium non pariatur tempora
-	blanditiis soluta minima debitis aut placeat, aliquam aperiam qui, nobis molestias. Fuga deserunt ab saepe reiciendis,
-	voluptatibus nam exercitationem culpa, impedit iusto, sunt numquam optio.
-</p>
+
 <h2>SQL query</h2>
 <p class="sql">{{ sql }}</p>
+
 <h2>Parameters</h2>
 <ul>
 	{% for key,value in params %}
 	<li class="params">{{ key }} => {{ value }}</li>
 	{% endfor %}
 </ul>
+
+<h2>Rezultat</h2>
+<ol>
+	{% for r in rezultat %}
+	<li class="params">{{ r.broj() }} - {{ r.vrstaUpisnika().naziv }}</li>
+	{% endfor %}
+</ol>
+<p><strong>{{ rezultat.broj() }}</strong> {{ rezultat.opis }}</p>
 {% endblock sadrzaj %}

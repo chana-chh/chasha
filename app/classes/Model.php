@@ -23,13 +23,13 @@ abstract class Model
 
 	/**
 	 * PDO wrapper
-	 * @var App\Classes\Db
+	 * @var \App\Classes\Db
 	 */
 	protected $db;
 
 	/**
 	 * Query builder
-	 * @var App\Classes\QueryBuilder
+	 * @var \App\Classes\QueryBuilder
 	 */
 	protected $qb;
 
@@ -73,7 +73,13 @@ abstract class Model
 	protected $table_keys;
 
 	/**
-	 * Polja modela sa vrednostima
+	 * Originalne vrednosti polja
+	 * @var array
+	 */
+	protected $original_instance_fields;
+
+	/**
+	 * KOnacne vrednosti polja
 	 * @var array
 	 */
 	protected $instance_fields;
@@ -81,7 +87,7 @@ abstract class Model
 	/**
 	 * Konstruktor
 	 *
-	 * @param App\Classes\QueryBuilder Query builder
+	 * @param \App\Classes\QueryBuilder Query builder
 	 * @throws \Exception Ako tabele u QueryBuilder-u i Model-u nisu iste
 	 */
 	public function __construct($qb = null)
@@ -96,17 +102,20 @@ abstract class Model
 			$this->qb = new QueryBuilder($this->table);
 		}
 		$this->model = get_class($this);
+		$this->original_instance_fields = $this->extractInstanceFields();
 	}
 
 	/**
-	 * Popunjava polja sa vrednostima instance modela
+	 * Vraca polja sa vrednostima instance modela
 	 */
 	protected function extractInstanceFields()
 	{
 		$fields = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+		$res = [];
 		foreach ($fields as $field) {
-			$this->instance_fields[$field->name] = $this->{$field->name};
+			$res[$field->name] = $this->{$field->name};
 		}
+		return $res;
 	}
 
 	/**
@@ -114,7 +123,7 @@ abstract class Model
 	 */
 	protected function extractTableFields()
 	{
-		$columns = $this->db->sel("SHOW COLUMNS FROM predmeti;");
+		$columns = $this->db->sel("SHOW COLUMNS FROM {$this->table};");
 		foreach ($columns as $column) {
 			$this->table_fields[$column->Field]['type'] = $column->Type;
 			$this->table_fields[$column->Field]['key'] = $column->Key;
@@ -127,7 +136,7 @@ abstract class Model
 	 */
 	protected function extractTableKeys()
 	{
-		$keys = $this->db->sel("SHOW KEYS FROM predmeti;");
+		$keys = $this->db->sel("SHOW KEYS FROM {$this->table};");
 		foreach ($keys as $key) {
 			$this->table_keys[$key->Key_name][$key->Seq_in_index]['column'] = $key->Column_name;
 			$this->table_keys[$key->Key_name][$key->Seq_in_index]['unique'] = $key->Non_unique === 0 ? true : false;
@@ -148,7 +157,7 @@ abstract class Model
 	 */
 	protected function query(string $sql, array $params = null)
 	{
-		return $this->db->qry($sql, $params, $this->model);
+		return $this->db->qry($sql, $params);
 	}
 
 	/**
@@ -163,64 +172,66 @@ abstract class Model
 	 */
 	protected function fetch($sql, $params = null)
 	{
-		return $this->db->sel($sql, $params, $this->model);
+		return $this->db->sel($sql, $params, $this->model, [$this->qb]);
 	}
 
-	/*
-	 * METODE ZA PREUZIMANJE PODATAKA
-	 */
-
-	// FIXME: Odavde
 	/**
 	 * Vraca sve zapise iz tabele (sortirane)
+	 * 
+	 * @param string $sort_column Naziv kolone za sortiranje
+	 * @param string $sort Ncin sortiranja
+	 * @return array|\App\Classes\Model Niz modela ili jedan model
 	 */
 	public function all($sort_column = null, $sort = 'ASC')
 	{
 		$order_by = !empty(trim($sort_column)) ? ["{$sort_column} {$sort}"] : null;
 		$this->qb->reset();
-		return $order_by ? $this->orderBy($order_by)->get() : $this->get();
+		$order_by ? $this->qb->select()->orderBy($order_by) : $this->qb->select();
+		return $this->get();
 	}
 
+	/**
+	 * Pronalazi red po PK
+	 * 
+	 * @param $id Vrednost PK reda koji se trazi
+	 * @return \App\Classes\Model
+	 */
 	public function find(int $id)
 	{
 		$this->qb->reset();
-		$this->qb->where([['id', '=']]);
-
-		return $this->where("id = :id")->setParams([':id' => $id])->get();
+		$this->qb->select()->where([["{$this->pk}", '=', (int)$id]]);
+		return $this->get();
 	}
 
-	public function insert()
+	// TODO:
+	public function save()
 	{
-		$this->extractParams();
-		foreach ($this->params as $key => $value) {
-			$cols[] = $key;
-			$pars[] = ':' . $key;
-			$vals[] = is_string($value) ? "'" . $value . "'" : $value;
+		$this->instance_fields = $this->getInstanceFields();
+
+		if (count($this->original_instance_fields) === 0 && count($this->instance_fields) > 0) {
+			$this->qb->reset();
+			$this->qb->insert($this->instance_fields);
+			$this->run();
+			return;
 		}
-		$params = array_combine($pars, $vals);
-		$c = implode(', ', $cols);
-		$v = implode(', ', $pars);
-		$sql = "INSERT INTO {$this->table} ({$c}) VALUES ({$v});";
-		return $this->db->qry($sql, $params);
-	}
-
-	public function update()
-	{
-		$this->extractParams();
-		$id = $this->params[$this->pk];
-		foreach ($this->params as $key => $value) {
-			if ($key !== $this->pk) {
-				$s[] = $key . ' = :' . $key;
+		if (count($this->original_instance_fields) > 0 && count($this->instance_fields) > 0) {
+			$dif = [];
+			foreach ($this->original_instance_fields as $key => $value) {
+				if (isset($this->instance_fields[$key]) && $this->instance_fields[$key] !== $value) {
+					$dif[$key] = $this->instance_fields[$key];
+				}
 			}
-			$pars[] = ':' . $key;
-			$vals[] = is_string($value) ? "'" . $value . "'" : $value;
+			if (!empty($dif)) {
+				$this->qb->reset();
+				$this->qb->update($dif)->where([["{$this->pk}", '=', $this->{$this->pk}]]);
+				$this->run();
+			}
+			return;
 		}
-		$set = implode(', ', $s);
-		$params = array_combine($pars, $vals);
-		$sql = "UPDATE {$this->table} SET {$set} WHERE {$this->pk} = :{$this->pk};";
-		return $this->db->qry($sql, $params);
+		throw new \Exception('Nije moguce uneti prazan red u tabelu');
 	}
-
+	
+	// FIXME: Da li da bude samo za odabrani model ili da moze da se bira sta se brise
 	public function delete($where)
 	{
 		list($column, $operator, $value) = $where;
@@ -228,7 +239,8 @@ abstract class Model
 		$params = [":where_{$column}" => $value];
 		return Db::qry($sql, $params);
 	}
-
+	
+	// FIXME: Da li da bude samo za odabrani model ili da moze da se bira sta se brise
 	public function deleteId(int $id)
 	{
 		$sql = "DELETE FROM `{$this->table}` WHERE `{$this->pk}` = :id";
@@ -236,16 +248,27 @@ abstract class Model
 		return Db::qry($sql, $params);
 	}
 
+	/**
+	 * Kada se nizanje zavrsi ovom metodom se vracaju redovi
+	 * 
+	 * @return array Niz Model-a koji predstavljaju red u tabeli
+	 */
 	public function get()
 	{
+		// INFO: Ovo ide za SELECT
 		return $this->fetch($this->qb->getSql(), $this->qb->getParams());
 	}
 
+	/**
+	 * Kada se nizanje zavrsi ovom metodom se izvrsava upit
+	 * 
+	 * @return \PDOStatement
+	 */
 	public function run()
 	{
-		return $this->query($this->qb->getSql(), $this->params);
+		// INFO: Ovo ide za INSERT, UPDATE i DELETE
+		return $this->query($this->qb->getSql(), $this->qb->getParams());
 	}
-	// FIXME: Dovde
 
 	/**
 	 * Vraca listu vrednosti iz enum ili set kolone
@@ -300,6 +323,7 @@ abstract class Model
 		return $data;
 	}
 
+	// FIXME:
 	protected function foundRows()
 	{
 		$count = $this->query("SELECT FOUND_ROWS() AS count;");
@@ -352,7 +376,7 @@ abstract class Model
 	 * RELACIJE
 	 */
 
-
+	// FIXME:
 	public function hasOne($model_class, $foreign_table_fk)
 	{
 		$m = new $model_class();
@@ -363,6 +387,7 @@ abstract class Model
 		return $result[0];
 	}
 
+	// FIXME:
 	public function belongsTo($model_class, $this_table_fk)
 	{
 		$m = new $model_class();
@@ -372,6 +397,7 @@ abstract class Model
 		return $result;
 	}
 
+	// FIXME:
 	public function hasMany($model_class, $foreign_table_fk)
 	{
 		$m = new $model_class();
@@ -382,6 +408,7 @@ abstract class Model
 		return $result;
 	}
 
+	// FIXME:
 	public function belongsToMany($model_class, $pivot_table, $pt_this_table_fk, $pt_foreign_table_fk)
 	{
 		$m = new $model_class();
@@ -474,13 +501,46 @@ abstract class Model
 	}
 
 	/**
+	 * Vraca polja sa originalnim vrednostima instance modela
+	 *
+	 * @return array
+	 */
+	public function getOriginalInstanceFields()
+	{
+		return $this->original_instance_fields;
+	}
+
+	/**
 	 * Vraca polja sa vrednostima instance modela
 	 *
 	 * @return array
 	 */
 	public function getInstanceFields()
 	{
+		$this->instance_fields = $this->extractInstanceFields();
 		return $this->instance_fields;
+	}
+
+	/**
+	 * Vraca kolone tabele
+	 *
+	 * @return array
+	 */
+	public function getTableFields()
+	{
+		$this->extractTableFields();
+		return $this->table_fields;
+	}
+
+	/**
+	 * Vraca kljuceve tabele
+	 *
+	 * @return array
+	 */
+	public function getTableKeys()
+	{
+		$this->extractTableKeys();
+		return $this->table_keys;
 	}
 
 }
