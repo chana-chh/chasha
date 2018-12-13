@@ -535,3 +535,16 @@
 [13-Dec-2018 14:45:05 Europe/Belgrade] PHP Notice:  Undefined variable: pa in C:\xampp\htdocs\chasha\app\classes\Model.php on line 374
 [13-Dec-2018 14:45:07 Europe/Belgrade] PHP Notice:  Undefined variable: pages in C:\xampp\htdocs\chasha\app\classes\Model.php on line 374
 [13-Dec-2018 14:46:07 Europe/Belgrade] PHP Notice:  Undefined variable: pa in C:\xampp\htdocs\chasha\app\classes\Model.php on line 395
+[13-Dec-2018 19:40:20 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:41:15 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:41:47 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:41:48 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:41:54 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:42:28 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:42:50 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:42:52 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:43:45 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:44:39 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:44:40 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:45:08 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[13-Dec-2018 19:45:09 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18

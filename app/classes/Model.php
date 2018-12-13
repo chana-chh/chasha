@@ -55,11 +55,7 @@ abstract class Model
 	 * Konfiguracija za model
 	 * @var array
 	 */
-	protected $pagination_config = [
-		'per_page' => 10,
-		'page_span' => 4,
-		'css_class' => 'pgn-btn',
-	];
+	protected $pagination_config;
 
 	/**
 	 * Kolone u tabeli
@@ -93,7 +89,10 @@ abstract class Model
 	 */
 	public function __construct($qb = null)
 	{
-		$this->db = new Db;
+		$this->db = Config::$container['db'];
+
+		$this->pagination_config = Config::$config['pagination'];
+
 		if ($qb) {
 			if ($qb->getTable() !== $this->table) {
 				throw new \Exception('Tabela iz QueryBuilder-a ne odgovara tabeli iz Model-a');
@@ -104,6 +103,8 @@ abstract class Model
 		}
 		$this->model = get_class($this);
 		$this->original_instance_fields = $this->extractInstanceFields();
+		$this->extractTableFields();
+		$this->extractTableKeys();
 	}
 
 	/**
@@ -112,11 +113,11 @@ abstract class Model
 	protected function extractInstanceFields()
 	{
 		$fields = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
-		$res = [];
+		$result = [];
 		foreach ($fields as $field) {
-			$res[$field->name] = $this->{$field->name};
+			$result[$field->name] = $this->{$field->name};
 		}
-		return $res;
+		return $result;
 	}
 
 	/**
@@ -317,7 +318,7 @@ abstract class Model
 
 	/**
 	 * Vraca podatke i linkove za stranicu
-	 * 
+	 *
 	 * @param integer $page Broj stranice
 	 * @param integer $perpage Broj redova na stranici
 	 * @return array podaci + linkovi
@@ -335,7 +336,7 @@ abstract class Model
 
 	/**
 	 * Vraca podatke za stranicu
-	 * 
+	 *
 	 * @param integer $page Broj stranice
 	 * @param integer $perpage Broj redova na stranici
 	 * @return array \App\Classes\Model Niz modela sa podacima
@@ -413,9 +414,9 @@ abstract class Model
 
 	/**
 	 * Vraca Model povezan kao has one
-	 * 
+	 *
 	 * one to one (vraca dete)
-	 * 
+	 *
 	 * @param string $model_class Klasa deteta
 	 * @param string $foreign_table_fk
 	 * @return \App\Classes\Model Instanca deteta
@@ -429,10 +430,10 @@ abstract class Model
 
 	/**
 	 * Vraca Model povezan kao belongs to
-	 * 
+	 *
 	 * one to one (vraca roditelja)
 	 * one to many (vraca roditelja)
-	 * 
+	 *
 	 * @param string $model_class Klasa roditelja
 	 * @param string $this_table_fk
 	 * @return \App\Classes\Model Instanca roditelja
@@ -446,9 +447,9 @@ abstract class Model
 
 	/**
 	 * Vraca Modele povezane kao has many
-	 * 
+	 *
 	 * one to many (vraca decu)
-	 * 
+	 *
 	 * @param string $model_class Klasa deteta
 	 * @param string $foreign_table_fk
 	 * @return array \App\Classes\Model Niz instanci dece
@@ -462,9 +463,9 @@ abstract class Model
 
 	/**
 	 * Vraca Modele povezane kao belongs to many
-	 * 
+	 *
 	 * many to many (vraca drugu stranu pivot tabele)
-	 * 
+	 *
 	 * @param string $model_class Klasa druge strane
 	 * @param string $pivot_table Naziv pivot tabele
 	 * @param string $pt_this_table_fk FK ove strane u pivot tabeli

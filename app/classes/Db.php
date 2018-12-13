@@ -14,7 +14,7 @@
 
 namespace App\Classes;
 
-use PDO;
+use \PDO;
 
 /**
  * Db za PDO MySQL
@@ -49,32 +49,14 @@ class Db
 	private $lastQuery;
 
 	/**
-	 * PDO konfiguracija
-	 * @var array
-	 */
-	private $config = [
-		'dsn' => 'mysql:host=127.0.0.1;dbname=jp;charset=utf8mb4',
-		'username' => 'root',
-		'password' => '',
-		'options' => [
-			PDO::ATTR_PERSISTENT => true,
-			PDO::ATTR_EMULATE_PREPARES => false, // [true] za php verzije manje od 5.1.17 ?
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-			// PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4', // za php verzije manje od 5.3.6 ?
-			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-		],
-	];
-
-	/**
 	 * Konstruktor
 	 *
 	 * Postavlja instancu PDO konekcije na bazu
 	 */
-	public function __construct()
+	public function __construct($config)
 	{
 		try {
-			$this->pdo = new PDO($this->config['dsn'], $this->config['username'], $this->config['password'], $this->config['options']);
+			$this->pdo = new PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
 		} catch (PDOException $e) {
 			self::$error = $e->getMessage();
 		}

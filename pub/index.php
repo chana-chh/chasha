@@ -1,5 +1,7 @@
 <?php
 
+use App\Classes\Config;
+
 /**
  * ChaSha
  *
@@ -13,5 +15,5 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'ini.php';
 
 session_start();
-
+Config::$container = $container;
 $app->run();

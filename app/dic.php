@@ -18,7 +18,8 @@ $container = $app->getContainer();
 
 // PDO wrapper - db
 $container['db'] = function ($container) {
-    $db = new \App\Classes\Db;
+    $config = $container['settings']['db'];
+    $db = new \App\Classes\Db($config);
     return $db;
 };
 

@@ -16,17 +16,17 @@ class HomeController extends Controller
 		$qb = new QueryBuilder('predmeti');
 
 		// SELECT
-		$qb->select(['id', 'broj', 'godina']);
-		$qb->leftJoin('vezana', 'vezana_id', 'id');
-		$qb->join('druga', 'druga_id', 'id');
-		$qb->where([['id', '>=', 500]])->orWhere([['broj', '<', 1000]]);
-		$qb->where([['godina', 'BETWEEN', [2000, 2010]]])->orWhere([['napomena', '=', 'chana']]);
-		$qb->groupBy(['id DESC']);
-		$qb->having([['SUM(broj)', '>', 5623]])->orHaving([['godina', '>', 2017]]);
-		$qb->having([['godina', 'NOT BETWEEN', [2000, 2010]]])->orHaving([['broj', 'IN', [222, 333, 444, 555]]]);
-		$qb->orderBy(['godina DESC']);
-		$qb->limit(100);
-		$qb->offset(500);
+		// $qb->select(['id', 'broj', 'godina']);
+		// $qb->leftJoin('vezana', 'vezana_id', 'id');
+		// $qb->join('druga', 'druga_id', 'id');
+		// $qb->where([['id', '>=', 500]])->orWhere([['broj', '<', 1000]]);
+		// $qb->where([['godina', 'BETWEEN', [2000, 2010]]])->orWhere([['napomena', '=', 'chana']]);
+		// $qb->groupBy(['id DESC']);
+		// $qb->having([['SUM(broj)', '>', 5623]])->orHaving([['godina', '>', 2017]]);
+		// $qb->having([['godina', 'NOT BETWEEN', [2000, 2010]]])->orHaving([['broj', 'IN', [222, 333, 444, 555]]]);
+		// $qb->orderBy(['godina DESC']);
+		// $qb->limit(100);
+		// $qb->offset(500);
 
 		// dd($qb->tes());
 
@@ -48,9 +48,6 @@ class HomeController extends Controller
 
 
 		$model = new Predmet;
-		// $model->select();
-		// $model->limit(1);
-		// $model->offset(1);
 
 		$rezultat = $model->select()->where([['vrsta_upisnika_id','=',6]])->paginate(1)['data'];
 
