@@ -23,10 +23,10 @@ class QueryBuilder
 	/**
 	 * Konstante za tip upita
 	 */
-	protected const SELECT = 1;
-	protected const INSERT = 2;
-	protected const UPDATE = 3;
-	protected const DELETE = 4;
+	public const SELECT = 1;
+	public const INSERT = 2;
+	public const UPDATE = 3;
+	public const DELETE = 4;
 
 	/**
 	 * Tip upita SELECT, INSERT, UPDATE, DELETE
@@ -51,6 +51,12 @@ class QueryBuilder
 	 * @var boolean
 	 */
 	protected $distinct = false;
+
+	/**
+	 * Da li je upit koristi SQL_CALC_FOUND_ROWS
+	 * @var boolean
+	 */
+	protected $sql_calc_foun_rows = false;
 
 	/**
 	 * WHERE za SELECT, UPDATE, DELETE
@@ -278,6 +284,23 @@ class QueryBuilder
 			throw new \Exception('DISTINCT moze samo uz SELECT tip upita!');
 		}
 		$this->distinct = true;
+		return $this;
+	}
+
+	/**
+	 * DISTINCT - upit
+	 *
+	 * $qb->distinct();
+	 *
+	 * @return \App\Classes\QueryBuilder $this
+	 * @throws \Exception Ako nije zapocet SELECT tip upita
+	 */
+	public function calcFoundRows()
+	{
+		if ($this->type !== $this::SELECT) {
+			throw new \Exception('SQL_CALC_FOUND_ROWS moze samo uz SELECT tip upita!');
+		}
+		$this->sql_calc_foun_rows = true;
 		return $this;
 	}
 
@@ -620,6 +643,9 @@ class QueryBuilder
 		if ($this->distinct) {
 			$sql .= "DISTINCT ";
 		}
+		if ($this->sql_calc_foun_rows) {
+			$sql .= "SQL_CALC_FOUND_ROWS ";
+		}
 		$columns = $this->columns ? implode(', ', $this->columns) : '*';
 		$sql .= $columns;
 		$sql .= " FROM {$this->table}";
@@ -850,6 +876,16 @@ class QueryBuilder
 	}
 
 	/**
+	 * Vraca tip upita
+	 *
+	 * @return integer
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
 	 * Vraca naziv tabele
 	 *
 	 * @return string
@@ -897,11 +933,16 @@ class QueryBuilder
 		return $this->sql;
 	}
 
-	public function tes()
+	public function getSqlWithParams()
 	{
 		$sql = str_replace('?', '%s', $this->getSql());
-		$tes = vsprintf($sql, $this->parameters);
-		return $tes;
+		$res = vsprintf($sql, $this->parameters);
+		return $res;
+	}
+
+	public function canPaginate()
+	{
+		return !$this->limit && !$this->offset;
 	}
 
 }

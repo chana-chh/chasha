@@ -17,4 +17,9 @@ class Predmet extends Model
 	{
 		return $this->belongsTo('App\Models\VrstaUpisnika', 'vrsta_upisnika_id');
 	}
+
+	public function tuzioci()
+	{
+		return $this->belongsToMany('App\Models\Komintent', 'tuzioci', 'predmet_id', 'komintent_id');
+	}
 }

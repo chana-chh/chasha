@@ -4,10 +4,9 @@ namespace App\Controllers;
 
 use App\Models\Predmet;
 use App\Models\Korisnik;
+use App\Models\Komintent;
 use App\Models\VrstaUpisnika;
 use App\Classes\QueryBuilder;
-use App\Classes\ClosureTest;
-use App\Classes\CTT;
 use App\Classes\Validator;
 
 class HomeController extends Controller
@@ -48,16 +47,16 @@ class HomeController extends Controller
 		// $qb->delete()->where([['id', '=', 3]])->orderBy(['broj DESC'])->limit(1);
 
 
-		$model = new VrstaUpisnika;
-		$model->select();
-		$model->limit(5);
-		$model->offset(1);
+		$model = new Predmet;
+		// $model->select();
+		// $model->limit(1);
+		// $model->offset(1);
 
-		$rezultat = $model->get();
+		$rezultat = $model->select()->where([['vrsta_upisnika_id','=',6]])->paginate(1)['data'];
 
-		$params = $qb->getParams();
-		$sql1 = $qb->getSql();
-		$sql2 = $qb->tes();
+		$params = $model->getParams();
+		$sql1 = $model->getSql();
+		$sql2 = $model->getSqlWithParams();
 
 		$this->render($response, 'home.twig', compact('params', 'sql1', 'sql2', 'rezultat'));
 	}

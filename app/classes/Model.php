@@ -55,9 +55,10 @@ abstract class Model
 	 * Konfiguracija za model
 	 * @var array
 	 */
-	protected $config = [
+	protected $pagination_config = [
 		'per_page' => 10,
-		'page_span' => 10,
+		'page_span' => 4,
+		'css_class' => 'pgn-btn',
 	];
 
 	/**
@@ -314,121 +315,169 @@ abstract class Model
 		}
 	}
 
-	// FIXME:
-	public function pagination($page, $perpage, $span, $sql, $params = null)
+	/**
+	 * Vraca podatke i linkove za stranicu
+	 * 
+	 * @param integer $page Broj stranice
+	 * @param integer $perpage Broj redova na stranici
+	 * @return array podaci + linkovi
+	 * @throws \Exception Ako je vec postavljen limit ili offset
+	 */
+	public function paginate($page, $perpage = null)
 	{
-		$data = $this->pageData($page, $perpage, $sql, $params);
-		$links = $this->pageLinks($page, $perpage, $span);
-		return ['data' => $data, 'links' => $links];
+		if ($this->qb->canPaginate()) {
+			$data = $this->pageData($page, $perpage);
+			$links = $this->pageLinks($page, $perpage);
+			return ['data' => $data, 'links' => $links];
+		}
+		throw new \Exception('Ne moze paginacija kada postoji limit ili offset');
 	}
 
-	// FIXME:
-	public function pageData($page, $perpage, $sql, $params = null)
+	/**
+	 * Vraca podatke za stranicu
+	 * 
+	 * @param integer $page Broj stranice
+	 * @param integer $perpage Broj redova na stranici
+	 * @return array \App\Classes\Model Niz modela sa podacima
+	 * @throws \Exception Ako tip upita nije SELECT
+	 */
+	protected function pageData($page, $perpage = null)
 	{
-		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $sql);
-		$start = ($page - 1) * $perpage;
-		$limit = $perpage;
-		$offset = $start;
-		$sql = rtrim($sql, ';');
-		$sql .= " LIMIT {$limit} OFFSET {$offset};";
-		$data = $this->query($sql, $params);
+		if ($this->qb->getType() !== $this->qb::SELECT) {
+			throw new \Exception('Paginacija moze samo iz SELECT tip upita');
+		}
+		if (!$perpage) {
+			$perpage = $this->pagination_config['per_page'];
+		}
+		$offset = ($page - 1) * $perpage;
+		$this->qb->calcFoundRows()->limit($perpage)->offset($offset);
+		$data = $this->get();
 		return $data;
 	}
 
-	// FIXME:
+	/**
+	 * Vraca broj redova poslednjeg upita bez limita
+	 */
 	protected function foundRows()
 	{
-		$count = $this->query("SELECT FOUND_ROWS() AS count;");
-		return (int)$count[0]->count;
+		$count = $this->db->sel("SELECT FOUND_ROWS() AS count;");
+		return (int)$count->count;
 	}
 
 	// FIXME:
-	public function pageLinks($page, $perpage, $span)
+	protected function pageLinks($page, $perpage = null)
 	{
+		if (!$perpage) {
+			$perpage = $this->pagination_config['per_page'];
+		}
+		$span = $this->pagination_config['page_span'];
 		$count = $this->foundRows();
-		$url = App::instance()->router->getCurrentUriName();
+		// $url = App::instance()->router->getCurrentUriName();
 		$pages = (int)ceil($count / $perpage);
+		$full_span = ($span * 2 + 1) > $pages ? $pages : $span * 2 + 1;
 		$prev = ($page > 2) ? $page - 1 : 1;
 		$next = ($page < $pages) ? $page + 1 : $pages;
 		$disabled_begin = ($page === 1) ? " disabled" : "";
 		$disabled_end = ($page === $pages) ? " disabled" : "";
 		$span_begin = $page - $span;
 		$start = $span_begin <= 1 ? 1 : $span_begin;
-		$span_end = $start + 2 * $span;
-		if ($span_end >= $pages) {
-			$end = $pages;
-			$start = $end - 2 * $span;
-			$start = $start <= 1 ? 1 : $start;
-		} else {
-			$end = $span_end;
-		}
+		$span_end = $page + $span;
+		// if ($span_end >= $pages) {
+			// 	$end = $pages;
+			// 	$start = $end - 2 * $span;
+			// 	$start = $start <= 1 ? 1 : $start;
+			// } else {
+				// 	$end = $span_end;
+				// }
 		$zapis_od = (($page - 1) * $perpage) + 1;
 		$zapis_do = ($zapis_od + $perpage) - 1;
 		$zapis_do = $zapis_do >= $count ? $count : $zapis_do;
-		$links = '<a class="pagination-button" href="' . $url . '/1"' . $disabled_begin . '>&lt;&lt;</a>';
-		$links .= '<a class="pagination-button" href="' . $url . '/' . $prev . '"' . $disabled_begin . '>&lt;</a>&nbsp;';
-		for ($i = $start; $i <= $end; $i++) {
-			$current = '';
-			if ($page === $i) {
-				$current = ' current-page';
-			}
-			$links .= '<a class="pagination-button' . $current . '" href="' . $url . '/' . $i . '">' . $i . '</a>';
-		}
-		$links .= '&nbsp;<a class="pagination-button" href="' . $url . '/' . $next . '"' . $disabled_end . '>&gt;</a>';
-		$links .= '<a class="pagination-button" href="' . $url . '/' . $pages . '"' . $disabled_end . '>&gt;&gt;</a>';
-		$links .= '<br><span class="pagination-info">Strana '
-			. $page . ' od ' . $pages
-			. ' | Prikazani su zapisi od ' . $zapis_od . ' do ' . $zapis_do
-			. ' | Ukupan broj zapisa: ' . $count . '</span>';
+		dd($full_span, true);
+		// $links = '<a class="pagination-button" href="' . $url . '/1"' . $disabled_begin . '>&lt;&lt;</a>';
+		// $links .= '<a class="pagination-button" href="' . $url . '/' . $prev . '"' . $disabled_begin . '>&lt;</a>&nbsp;';
+		// for ($i = $start; $i <= $end; $i++) {
+		// 	$current = '';
+		// 	if ($page === $i) {
+		// 		$current = ' current-page';
+		// 	}
+		// 	$links .= '<a class="pagination-button' . $current . '" href="' . $url . '/' . $i . '">' . $i . '</a>';
+		// }
+		// $links .= '&nbsp;<a class="pagination-button" href="' . $url . '/' . $next . '"' . $disabled_end . '>&gt;</a>';
+		// $links .= '<a class="pagination-button" href="' . $url . '/' . $pages . '"' . $disabled_end . '>&gt;&gt;</a>';
+		// $links .= '<br><span class="pagination-info">Strana '
+		// 	. $page . ' od ' . $pages
+		// 	. ' | Prikazani su zapisi od ' . $zapis_od . ' do ' . $zapis_do
+		// 	. ' | Ukupan broj zapisa: ' . $count . '</span>';
 		return $links;
 	}
 
-
-	/*
-	 * RELACIJE
+	/**
+	 * Vraca Model povezan kao has one
+	 * 
+	 * one to one (vraca dete)
+	 * 
+	 * @param string $model_class Klasa deteta
+	 * @param string $foreign_table_fk
+	 * @return \App\Classes\Model Instanca deteta
 	 */
-
-	// FIXME:
 	public function hasOne($model_class, $foreign_table_fk)
 	{
 		$m = new $model_class();
-		$sql = "SELECT * FROM `{$m->getTable()}` WHERE `{$foreign_table_fk}` = :fk;";
-		$pk = $this->getPrimaryKey();
-		$params = [':fk' => $this->$pk];
-		$result = $this->db->sel($sql, $params, $model_class);
-		return $result[0];
+		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->limit(1)->get();
+		return $result;
 	}
 
-	// FIXME:
+	/**
+	 * Vraca Model povezan kao belongs to
+	 * 
+	 * one to one (vraca roditelja)
+	 * one to many (vraca roditelja)
+	 * 
+	 * @param string $model_class Klasa roditelja
+	 * @param string $this_table_fk
+	 * @return \App\Classes\Model Instanca roditelja
+	 */
 	public function belongsTo($model_class, $this_table_fk)
 	{
 		$m = new $model_class();
-		$sql = "SELECT * FROM `{$m->getTable()}` WHERE `{$m->getPrimaryKey()}` = :fk;";
-		$params = [':fk' => $this->$this_table_fk];
-		$result = $this->db->sel($sql, $params, $model_class);
+		$result = $m->find($this->$this_table_fk);
 		return $result;
 	}
 
-	// FIXME:
+	/**
+	 * Vraca Modele povezane kao has many
+	 * 
+	 * one to many (vraca decu)
+	 * 
+	 * @param string $model_class Klasa deteta
+	 * @param string $foreign_table_fk
+	 * @return array \App\Classes\Model Niz instanci dece
+	 */
 	public function hasMany($model_class, $foreign_table_fk)
 	{
 		$m = new $model_class();
-		$sql = "SELECT * FROM `{$m->getTable()}` WHERE `{$foreign_table_fk}` = :pk;";
-		$pk = $this->getPrimaryKey();
-		$params = [':pk' => $this->$pk];
-		$result = $this->db->sel($sql, $params, $model_class);
+		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
 		return $result;
 	}
 
-	// FIXME:
+	/**
+	 * Vraca Modele povezane kao belongs to many
+	 * 
+	 * many to many (vraca drugu stranu pivot tabele)
+	 * 
+	 * @param string $model_class Klasa druge strane
+	 * @param string $pivot_table Naziv pivot tabele
+	 * @param string $pt_this_table_fk FK ove strane u pivot tabeli
+	 * @param string $pt_foreign_table_fk FK druge strane u pivot tabeli
+	 * @return array \App\Classes\Model Niz instanci druge strane
+	 */
 	public function belongsToMany($model_class, $pivot_table, $pt_this_table_fk, $pt_foreign_table_fk)
 	{
 		$m = new $model_class();
-		$tbl = $m->getTable();
-		$pk = $this->getPrimaryKey();
-		$params = [':pk' => $this->$pk];
-		$sql = "SELECT `{$tbl}`.* FROM `{$tbl}` JOIN `{$pivot_table}` ON `{$tbl}`.`{$m->getPrimaryKey()}` = `{$pivot_table}`.`{$pt_foreign_table_fk}` WHERE `{$pivot_table}`.`{$pt_this_table_fk}` = :pk;";
-		$result = $this->db->sel($sql, $params, $model_class);
+		$result = $m->select()
+			->join($pivot_table, $m->getPrimaryKey(), $pt_foreign_table_fk)
+			->where([[$pivot_table . '.' . $pt_this_table_fk, '=', $this->{$this->pk}]])
+			->get();
 		return $result;
 	}
 
@@ -559,12 +608,17 @@ abstract class Model
 	{
 		if (is_callable([$this->qb, $method])) {
 			if ($arguments) {
-				$this->qb->$method($arguments[0]);
+				$this->qb->$method(...$arguments);
 			} else {
 				$this->qb->$method();
 			}
 			return $this;
 		}
+	}
+
+	public function getSqlWithParams()
+	{
+		return $this->qb->getSqlWithParams();
 	}
 
 }
