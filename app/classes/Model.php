@@ -329,7 +329,10 @@ abstract class Model
 		if ($this->qb->canPaginate()) {
 			$data = $this->pageData($page, $perpage);
 			$links = $this->pageLinks($page, $perpage);
-			return ['data' => $data, 'links' => $links];
+			return [
+				'data' => $data,
+				'links' => $links,
+			];
 		}
 		throw new \Exception('Ne moze paginacija kada postoji limit ili offset');
 	}
@@ -352,6 +355,7 @@ abstract class Model
 		}
 		$offset = ($page - 1) * $perpage;
 		$this->qb->calcFoundRows()->limit($perpage)->offset($offset);
+		// TODO: novo svojstvo $found_rows_count = $this->foundRows() da se koristi kao total u pageLinks
 		$data = $this->get();
 		return $data;
 	}
@@ -368,13 +372,19 @@ abstract class Model
 	// FIXME:
 	protected function pageLinks($page, $perpage = null)
 	{
+		$links = [];
+		$links['current_page'] = $page;
 		if (!$perpage) {
 			$perpage = $this->pagination_config['per_page'];
 		}
+		$links['per_page'] = $perpage;
 		$span = $this->pagination_config['page_span'];
 		$count = $this->foundRows();
-		// $url = App::instance()->router->getCurrentUriName();
+		$links['rows_total'] = $count;
+		$uri = Config::$container['request']->getUri();
+		$links['uri'] = $uri;
 		$pages = (int)ceil($count / $perpage);
+		$links['pages_total'] = $pages;
 		$full_span = ($span * 2 + 1) > $pages ? $pages : $span * 2 + 1;
 		$prev = ($page > 2) ? $page - 1 : 1;
 		$next = ($page < $pages) ? $page + 1 : $pages;
@@ -393,7 +403,6 @@ abstract class Model
 		$zapis_od = (($page - 1) * $perpage) + 1;
 		$zapis_do = ($zapis_od + $perpage) - 1;
 		$zapis_do = $zapis_do >= $count ? $count : $zapis_do;
-		dd($full_span, true);
 		// $links = '<a class="pagination-button" href="' . $url . '/1"' . $disabled_begin . '>&lt;&lt;</a>';
 		// $links .= '<a class="pagination-button" href="' . $url . '/' . $prev . '"' . $disabled_begin . '>&lt;</a>&nbsp;';
 		// for ($i = $start; $i <= $end; $i++) {
@@ -429,6 +438,22 @@ abstract class Model
 	}
 
 	/**
+	 * Vraca Modele povezane kao has many
+	 *
+	 * one to many (vraca decu)
+	 *
+	 * @param string $model_class Klasa deteta
+	 * @param string $foreign_table_fk
+	 * @return array \App\Classes\Model Niz instanci dece
+	 */
+	public function hasMany($model_class, $foreign_table_fk)
+	{
+		$m = new $model_class();
+		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
+		return $result;
+	}
+
+	/**
 	 * Vraca Model povezan kao belongs to
 	 *
 	 * one to one (vraca roditelja)
@@ -442,22 +467,6 @@ abstract class Model
 	{
 		$m = new $model_class();
 		$result = $m->find($this->$this_table_fk);
-		return $result;
-	}
-
-	/**
-	 * Vraca Modele povezane kao has many
-	 *
-	 * one to many (vraca decu)
-	 *
-	 * @param string $model_class Klasa deteta
-	 * @param string $foreign_table_fk
-	 * @return array \App\Classes\Model Niz instanci dece
-	 */
-	public function hasMany($model_class, $foreign_table_fk)
-	{
-		$m = new $model_class();
-		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
 		return $result;
 	}
 

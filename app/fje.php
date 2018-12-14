@@ -90,7 +90,7 @@ function dd($var, $print = false, $die = true, $backtrace = false)
     echo '</pre>';
 
     if (gettype($var) === 'object') {
-        echo '<h3 style="color:#090">Object: ' . get_class($var) . '</h1>';
+        echo '<h3 style="color:#090">OBJECT: ' . get_class($var) . '</h1>';
         echo '<pre style="background-color:#dfd; color:#000; padding:1rem;">';
         print_r(get_class_methods($var));
         echo '</pre>';

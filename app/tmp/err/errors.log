@@ -548,3 +548,149 @@
 [13-Dec-2018 19:44:40 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
 [13-Dec-2018 19:45:08 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
 [13-Dec-2018 19:45:09 Europe/Belgrade] PHP Fatal error:  Class 'App\Classes\PDO' not found in D:\xampp\htdocs\chasha\pub\index.php on line 18
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Undefined variable: links in C:\xampp\htdocs\chasha\app\classes\Model.php on line 412
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:38:41 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 08:41:09 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:35:33 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 65
+[14-Dec-2018 09:35:33 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:35:34 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 65
+[14-Dec-2018 09:35:34 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:35:40 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 65
+[14-Dec-2018 09:35:40 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:35:40 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 65
+[14-Dec-2018 09:35:40 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:37:14 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:37:14 Europe/Belgrade] PHP Notice:  Array to string conversion in C:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 40
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:22 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:42:26 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:53:32 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:12 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:33 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:43 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:45 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:57:46 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 09:58:07 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:18 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:03:29 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:35 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:09:51 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:44 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:10:48 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:11:59 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:15 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:16 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:16 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:16 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:16 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:16 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:12:36 Europe/Belgrade] PHP Notice:  Trying to get property 'slovo' of non-object in C:\xampp\htdocs\chasha\app\models\Predmet.php on line 13
+[14-Dec-2018 10:40:27 Europe/Belgrade] PHP Notice:  Undefined property: Slim\Http\Uri::$get in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 65
+[14-Dec-2018 11:25:19 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 63
+[14-Dec-2018 11:32:12 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 63
+[14-Dec-2018 13:00:39 Europe/Belgrade] PHP Notice:  Undefined index: id in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 63
+[14-Dec-2018 13:00:43 Europe/Belgrade] PHP Notice:  Undefined index: id in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 63
+[14-Dec-2018 13:00:44 Europe/Belgrade] PHP Notice:  Undefined index: id in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 63
+[14-Dec-2018 13:23:35 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
+[14-Dec-2018 13:24:47 Europe/Belgrade] PHP Notice:  Undefined variable: links in C:\xampp\htdocs\chasha\app\classes\Model.php on line 411
+[14-Dec-2018 13:49:30 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67

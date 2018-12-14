@@ -108,6 +108,7 @@ class Db
 			} else {
 				$data = $stmt->fetchAll();
 			}
+			$this->count = (int)$stmt->rowCount();
 		} catch (PDOException $e) {
 			$this->error = $e->getMessage();
 		}

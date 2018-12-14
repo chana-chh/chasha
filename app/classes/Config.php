@@ -11,8 +11,9 @@ class Config
     public static $config = [
         'pagination' => [
             'per_page' => 10,
-            'page_span' => 4,
+            'page_span' => 3,
             'css_class' => 'pgn-btn',
+            'css_current_class' => 'pgn-cur-btn',
         ],
     ];
 }

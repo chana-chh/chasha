@@ -1,0 +1,38 @@
+{% extends "templates/app.twig" %}
+
+{% block sadrzaj %}
+<h1>Pagination</h1>
+
+<h2>Data</h2>
+<ul>
+    {% for d in data %}
+    <li>{{ d.broj() }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Links</h2>
+<table style="width: 100%;">
+    <tr>
+        <th style="text-align: left; width: 10%;">current_page</th>
+        <td>{{ links.current_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">pages_total</th>
+        <td>{{ links.pages_total }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">per_page</th>
+        <td>{{ links.per_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">rows_total</th>
+        <td>{{ links.rows_total }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">uri</th>
+        <td>{{ links.uri }}</td>
+    </tr>
+</table>
+
+
+{% endblock sadrzaj %}

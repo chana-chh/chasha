@@ -49,13 +49,28 @@ class HomeController extends Controller
 
 		$model = new Predmet;
 
-		$rezultat = $model->select()->where([['vrsta_upisnika_id','=',6]])->paginate(1)['data'];
+		$rezultat = $model->select()->where([['vrsta_upisnika_id', '=', 1]])->limit(3)->get();
 
 		$params = $model->getParams();
 		$sql1 = $model->getSql();
 		$sql2 = $model->getSqlWithParams();
 
 		$this->render($response, 'home.twig', compact('params', 'sql1', 'sql2', 'rezultat'));
+	}
+
+	public function getPagination($request, $response, $args)
+	{
+		$id = (int)$args['vrsta_upisnika_id']; // 1 - 9
+
+		$query = [];
+		parse_str($request->getUri()->getQuery(), $query);
+		$page = (int)$query['page'];
+
+		$model = new Predmet;
+		$rezultat = $model->select()->where([['vrsta_upisnika_id', '=', $id]])->paginate($page);
+		$data = $rezultat['data'];
+		$links = $rezultat['links'];
+		$this->render($response, 'pagination.twig', compact('data', 'links'));
 	}
 
 }
