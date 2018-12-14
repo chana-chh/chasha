@@ -694,3 +694,12 @@
 [14-Dec-2018 13:23:35 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
 [14-Dec-2018 13:24:47 Europe/Belgrade] PHP Notice:  Undefined variable: links in C:\xampp\htdocs\chasha\app\classes\Model.php on line 411
 [14-Dec-2018 13:49:30 Europe/Belgrade] PHP Notice:  Undefined index: page in C:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
+[14-Dec-2018 17:36:04 Europe/Belgrade] PHP Notice:  Undefined index: page in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
+[14-Dec-2018 17:36:50 Europe/Belgrade] PHP Notice:  Undefined index: page in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
+[14-Dec-2018 17:37:40 Europe/Belgrade] PHP Notice:  Undefined index: page in D:\xampp\htdocs\chasha\app\controllers\HomeController.php on line 67
+[14-Dec-2018 17:47:35 Europe/Belgrade] PHP Notice:  Object of class stdClass could not be converted to int in D:\xampp\htdocs\chasha\app\classes\Model.php on line 392
+[14-Dec-2018 17:47:35 Europe/Belgrade] PHP Notice:  Object of class stdClass could not be converted to int in D:\xampp\htdocs\chasha\app\classes\Model.php on line 411
+[14-Dec-2018 17:47:35 Europe/Belgrade] PHP Recoverable fatal error:  Object of class stdClass could not be converted to string in D:\xampp\htdocs\chasha\vendor\twig\twig\lib\Twig\Environment.php(378) : eval()'d code on line 83
+[14-Dec-2018 17:47:56 Europe/Belgrade] PHP Notice:  Object of class stdClass could not be converted to int in D:\xampp\htdocs\chasha\app\classes\Model.php on line 392
+[14-Dec-2018 17:47:56 Europe/Belgrade] PHP Notice:  Object of class stdClass could not be converted to int in D:\xampp\htdocs\chasha\app\classes\Model.php on line 411
+[14-Dec-2018 21:44:11 Europe/Belgrade] PHP Notice:  Undefined variable: uri in D:\xampp\htdocs\chasha\app\classes\Model.php on line 393

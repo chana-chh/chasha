@@ -12,6 +12,8 @@
 
 namespace App\Classes;
 
+use App\Classes\Paginator;
+
 /**
  * Model
  *
@@ -80,6 +82,12 @@ abstract class Model
 	 * @var array
 	 */
 	protected $instance_fields;
+
+	/**
+	 * Ukupan broj redova za paginaciju
+	 * @var integer
+	 */
+	protected $qb_rows_count;
 
 	/**
 	 * Konstruktor
@@ -328,11 +336,8 @@ abstract class Model
 	{
 		if ($this->qb->canPaginate()) {
 			$data = $this->pageData($page, $perpage);
-			$links = $this->pageLinks($page, $perpage);
-			return [
-				'data' => $data,
-				'links' => $links,
-			];
+			$pagination = $this->pageLinks($page, $perpage);
+			return new Paginator($data, $pagination);
 		}
 		throw new \Exception('Ne moze paginacija kada postoji limit ili offset');
 	}
@@ -354,8 +359,9 @@ abstract class Model
 			$perpage = $this->pagination_config['per_page'];
 		}
 		$offset = ($page - 1) * $perpage;
-		$this->qb->calcFoundRows()->limit($perpage)->offset($offset);
-		// TODO: novo svojstvo $found_rows_count = $this->foundRows() da se koristi kao total u pageLinks
+
+		$this->qb_rows_count = $this->qb->getCountSql();
+		$this->qb->limit($perpage)->offset($offset);
 		$data = $this->get();
 		return $data;
 	}
@@ -379,45 +385,72 @@ abstract class Model
 		}
 		$links['per_page'] = $perpage;
 		$span = $this->pagination_config['page_span'];
-		$count = $this->foundRows();
+		$links['span'] = $span;
+		$cnt = $this->db->sel($this->qb_rows_count->getSql(), $this->qb_rows_count->getParams());
+		$count = (int)$cnt->row_count;
 		$links['rows_total'] = $count;
-		$uri = Config::$container['request']->getUri();
+		$u = Config::$container['request']->getUri();
+		$uri = $u->getBaseUrl() . '/' . $u->getPath();
 		$links['uri'] = $uri;
 		$pages = (int)ceil($count / $perpage);
 		$links['pages_total'] = $pages;
 		$full_span = ($span * 2 + 1) > $pages ? $pages : $span * 2 + 1;
+		$links['full_span'] = $full_span;
 		$prev = ($page > 2) ? $page - 1 : 1;
+		$links['prev_page'] = $prev;
 		$next = ($page < $pages) ? $page + 1 : $pages;
-		$disabled_begin = ($page === 1) ? " disabled" : "";
-		$disabled_end = ($page === $pages) ? " disabled" : "";
-		$span_begin = $page - $span;
-		$start = $span_begin <= 1 ? 1 : $span_begin;
-		$span_end = $page + $span;
-		// if ($span_end >= $pages) {
-			// 	$end = $pages;
-			// 	$start = $end - 2 * $span;
-			// 	$start = $start <= 1 ? 1 : $start;
-			// } else {
-				// 	$end = $span_end;
-				// }
+		$links['next_page'] = $next;
+		$start = $page - $span;
+		$end = $page + $span;
+		if ($page <= $span + 1) {
+			$start = 1;
+			$end = $full_span;
+		}
+		if ($page >= $pages - $span) {
+			$start = $pages - $span * 2;
+			$end = $pages;
+		}
+		if ($full_span >= $pages) {
+			$start = 1;
+			$end = $pages;
+		}
+		$links['span_start_page'] = $start;
+		$links['span_end_page'] = $end;
+
+		$disabled_begin = ($page === 1) ? " pgn-btn-disabled" : "";
+		$disabled_end = ($page === $pages) ? " pgn-btn-disabled" : "";
+
 		$zapis_od = (($page - 1) * $perpage) + 1;
 		$zapis_do = ($zapis_od + $perpage) - 1;
 		$zapis_do = $zapis_do >= $count ? $count : $zapis_do;
-		// $links = '<a class="pagination-button" href="' . $url . '/1"' . $disabled_begin . '>&lt;&lt;</a>';
-		// $links .= '<a class="pagination-button" href="' . $url . '/' . $prev . '"' . $disabled_begin . '>&lt;</a>&nbsp;';
-		// for ($i = $start; $i <= $end; $i++) {
-		// 	$current = '';
-		// 	if ($page === $i) {
-		// 		$current = ' current-page';
-		// 	}
-		// 	$links .= '<a class="pagination-button' . $current . '" href="' . $url . '/' . $i . '">' . $i . '</a>';
-		// }
-		// $links .= '&nbsp;<a class="pagination-button" href="' . $url . '/' . $next . '"' . $disabled_end . '>&gt;</a>';
-		// $links .= '<a class="pagination-button" href="' . $url . '/' . $pages . '"' . $disabled_end . '>&gt;&gt;</a>';
-		// $links .= '<br><span class="pagination-info">Strana '
-		// 	. $page . ' od ' . $pages
-		// 	. ' | Prikazani su zapisi od ' . $zapis_od . ' do ' . $zapis_do
-		// 	. ' | Ukupan broj zapisa: ' . $count . '</span>';
+
+		$links['row_from'] = $zapis_od;
+		$links['row_to'] = $zapis_do;
+
+		$buttons = "";
+		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_begin . '" href="' . $uri . '?page=1" tabindex="-1">1</a>';
+		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_begin . '" href="' . $uri . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
+		for ($i = $start; $i <= $end; $i++) {
+			$current = '';
+			if ($page === $i) {
+				$current = ' pgn-btn-disabled ' . $this->pagination_config['css_current_class'];
+			}
+			$buttons .= '<a class="' . $this->pagination_config['css_class'] . $current . '" href="' . $uri . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
+		}
+		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_end . '" href="' . $uri . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
+		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_end . '" href="' . $uri . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
+		$links['buttons'] = $buttons;
+		$goto = '<select class="pgn-goto" name="pgn-goto" id="pgn-goto">';
+		for ($i = 1; $i <= $pages; $i++) {
+			$selected = '';
+			if ($page === $i) {
+				$selected = ' selected';
+			}
+			$goto .= '<option value="' . $uri . '?page=' . $i . '"' . $selected . '>' . $i . '</option>';
+		}
+		$goto .= '</select>';
+		$links['select'] = $goto;
+
 		return $links;
 	}
 

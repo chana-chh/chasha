@@ -1,38 +1,80 @@
 {% extends "templates/app.twig" %}
 
 {% block sadrzaj %}
-<h1>Pagination</h1>
+<h1>Stranicenje</h1>
 
 <h2>Data</h2>
 <ul>
-    {% for d in data %}
+    {% for d in rezultat.data %}
     <li>{{ d.broj() }}</li>
     {% endfor %}
 </ul>
-
-<h2>Links</h2>
 <table style="width: 100%;">
     <tr>
-        <th style="text-align: left; width: 10%;">current_page</th>
-        <td>{{ links.current_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">pages_total</th>
-        <td>{{ links.pages_total }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">per_page</th>
-        <td>{{ links.per_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">rows_total</th>
-        <td>{{ links.rows_total }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">uri</th>
-        <td>{{ links.uri }}</td>
+        <td style="width:30%;">{{ rezultat.pagination.buttons|raw }}</td>
+        <td>Go to page: {{ rezultat.pagination.select|raw }}</td>
     </tr>
 </table>
 
+<h2>Pagination</h2>
+<table style="width: 100%;">
+    <tr>
+        <th style="text-align: left; width: 10%;">current_page</th>
+        <td>{{ rezultat.pagination.current_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">pages_total</th>
+        <td>{{ rezultat.pagination.pages_total }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">per_page</th>
+        <td>{{ rezultat.pagination.per_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">rows_total</th>
+        <td>{{ rezultat.pagination.rows_total }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">uri</th>
+        <td>{{ rezultat.pagination.uri }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">span</th>
+        <td>{{ rezultat.pagination.span }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">full_span</th>
+        <td>{{ rezultat.pagination.full_span }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">prev_page</th>
+        <td>{{ rezultat.pagination.prev_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">next_page</th>
+        <td>{{ rezultat.pagination.next_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">span_start_page</th>
+        <td>{{ rezultat.pagination.span_start_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">span_end_page</th>
+        <td>{{ rezultat.pagination.span_end_page }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">row_from</th>
+        <td>{{ rezultat.pagination.row_from }}</td>
+    </tr>
+    <tr>
+        <th style="text-align: left; width: 10%;">row_to</th>
+        <td>{{ rezultat.pagination.row_to }}</td>
+    </tr>
+</table>
+<script>
+    document.querySelector("#pgn-goto").addEventListener('change', function (e) {
+        location = this.value;
+    });
+</script>
 
 {% endblock sadrzaj %}

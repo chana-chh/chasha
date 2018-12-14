@@ -64,13 +64,11 @@ class HomeController extends Controller
 
 		$query = [];
 		parse_str($request->getUri()->getQuery(), $query);
-		$page = (int)$query['page'];
+		$page = isset($query['page']) ? (int)$query['page'] : 255;
 
 		$model = new Predmet;
 		$rezultat = $model->select()->where([['vrsta_upisnika_id', '=', $id]])->paginate($page);
-		$data = $rezultat['data'];
-		$links = $rezultat['links'];
-		$this->render($response, 'pagination.twig', compact('data', 'links'));
+		$this->render($response, 'pagination.twig', compact('rezultat'));
 	}
 
 }

@@ -945,4 +945,10 @@ class QueryBuilder
 		return !$this->limit && !$this->offset;
 	}
 
+	public function getCountSql()
+	{
+		$qb = clone $this;
+		$qb->columns = ['COUNT(*) AS row_count'];
+		return $qb;
+	}
 }
