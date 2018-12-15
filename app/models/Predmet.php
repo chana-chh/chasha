@@ -16,10 +16,20 @@ class Predmet extends Model
 	public function vrstaUpisnika()
 	{
 		return $this->belongsTo('App\Models\VrstaUpisnika', 'vrsta_upisnika_id');
+
+	}
+	public function vrstaPredmeta()
+	{
+		return $this->belongsTo('App\Models\VrstaPredmeta', 'vrsta_predmeta_id');
 	}
 
 	public function tuzioci()
 	{
 		return $this->belongsToMany('App\Models\Komintent', 'tuzioci', 'predmet_id', 'komintent_id');
+	}
+
+	public function tuzeni()
+	{
+		return $this->belongsToMany('App\Models\Komintent', 'tuzeni', 'predmet_id', 'komintent_id');
 	}
 }

@@ -12,4 +12,9 @@ class Komintent extends Model
     {
         return $this->belongsToMany('App\Models\Predmet', 'tuzioci', 'komintent_id', 'predmet_id');
     }
+
+    public function predmetiTuzeni()
+    {
+        return $this->belongsToMany('App\Models\Predmet', 'tuzeni', 'komintent_id', 'predmet_id');
+    }
 }

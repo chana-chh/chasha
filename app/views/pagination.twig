@@ -4,15 +4,41 @@
 <h1>Stranicenje</h1>
 
 <h2>Data</h2>
-<ul>
-    {% for d in rezultat.data %}
-    <li>{{ d.broj() }}</li>
+
+<table>
+    <tr>
+        <th style="width:10%;text-align:left;">Id</th>
+        <th style="width:15%;text-align:left;">Broj</th>
+        <th style="width:15%;text-align:left;">Vrsta predmeta</th>
+        <th style="width:20%;text-align:left;">Tuzioci</th>
+        <th style="width:20%;text-align:left;">Tuzeni</th>
+    </tr>
+    {% for d in predmeti.data %}
+    <tr>
+        <td>{{ d.id }}</td>
+        <td>{{ d.broj() }}</td>
+        <td>{{ d.vrstaPredmeta().naziv }}</td>
+        <td>
+            <ul>
+                {% for t1 in d.tuzioci() %}
+                <li>{{t1.naziv}}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <ul>
+                {% for t2 in d.tuzeni() %}
+                <li>{{t2.naziv}}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 <table style="width: 100%;">
     <tr>
-        <td style="width:30%;">{{ rezultat.pagination.buttons|raw }}</td>
-        <td>Go to page: {{ rezultat.pagination.select|raw }}</td>
+        <td style="width:30%;">{{ predmeti.pagination.buttons|raw }}</td>
+        <td>Go to page: {{ predmeti.pagination.select|raw }}</td>
     </tr>
 </table>
 
@@ -20,55 +46,55 @@
 <table style="width: 100%;">
     <tr>
         <th style="text-align: left; width: 10%;">current_page</th>
-        <td>{{ rezultat.pagination.current_page }}</td>
+        <td>{{ predmeti.pagination.current_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">pages_total</th>
-        <td>{{ rezultat.pagination.pages_total }}</td>
+        <td>{{ predmeti.pagination.pages_total }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">per_page</th>
-        <td>{{ rezultat.pagination.per_page }}</td>
+        <td>{{ predmeti.pagination.per_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">rows_total</th>
-        <td>{{ rezultat.pagination.rows_total }}</td>
+        <td>{{ predmeti.pagination.rows_total }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">uri</th>
-        <td>{{ rezultat.pagination.uri }}</td>
+        <td>{{ predmeti.pagination.uri }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span</th>
-        <td>{{ rezultat.pagination.span }}</td>
+        <td>{{ predmeti.pagination.span }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">full_span</th>
-        <td>{{ rezultat.pagination.full_span }}</td>
+        <td>{{ predmeti.pagination.full_span }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">prev_page</th>
-        <td>{{ rezultat.pagination.prev_page }}</td>
+        <td>{{ predmeti.pagination.prev_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">next_page</th>
-        <td>{{ rezultat.pagination.next_page }}</td>
+        <td>{{ predmeti.pagination.next_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span_start_page</th>
-        <td>{{ rezultat.pagination.span_start_page }}</td>
+        <td>{{ predmeti.pagination.span_start_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span_end_page</th>
-        <td>{{ rezultat.pagination.span_end_page }}</td>
+        <td>{{ predmeti.pagination.span_end_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">row_from</th>
-        <td>{{ rezultat.pagination.row_from }}</td>
+        <td>{{ predmeti.pagination.row_from }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">row_to</th>
-        <td>{{ rezultat.pagination.row_to }}</td>
+        <td>{{ predmeti.pagination.row_to }}</td>
     </tr>
 </table>
 <script>

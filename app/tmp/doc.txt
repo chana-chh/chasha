@@ -15,50 +15,37 @@
 @todo - Document changes that will be made in the future
 @var - Document the data type of a class variable
 
-Name						Description
-AND, &&						Logical AND
-=							Assign a value (part of a SET statement, part of the SET clause in an UPDATE statement)
-:=							Assign a value
-BETWEEN ... AND ...			Check whether a value is within a range of values
-BINARY						Cast a string to a binary string
-&							Bitwise AND
-~							Bitwise inversion
-|							Bitwise OR
-^							Bitwise XOR
-CASE						Case operator
-DIV							Integer division
-/							Division operator
-=							Equal operator
-<=>							NULL-safe equal to operator
->							Greater than operator
->=							Greater than or equal operator
-IS							Test a value against a boolean
-IS NOT						Test a value against a boolean
-IS NOT NULL					NOT NULL value test
-IS NULL						NULL value test
-->							Return value from JSON column after evaluating path; equivalent to JSON_EXTRACT().
-->>							Return value from JSON column after evaluating path and unquoting the result;
-							equivalent to JSON_UNQUOTE(JSON_EXTRACT()).
-<<							Left shift
-<							Less than operator
-<=							Less than or equal operator
-LIKE						Simple pattern matching
--							Minus operator
-%, MOD						Modulo operator
-NOT, !						Negates value
-NOT BETWEEN ... AND ...		Check whether a value is not within a range of values
-!=, <>						Not equal operator
-NOT LIKE					Negation of simple pattern matching
-NOT REGEXP					Negation of REGEXP
-||, OR						Logical OR
-+							Addition operator
-REGEXP						Whether string matches regular expression
->>							Right shift
-RLIKE						Whether string matches regular expression
-SOUNDS LIKE					Compare sounds
-*							Multiplication operator
--							Change the sign of the argument
-XOR							Logical XOR
 
 
- UNION, INTERSECT, and MINUS
+PHP DataTable
+===================================================================================
+
+Potrebno je napraviti JS komponentu (Vue.js) koja ce da pokupi sve potrebne podatke
+i da ih preko ajax-a (Axios.js) prosledi PHP metodi koja vraca podatke na stranicu.
+
+PHP metoda na osnovu podataka kojie dobije pravi upit sa paginacijom i vraca rezultat
+nazad na stranicu gde JS komponenta prikazije reziltat.
+
+Poslati sa stranice sledece:
+{
+	rows: 10,
+	order: ["broj", "asc"],
+	start: 200,
+	search: "256/2018"
+}
+
+rows	-	broj redova na strani
+start	-	redni broj prvog reda na strani
+order	-	kolona i nacin sortiranja
+search	-	termin koji se pretrazuje
+
+1. BROJ REDOVA NA STRANI
+
+
+2. FILTRIRANJE
+
+
+3. SORTIRANJE
+
+
+4. EXPORT

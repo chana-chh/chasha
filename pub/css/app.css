@@ -133,3 +133,13 @@ nav>a:hover {
   color: #333;
   font-size: 1rem;
 }
+
+th,
+td {
+  border-bottom: 1px solid black;
+}
+
+td ul {
+  padding: 0;
+  list-style: none;
+}

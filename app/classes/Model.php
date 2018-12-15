@@ -111,8 +111,6 @@ abstract class Model
 		}
 		$this->model = get_class($this);
 		$this->original_instance_fields = $this->extractInstanceFields();
-		$this->extractTableFields();
-		$this->extractTableKeys();
 	}
 
 	/**
@@ -375,7 +373,9 @@ abstract class Model
 		return (int)$count->count;
 	}
 
-	// FIXME:
+	/**
+	 * 
+	 */
 	protected function pageLinks($page, $perpage = null)
 	{
 		$links = [];
@@ -483,6 +483,9 @@ abstract class Model
 	{
 		$m = new $model_class();
 		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
+		if ($this->getLastCount() === 1) {
+			return [$result];
+		}
 		return $result;
 	}
 
@@ -521,6 +524,9 @@ abstract class Model
 			->join($pivot_table, $m->getPrimaryKey(), $pt_foreign_table_fk)
 			->where([[$pivot_table . '.' . $pt_this_table_fk, '=', $this->{$this->pk}]])
 			->get();
+		if ($this->getLastCount() === 1) {
+			return [$result];
+		}
 		return $result;
 	}
 

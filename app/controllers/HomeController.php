@@ -60,15 +60,15 @@ class HomeController extends Controller
 
 	public function getPagination($request, $response, $args)
 	{
-		$id = (int)$args['vrsta_upisnika_id']; // 1 - 9
+		$id = (int)$args['id']; // 1 - 9
 
 		$query = [];
 		parse_str($request->getUri()->getQuery(), $query);
-		$page = isset($query['page']) ? (int)$query['page'] : 255;
+		$page = isset($query['page']) ? (int)$query['page'] : 1;
 
 		$model = new Predmet;
-		$rezultat = $model->select()->where([['vrsta_upisnika_id', '=', $id]])->paginate($page);
-		$this->render($response, 'pagination.twig', compact('rezultat'));
+		$predmeti = $model->select()->where([['vrsta_upisnika_id', '=', $id]])->orderBy(['id ASC'])->paginate($page);
+		$this->render($response, 'pagination.twig', compact('predmeti'));
 	}
 
 }

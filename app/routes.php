@@ -14,7 +14,6 @@ use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
 
 $app->get('/', '\App\Controllers\HomeController:getHome')->setName('pocetna');
-$app->get('/strana/{vrsta_upisnika_id}', '\App\Controllers\HomeController:getPagination')->setName('strainicenje');
 
 $app->group('', function () {
 	$this->get('/registracija', '\App\Controllers\AuthController:getRegistracija')->setName('registracija');
@@ -25,4 +24,5 @@ $app->group('', function () {
 
 $app->group('', function () {
 	$this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
+	$this->get('/strana/{id}', '\App\Controllers\HomeController:getPagination')->setName('strainicenje');
 })->add(new AuthMiddleware($container));

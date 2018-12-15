@@ -47,7 +47,7 @@ class Auth
 	 */
 	public function login($username, $password)
 	{
-		$user = $this->user->where("username = :username")->setParams([':username' => $username])->get();
+		$user = $this->user->select()->where([['username','=',$username]])->get();
 		if (!$user) {
 			return false;
 		}
