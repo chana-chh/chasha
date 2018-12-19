@@ -1,5 +1,6 @@
 <?php
 
+use App\Classes\Db;
 use App\Classes\Config;
 
 /**
@@ -11,9 +12,7 @@ use App\Classes\Config;
  * @author ChaSha
  * @copyright Copyright (c) 2019, ChaSha
  */
-
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'ini.php';
-
 session_start();
-Config::$container = $container;
+Config::instance($container);
 $app->run();

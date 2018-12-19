@@ -16,13 +16,6 @@
  */
 $container = $app->getContainer();
 
-// PDO wrapper - db
-$container['db'] = function ($container) {
-    $config = $container['settings']['db'];
-    $db = new \App\Classes\Db($config);
-    return $db;
-};
-
 // Monolog instance - logger
 $container['logger'] = function ($container) {
     $conf = $container['settings']['logger'];

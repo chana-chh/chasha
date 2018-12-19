@@ -17,7 +17,7 @@ namespace App\Classes;
 use \PDO;
 
 /**
- * Db za PDO MySQL
+ * PDO MySQL wrapper
  *
  * @author ChaSha
  */
@@ -25,38 +25,72 @@ class Db
 {
 
 	/**
+	 * Singleton instanca Db
+	 * @var \App\Classes\Db
+	 */
+	private static $instance = null;
+
+	/**
 	 * PDO instanca
 	 * @var \PDO
 	 */
-	private $pdo;
+	private static $pdo;
+	
+	/**
+	 * PDO instanca
+	 * @var \PDOStatement
+	 */
+	private static $stmt;
 
 	/**
 	 * PDO greska
 	 * @var string
 	 */
-	private $error;
+	private static $error;
 
 	/**
 	 * Broj redova u tabeli na koje je upit uticao
 	 * @var integer
 	 */
-	private $count;
+	private static $count;
 
 	/**
 	 * Poslednji upit koji je izvrsio PDO
 	 * @var string
 	 */
-	private $lastQuery;
+	private static $lastQuery;
+
+	/**
+	 * Preuzimanje singleton instance
+	 * 
+	 * @return \App\Classes\Db static::$instance
+	 */
+	public static function instance()
+	{
+		if (!isset(static::$instance)) {
+            static::$instance = new static;
+        }
+        return static::$instance;
+	}
+	
+	private function __clone() {}
+	private function __sleep() {}
+	private function __wakeup() {}
 
 	/**
 	 * Konstruktor
 	 *
 	 * Postavlja instancu PDO konekcije na bazu
 	 */
-	public function __construct($config)
+	private function __construct()
 	{
 		try {
-			$this->pdo = new PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
+			static::$pdo = new PDO(
+				Config::get('db.dsn'),
+				Config::get('db.username'),
+				Config::get('db.password'),
+				Config::get('db.options')
+			);
 		} catch (PDOException $e) {
 			self::$error = $e->getMessage();
 		}
@@ -71,20 +105,16 @@ class Db
 	 * @param array $params Parametri za upit
 	 * @return \PDOStatement
 	 */
-	public function qry(string $sql, array $params = null)
+	public static function run(string $sql, array $params = null)
 	{
 		try {
-			$stmt = $this->pdo->prepare($sql);
-			if ($params) {
-				foreach ($params as $key => $value) {
-					$stmt->bindValue($key, $value, $this->pdoType($value));
-				}
-			}
-			$stmt->execute();
-			$this->count = (int)$stmt->rowCount();
-			$this->lastQuery = $stmt->queryString;
+			$stmt = static::$pdo->prepare($sql);
+			$stmt->execute($params);
+			static::$count = (int)$stmt->rowCount();
+			static::$lastQuery = $stmt->queryString;
+			static::$stmt = $stmt;
 		} catch (PDOException $e) {
-			$this->error = $e->getMessage();
+			static::$error = $e->getMessage();
 		}
 		return $stmt;
 	}
@@ -99,21 +129,23 @@ class Db
 	 * @param string $model Model koji se vraca
 	 * @return array Niz Model-a koji predstavljaju red u tabeli
 	 */
-	public function sel($sql, $params = null, $model = null, $args = null)
+	public static function fetch(string $sql, array $params = null)
 	{
 		try {
-			$stmt = $this->qry($sql, $params);
-			if ($model) {
-				$data = $stmt->fetchAll(PDO::FETCH_CLASS, $model, $args);
-			} else {
-				$data = $stmt->fetchAll();
-			}
-			$this->count = (int)$stmt->rowCount();
+			static::run($sql, $params);
+			$data = static::$stmt->fetchAll();
+			static::$count = (int)static::$stmt->rowCount();
 		} catch (PDOException $e) {
-			$this->error = $e->getMessage();
+			static::$error = $e->getMessage();
 		}
-		return $this->count === 1 ? $data[0] : $data;
+		return $data;
 	}
+
+	public static function raw(string $sql, array $params = null){}
+	public static function select(string $sql, array $params = null){}
+	public static function insert(string $sql, array $params = null){}
+	public static function update(string $sql, array $params = null){}
+	public static function delete(string $sql, array $params = null){}
 
 	/**
 	 * Odredjuje PDO tip parametra
@@ -121,7 +153,7 @@ class Db
 	 * @param mixed $param Parametar za upit
 	 * @return integer PDO tip parametra
 	 */
-	protected function pdoType($param)
+	protected static function pdoType($param)
 	{
 		switch (gettype($param)) {
 			case 'NULL':
@@ -139,9 +171,18 @@ class Db
 	 * Vraca PDO instancu
 	 * @return \PDO
 	 */
-	public function getPDO()
+	public static function getPDO()
 	{
-		return $this->pdo;
+		return static::$pdo;
+	}
+
+	/**
+	 * Vraca PDOStatement instancu
+	 * @return \PDOStatement
+	 */
+	public static function getPDOStatement()
+	{
+		return static::$stmt;
 	}
 
 	/**
@@ -149,9 +190,9 @@ class Db
 	 *
 	 * @return string
 	 */
-	public function getLastId()
+	public static function getLastInsertedId()
 	{
-		return $this->pdo->lastInsertId();
+		return static::$pdo->lastInsertId();
 	}
 
 	/**
@@ -159,9 +200,9 @@ class Db
 	 *
 	 * @return integer
 	 */
-	public function getLastCount()
+	public static function getLastCount()
 	{
-		return $this->count;
+		return static::$count;
 	}
 
 	/**
@@ -169,9 +210,9 @@ class Db
 	 *
 	 * @return string
 	 */
-	public function getLastError()
+	public static function getLastError()
 	{
-		return $this->error;
+		return static::$error;
 	}
 
 	/**
@@ -179,9 +220,18 @@ class Db
 	 *
 	 * @return string
 	 */
-	public function lastQuery()
+	public static function lastQuery()
 	{
-		return $this->lastQuery;
+		return static::$lastQuery;
 	}
 
+	public static function quote(string $string)
+	{
+		return static::$pdo->quote($string);
+	}
+	
+	public static function getColumnMeta(int $column_number)
+	{
+		return static::$stmt->getColumnMeta($column_number);
+	}
 }
