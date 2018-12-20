@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use App\Classes\Model;
-
 class Predmet extends Model
 {
 	protected $table = 'predmeti';
+	protected $relations = [
+		'korisnik' => [
+			'type' => self::BELONGS_TO_ONE,
+			'model'=> '\App\Models\Korisnik',
+			'fk'=> 'korisnik_id',
+		],
+	];
 
 	public function broj()
 	{

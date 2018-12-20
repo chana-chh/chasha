@@ -10,8 +10,9 @@
  * @copyright Copyright (c) 2019, ChaSha
  */
 
-namespace App\Classes;
+namespace App\Models;
 
+use App\Classes\Db;
 use App\Classes\Paginator;
 
 /**
@@ -20,8 +21,13 @@ use App\Classes\Paginator;
  * @author ChaSha
  * @abstract
  */
-class Model
+abstract class Model
 {
+
+	public const HAS_ONE = 0;
+	public const HAS_MANY = 1;
+	public const BELONGS_TO_ONE = 2;
+	public const BELONGS_TO_MANY = 3;
 
 	/**
 	 * PDO wrapper
@@ -42,13 +48,20 @@ class Model
 	protected $pk = 'id';
 
 	/**
+	 * Naziv momdela
+	 * @var string
+	 */
+	protected $model;
+
+	/**
 	 * Konstruktor
-	 *
-	 * @throws \Exception Ako tabele u QueryBuilder-u i Model-u nisu iste
+	 * 
+	 * Postavlja Db (PDO wrapper) i naziv modela
 	 */
 	public function __construct()
 	{
 		$this->db = Db::instance();
+		$this->model = get_class($this);
 	}
 
 	/**
@@ -104,43 +117,49 @@ class Model
 	{
 		$sql = "SELECT * FROM {$this->table} WHERE {$this->pk} = ? LIMIT 1;";
 		$data = $this->fetch($sql, [$id]);
-		return $data;
+		return count($data) === 1 ? $data[0] : $data;
 	}
 
 	/**
-	 *
+	 * Dodaje novi red u tabelu
+	 * 
+	 * @param array $data Asocijativni niz 'naziv_kolone' => 'vrednost'
+	 * @return integer PK novog reda
 	 */
 	public function insert(array $data)
 	{
 		foreach ($data as $key => $value) {
 			$cols[] = $key;
 			$vals[] = ":{$key}";
-			$params[$key] = $value;
+			$params[":{$key}"] = $value;
 		}
 		$columns = implode(", ", $cols);
 		$values = implode(", ", $vals);
 		$sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values});";
+		$this->run($sql, $params);
+		return $this->getLastId();
+	}
+
+	/**
+	 * Menja vrdnosti kolona u redu
+	 * 
+	 * @param
+	 * @return
+	 */
+	public function updateId(int $id, array $data)
+	{
+		foreach ($data as $key => $value) {
+			$s[] = "{$key} = :{$key}";
+			$params[":{$key}"] = $value;
+		}
+		$set = implode(", ", $s);
+		$sql = "UPDATE {$this->table} SET {$set} WHERE {$this->pk} = :{$this->pk};";
+		$params[":{$this->pk}"] = $id;
 		return $this->run($sql, $params);
 	}
 
 	/**
-	 *
-	 */
-	public function update(array $data, int $id = null, string $where = null)
-	{
-		if ($id === null && $where === null) {
-			throw new \Exception('Nije dozvoljeno menjanje svih redova tabele');
-		}
-		if ($id && !empty(trim($id))) {
-			$where = "{$this->pk} = :{$this->pk}";
-			$params = [":{$this->pk}" => (int)$id];
-		}
-	}
-
-	/**
 	 * Brise red po PK
-	 *
-	 * Vraca true i ako ne postoji id u tabeli
 	 *
 	 * @return boolean Da li je upit uspesno izvrsen
 	 */
@@ -305,6 +324,38 @@ class Model
 	}
 
 	/**
+	 * // FIXME: 
+	 */
+	public function getRelationData(array $data, string $relation_name)
+	{
+		if (!isset($this->relations[$relation_name])) {
+			throw new \Exception("U modelu [{$this->model}] nije definisana relacija [{$relation_name}]");
+		}
+
+		$r = $this->relations[$relation_name];
+
+		switch ($r['type']) {
+			case self::HAS_ONE:
+				# code...
+				break;
+			case self::HAS_MANY:
+				return $this->hasMany($data, $r['model'], $r['model_fk']);
+				break;
+			case self::BELONGS_TO_ONE:
+				# code...
+				break;
+			case self::BELONGS_TO_MANY:
+				# code...
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+		dd($relation, true);
+	}
+	/**
 	 * Vraca Model povezan kao has one
 	 *
 	 * one to one (vraca dete)
@@ -329,9 +380,11 @@ class Model
 	 * @param string $foreign_table_fk
 	 * @return array \App\Classes\Model Niz instanci dece
 	 */
-	public function hasMany($model_class, $foreign_table_fk)
+	public function hasMany(array $data, string $model, string $model_fk)
 	{
-		$m = new $model_class();
+		$m = new $model();
+		$sql = "SELECT * FROM {$m->getTable()} WHERE {$model_fk} = {$this->{$this->pk}}";
+		dd($sql, true);
 		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
 		if ($this->getLastCount() === 1) {
 			return [$result];
