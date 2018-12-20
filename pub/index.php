@@ -1,6 +1,7 @@
 <?php
 
 use App\Classes\Db;
+use App\Classes\Model;
 use App\Classes\Config;
 
 /**
@@ -15,4 +16,11 @@ use App\Classes\Config;
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'ini.php';
 session_start();
 Config::instance($container);
+
+$model = new Model();
+
+$result = $model->insert();
+
+dd($result);
+
 $app->run();

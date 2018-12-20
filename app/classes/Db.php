@@ -35,7 +35,7 @@ class Db
 	 * @var \PDO
 	 */
 	private static $pdo;
-	
+
 	/**
 	 * PDO instanca
 	 * @var \PDOStatement
@@ -49,33 +49,27 @@ class Db
 	private static $error;
 
 	/**
-	 * Broj redova u tabeli na koje je upit uticao
-	 * @var integer
-	 */
-	private static $count;
-
-	/**
-	 * Poslednji upit koji je izvrsio PDO
-	 * @var string
-	 */
-	private static $lastQuery;
-
-	/**
 	 * Preuzimanje singleton instance
-	 * 
-	 * @return \App\Classes\Db static::$instance
+	 *
+	 * @return \App\Classes\Db self::$instance
 	 */
 	public static function instance()
 	{
-		if (!isset(static::$instance)) {
-            static::$instance = new static;
-        }
-        return static::$instance;
+		if (!isset(self::$instance)) {
+			self::$instance = new self;
+		}
+		return self::$instance;
 	}
-	
-	private function __clone() {}
-	private function __sleep() {}
-	private function __wakeup() {}
+
+	private function __clone()
+	{
+	}
+	private function __sleep()
+	{
+	}
+	private function __wakeup()
+	{
+	}
 
 	/**
 	 * Konstruktor
@@ -85,7 +79,7 @@ class Db
 	private function __construct()
 	{
 		try {
-			static::$pdo = new PDO(
+			self::$pdo = new PDO(
 				Config::get('db.dsn'),
 				Config::get('db.username'),
 				Config::get('db.password'),
@@ -97,55 +91,44 @@ class Db
 	}
 
 	/**
-	 * Izvrsava PDO upit koji ne vraca rezultat
-	 *
-	 * INSERT, UPDATE, DELETE
+	 * Izvrsava PDO upit
 	 *
 	 * @param string $sql SQL upit
 	 * @param array $params Parametri za upit
-	 * @return \PDOStatement
+	 * @return boolean $success Da li je upit uspesno izvrsen
 	 */
 	public static function run(string $sql, array $params = null)
 	{
 		try {
-			$stmt = static::$pdo->prepare($sql);
-			$stmt->execute($params);
-			static::$count = (int)$stmt->rowCount();
-			static::$lastQuery = $stmt->queryString;
-			static::$stmt = $stmt;
+			$stmt = self::$pdo->prepare($sql);
+			$success = $stmt->execute($params);
+			self::$stmt = $stmt;
 		} catch (PDOException $e) {
-			static::$error = $e->getMessage();
+			self::$error = $e->getMessage();
+			dd($e->getMessage(), true);
 		}
-		return $stmt;
+		return $success;
 	}
 
 	/**
-	 * Izvrsava PDO upit koji vraca rezultat
-	 *
-	 * SELECT
+	 * Vraca podatke rezultata PDO upita
 	 *
 	 * @param string $sql SQL upit
 	 * @param array $params Parametri za upit
 	 * @param string $model Model koji se vraca
-	 * @return array Niz Model-a koji predstavljaju red u tabeli
+	 * @return array Niz redova u tabeli
 	 */
 	public static function fetch(string $sql, array $params = null)
 	{
 		try {
-			static::run($sql, $params);
-			$data = static::$stmt->fetchAll();
-			static::$count = (int)static::$stmt->rowCount();
+			$stmt = self::run($sql, $params);
+			$data = self::$stmt->fetchAll();
 		} catch (PDOException $e) {
-			static::$error = $e->getMessage();
+			self::$error = $e->getMessage();
+			dd($e->getMessage(), true);
 		}
 		return $data;
 	}
-
-	public static function raw(string $sql, array $params = null){}
-	public static function select(string $sql, array $params = null){}
-	public static function insert(string $sql, array $params = null){}
-	public static function update(string $sql, array $params = null){}
-	public static function delete(string $sql, array $params = null){}
 
 	/**
 	 * Odredjuje PDO tip parametra
@@ -173,7 +156,7 @@ class Db
 	 */
 	public static function getPDO()
 	{
-		return static::$pdo;
+		return self::$pdo;
 	}
 
 	/**
@@ -182,7 +165,7 @@ class Db
 	 */
 	public static function getPDOStatement()
 	{
-		return static::$stmt;
+		return self::$stmt;
 	}
 
 	/**
@@ -192,7 +175,7 @@ class Db
 	 */
 	public static function getLastInsertedId()
 	{
-		return static::$pdo->lastInsertId();
+		return self::$pdo->lastInsertId();
 	}
 
 	/**
@@ -200,9 +183,52 @@ class Db
 	 *
 	 * @return integer
 	 */
-	public static function getLastCount()
+	public static function getLastRowCount()
 	{
-		return static::$count;
+		return self::$stmt->rowCount();
+	}
+
+	/**
+	 * Vraca poslednji broj kolona upita
+	 *
+	 * @return integer
+	 */
+	public static function getLastColumnCount()
+	{
+		return self::$stmt->columnCount();
+	}
+
+	/**
+	 * Vraca poslednji izvrseni PDO upit
+	 *
+	 * @return string
+	 */
+	public static function getLastQuery()
+	{
+		return self::$stmt->queryString;
+	}
+
+	/**
+	 * Vraca debug dump
+	 *
+	 * @return string
+	 */
+	public static function dumpDebug()
+	{
+		echo '<pre><code>';
+		self::$stmt->debugDumpParams();
+		echo '</code></pre>';
+	}
+
+	/**
+	 * Vraca meta informacije o koloni
+	 *
+	 * @param $column_index 0-baziran indeks selektovanih kolona
+	 * @return array
+	 */
+	public static function getColumnMeta(int $column_index)
+	{
+		return self::$stmt->getColumnMeta($column_index);
 	}
 
 	/**
@@ -212,26 +238,7 @@ class Db
 	 */
 	public static function getLastError()
 	{
-		return static::$error;
+		return self::$error;
 	}
 
-	/**
-	 * Vraca poslednji izvrseni PDO upit
-	 *
-	 * @return string
-	 */
-	public static function lastQuery()
-	{
-		return static::$lastQuery;
-	}
-
-	public static function quote(string $string)
-	{
-		return static::$pdo->quote($string);
-	}
-	
-	public static function getColumnMeta(int $column_number)
-	{
-		return static::$stmt->getColumnMeta($column_number);
-	}
 }
