@@ -15,6 +15,9 @@ class HomeController extends Controller
 	{
 		$qb = new QueryBuilder('predmeti');
 
+		$qb->select()
+			->where([['id', '>=', 500]]);
+
 		// SELECT
 		// $qb->select(['id', 'broj', 'godina']);
 		// $qb->leftJoin('vezana', 'vezana_id', 'id');
@@ -46,14 +49,9 @@ class HomeController extends Controller
 		// $qb->delete(123);
 		// $qb->delete()->where([['id', '=', 3]])->orderBy(['broj DESC'])->limit(1);
 
-
-		$model = new Predmet;
-
-		$rezultat = $model->select()->where([['vrsta_upisnika_id', '=', 1]])->limit(3)->get();
-
-		$params = $model->getParams();
-		$sql1 = $model->getSql();
-		$sql2 = $model->getSqlWithParams();
+		$params = $qb->getParams();
+		$sql1 = $qb->getSql();
+		$sql2 = $qb->getSqlWithParams();
 
 		$this->render($response, 'home.twig', compact('params', 'sql1', 'sql2', 'rezultat'));
 	}
@@ -82,7 +80,7 @@ class HomeController extends Controller
 		// order : [0, false],
 		// start : 101 ,
 		// search : "256/2018"
-		
+
 		return json_encode($params);
 	}
 

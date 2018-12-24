@@ -17997,3 +17997,90 @@ Stack trace:
 #3 C:\xampp\htdocs\chasha\pub\index.php(32): App\Models\Model->fetch('SELECT predmeti...')
 #4 {main}
   thrown in C:\xampp\htdocs\chasha\app\classes\Db.php on line 103
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP Fatal error:  Class 'App\Models\Model' not found in D:\xampp\htdocs\chasha\app\models\Korisnik.php on line 5
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP Stack trace:
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   1. {main}() D:\xampp\htdocs\chasha\pub\index.php:0
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   2. Slim\App->run($silent = *uninitialized*) D:\xampp\htdocs\chasha\pub\index.php:20
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   3. Slim\App->process($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:314
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   4. Slim\App->callMiddlewareStack($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:406
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   5. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:117
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   6. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   7. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   8. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP   9. Slim\Csrf\Guard->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP  10. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\csrf\src\Guard.php:171
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP  11. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:47:31 Europe/Belgrade] PHP  12. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  13. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  14. App\Middlewares\CsrfMiddleware->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  15. App\Middlewares\CsrfMiddleware->__get($ime = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\CsrfMiddleware.php:13
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  16. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\Middleware.php:17
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  17. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  18. {closure:D:\xampp\htdocs\chasha\app\dic.php:49-62}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  19. Slim\Container->__get($name = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:56
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  20. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:172
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  21. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  22. {closure:D:\xampp\htdocs\chasha\app\dic.php:39-41}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  23. spl_autoload_call(*uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:47:32 Europe/Belgrade] PHP  24. Composer\Autoload\ClassLoader->loadClass($class = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:47:33 Europe/Belgrade] PHP  25. Composer\Autoload\includeFile($file = *uninitialized*) D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:322
+[24-Dec-2018 17:47:33 Europe/Belgrade] PHP  26. include() D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:444
+[24-Dec-2018 17:48:28 Europe/Belgrade] PHP Fatal error:  Class 'App\Models\Model' not found in D:\xampp\htdocs\chasha\app\models\Korisnik.php on line 5
+[24-Dec-2018 17:48:28 Europe/Belgrade] PHP Stack trace:
+[24-Dec-2018 17:48:28 Europe/Belgrade] PHP   1. {main}() D:\xampp\htdocs\chasha\pub\index.php:0
+[24-Dec-2018 17:48:28 Europe/Belgrade] PHP   2. Slim\App->run($silent = *uninitialized*) D:\xampp\htdocs\chasha\pub\index.php:20
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   3. Slim\App->process($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:314
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   4. Slim\App->callMiddlewareStack($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:406
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   5. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:117
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   6. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   7. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   8. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP   9. Slim\Csrf\Guard->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP  10. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\csrf\src\Guard.php:171
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP  11. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP  12. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:48:29 Europe/Belgrade] PHP  13. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  14. App\Middlewares\CsrfMiddleware->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  15. App\Middlewares\CsrfMiddleware->__get($ime = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\CsrfMiddleware.php:13
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  16. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\Middleware.php:17
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  17. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  18. {closure:D:\xampp\htdocs\chasha\app\dic.php:49-62}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  19. Slim\Container->__get($name = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:56
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  20. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:172
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  21. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:48:30 Europe/Belgrade] PHP  22. {closure:D:\xampp\htdocs\chasha\app\dic.php:39-41}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:48:31 Europe/Belgrade] PHP  23. spl_autoload_call(*uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:48:31 Europe/Belgrade] PHP  24. Composer\Autoload\ClassLoader->loadClass($class = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:48:31 Europe/Belgrade] PHP  25. Composer\Autoload\includeFile($file = *uninitialized*) D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:322
+[24-Dec-2018 17:48:31 Europe/Belgrade] PHP  26. include() D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:444
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP Parse error:  syntax error, unexpected ''db'' (T_CONSTANT_ENCAPSED_STRING) in D:\xampp\htdocs\chasha\app\classes\Model.php on line 100
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP Stack trace:
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   1. {main}() D:\xampp\htdocs\chasha\pub\index.php:0
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   2. Slim\App->run($silent = *uninitialized*) D:\xampp\htdocs\chasha\pub\index.php:20
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   3. Slim\App->process($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:314
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   4. Slim\App->callMiddlewareStack($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\App.php:406
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   5. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:117
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   6. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:54:40 Europe/Belgrade] PHP   7. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP   8. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP   9. Slim\Csrf\Guard->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  10. Slim\App->Slim\{closure}($request = *uninitialized*, $response = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\csrf\src\Guard.php:171
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  11. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70}(*uninitialized*, *uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  12. Slim\DeferredCallable->__invoke(*uninitialized*, *uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\MiddlewareAwareTrait.php:70
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  13. call_user_func_array:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43}(*uninitialized*, *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  14. App\Middlewares\CsrfMiddleware->__invoke($request = *uninitialized*, $response = *uninitialized*, $next = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\DeferredCallable.php:43
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  15. App\Middlewares\CsrfMiddleware->__get($ime = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\CsrfMiddleware.php:13
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  16. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\app\middlewares\Middleware.php:17
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  17. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:54:41 Europe/Belgrade] PHP  18. {closure:D:\xampp\htdocs\chasha\app\dic.php:49-62}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  19. Slim\Container->__get($name = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:56
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  20. Slim\Container->get($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:172
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  21. Slim\Container->offsetGet($id = *uninitialized*) D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Container.php:123
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  22. {closure:D:\xampp\htdocs\chasha\app\dic.php:39-41}($container = *uninitialized*) D:\xampp\htdocs\chasha\vendor\pimple\pimple\src\Pimple\Container.php:118
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  23. spl_autoload_call(*uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  24. Composer\Autoload\ClassLoader->loadClass($class = *uninitialized*) D:\xampp\htdocs\chasha\app\dic.php:40
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  25. Composer\Autoload\includeFile($file = *uninitialized*) D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:322
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  26. include() D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:444
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  27. spl_autoload_call(*uninitialized*) D:\xampp\htdocs\chasha\app\models\Korisnik.php:7
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  28. Composer\Autoload\ClassLoader->loadClass($class = *uninitialized*) D:\xampp\htdocs\chasha\app\models\Korisnik.php:7
+[24-Dec-2018 17:54:42 Europe/Belgrade] PHP  29. Composer\Autoload\includeFile($file = *uninitialized*) D:\xampp\htdocs\chasha\vendor\composer\ClassLoader.php:322
