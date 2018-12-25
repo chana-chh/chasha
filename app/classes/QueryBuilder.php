@@ -401,7 +401,6 @@ class QueryBuilder
 	}
 
 	// TODO: Dodati where i having grupe
-	// TODO: Dodati with (EAGER LOADING)
 	// TODO: Dodati subquery
 
 	/**

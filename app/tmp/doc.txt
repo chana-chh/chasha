@@ -1,1 +1,7 @@
+Grupisanje WHERE i HAVING
+(x=1 AND y=3) OR (z=5 AND w<1000 OR q>5)
 
+Subquery
+(SELECT * FROM korisnici) AS korisnici
+
+addSubquery(QueyBuilder $qb, string $alias)

@@ -14,6 +14,8 @@ namespace App\Classes;
 
 use App\Classes\Paginator;
 
+// TODO: Dodati with (EAGER LOADING) - ovo je u modelu
+
 /**
  * Model
  *
