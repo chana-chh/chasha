@@ -118,11 +118,15 @@ class Db
 	 * @param string $model Model koji se vraca
 	 * @return array Niz redova u tabeli
 	 */
-	public static function fetch(string $sql, array $params = null)
+	public static function fetch(string $sql, array $params = null, $model = null)
 	{
 		try {
 			$stmt = self::run($sql, $params);
-			$data = self::$stmt->fetchAll();
+			if ($model) {
+				$data = self::$stmt->fetchAll(PDO::FETCH_CLASS, $model);
+			} else {
+				$data = self::$stmt->fetchAll();
+			}
 		} catch (PDOException $e) {
 			self::$error = $e->getMessage();
 			dd($e->getMessage(), true);

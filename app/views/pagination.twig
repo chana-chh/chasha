@@ -127,7 +127,6 @@
 
     var csrf_name = document.querySelector("input[name=csrf_name]").value;
     var csrf_value = document.querySelector("input[name=csrf_value]").value;
-
     var ajax_route = "{{ path_for('ajax.pagination') }}";
     var send_data = {};
     var order = [0, false];
@@ -135,20 +134,16 @@
     var search = document.querySelector("#search");
     var start = document.querySelector("#start");
     var lupica = document.querySelector("#btn_search");
-
     var columns = document.querySelectorAll("#data_table>thead th");
 
     function makeSendData() {
-
         send_data.csrf_name = csrf_name;
         send_data.csrf_value = csrf_value;
         send_data.rows = parseInt(rows.value);
         send_data.search = search.value;
         send_data.start = parseInt(start.innerHTML);
         send_data.order = order;
-
         console.log(send_data);
-
         axios.post(ajax_route, send_data)
             .then(function (response) {
                 csrf_name = response.data.csrf_name;
@@ -181,6 +176,7 @@
     rows.addEventListener('change', function (e) {
         makeSendData();
     });
+
     lupica.addEventListener('click', function (e) {
         makeSendData();
     });
