@@ -26,6 +26,8 @@ class Auth
 	 */
 	private $user;
 
+	private $model;
+
 	/**
 	 * Konstruktor
 	 *
@@ -33,7 +35,7 @@ class Auth
 	 */
 	public function __construct()
 	{
-		$this->user = new Korisnik();
+		$this->model = new Korisnik();
 	}
 
 	/**
@@ -47,8 +49,7 @@ class Auth
 	 */
 	public function login($username, $password)
 	{
-		$user = $this->user->select()->where([['username', '=', $username]])->get();
-		dd($user, true);
+		$user = $this->model->findByUsername($username);
 		if (!$user) {
 			return false;
 		}
@@ -77,7 +78,7 @@ class Auth
 	public function user()
 	{
 		if (isset($_SESSION['user'])) {
-			return $this->user->find((int)$_SESSION['user']);
+			return $this->model->find((int)$_SESSION['user']);
 		}
 		return null;
 	}

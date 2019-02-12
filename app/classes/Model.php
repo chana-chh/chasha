@@ -54,12 +54,6 @@ abstract class Model
 	protected $pagination_config;
 
 	/**
-	 * Ukupan broj redova za paginaciju
-	 * @var integer
-	 */
-	protected $pagination_rows_count;
-
-	/**
 	 * Konstruktor
 	 *
 	 * @param \App\Classes\QueryBuilder Query builder
@@ -111,10 +105,14 @@ abstract class Model
 	 */
 	public function all(string $sort_column = null, $sort = 'ASC')
 	{
+		$order_by = '';
+		$params = null;
 		$sort = ($sort === 'DESC') ? $sort : 'ASC';
-		$order_by = !empty(trim($sort_column)) ? " ORDER BY :{$sort_column} {$sort}" : '';
+		if ($sort_column !== null && !empty(trim($sort_column))) {
+			$order_by = " ORDER BY :{$sort_column} {$sort}";
+			$params = [":{$sort_column}" => $sort_column];
+		}
 		$sql = "SELECT * FROM {$this->table}{$order_by};";
-		$params = [":{$sort_column}" => $sort_column];
 		return $this->fetch($sql, $params);
 	}
 
@@ -172,7 +170,7 @@ abstract class Model
 	 */
 	public function update(array $data, int $id)
 	{
-
+		//TODO: Napraviti
 	}
 
 	/**
@@ -190,7 +188,7 @@ abstract class Model
 	 */
 	public function delete(array $where)
 	{
-
+		//TODO: Napraviti
 	}
 
 	/**
@@ -231,16 +229,13 @@ abstract class Model
 	 * @param integer $page Broj stranice
 	 * @param integer $perpage Broj redova na stranici
 	 * @return array podaci + linkovi
-	 * @throws \Exception Ako je vec postavljen limit ili offset
 	 */
-	public function paginate($page, $perpage = null)
+	public function paginate(int $page, string $sql = null, array $params = null, int $perpage = null, int $span = null)
 	{
-		if ($this->qb->canPaginate()) {
-			$data = $this->pageData($page, $perpage);
-			$pagination = $this->pageLinks($page, $perpage);
-			return new Paginator($data, $pagination);
-		}
-		throw new \Exception('Ne moze paginacija kada postoji limit ili offset');
+		$sql = ($sql !== null) ? $sql : "SELECT * FROM {$this->table};";
+		$data = $this->pageData($page, $sql, $params, $perpage);
+		$links = $this->pageLinks($page, $perpage, $span);
+		return ['data' => $data, 'links' => $links];
 	}
 
 	/**
@@ -249,21 +244,17 @@ abstract class Model
 	 * @param integer $page Broj stranice
 	 * @param integer $perpage Broj redova na stranici
 	 * @return array \App\Classes\Model Niz modela sa podacima
-	 * @throws \Exception Ako tip upita nije SELECT
 	 */
-	protected function pageData($page, $perpage = null)
+	protected function pageData(int $page, string $sql, array $params = null, int $perpage = null)
 	{
-		if ($this->qb->getType() !== $this->qb::SELECT) {
-			throw new \Exception('Paginacija moze samo iz SELECT tip upita');
-		}
-		if (!$perpage) {
+		$sql = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $sql);
+		if ($perpage === null) {
 			$perpage = $this->pagination_config['per_page'];
 		}
 		$offset = ($page - 1) * $perpage;
-
-		$this->pagination_rows_count = $this->qb->getCountSql();
-		$this->qb->limit($perpage)->offset($offset);
-		$data = $this->get();
+		$sql = rtrim($sql, ';');
+		$sql .= " LIMIT {$limit} OFFSET {$offset};";
+		$data = $this->fetch($sql, $params);
 		return $data;
 	}
 
@@ -277,27 +268,26 @@ abstract class Model
 	}
 
 	/**
-	 *
+	 * Vraca linkove i dr. za paginaciju
 	 */
-	protected function pageLinks($page, $perpage = null)
+	protected function pageLinks(int $page, int $perpage = null)
 	{
 		$links = [];
 		$links['current_page'] = $page;
-		if (!$perpage) {
+		if ($perpage === null) {
 			$perpage = $this->pagination_config['per_page'];
 		}
 		$links['per_page'] = $perpage;
 		$span = $this->pagination_config['page_span'];
 		$links['span'] = $span;
-		$cnt = $this->db->sel($this->pagination_rows_count->getSql(), $this->pagination_rows_count->getParams());
-		$count = (int)$cnt->row_count;
+		$count = $this->foundRows();
 		$links['rows_total'] = $count;
 		$u = Config::$container['request']->getUri();
 		$uri = $u->getBaseUrl() . '/' . $u->getPath();
 		$links['uri'] = $uri;
 		$pages = (int)ceil($count / $perpage);
 		$links['pages_total'] = $pages;
-		$full_span = ($span * 2 + 1) > $pages ? $pages : $span * 2 + 1;
+		$full_span = (($span * 2 + 1) > $pages) ? $pages : $span * 2 + 1;
 		$links['full_span'] = $full_span;
 		$prev = ($page > 2) ? $page - 1 : 1;
 		$links['prev_page'] = $prev;
@@ -331,17 +321,17 @@ abstract class Model
 		$links['row_to'] = $zapis_do;
 
 		$buttons = "";
-		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_begin . '" href="' . $uri . '?page=1" tabindex="-1">1</a>';
-		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_begin . '" href="' . $uri . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $uri . '?page=1" tabindex="-1">1</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $uri . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
 		for ($i = $start; $i <= $end; $i++) {
 			$current = '';
 			if ($page === $i) {
-				$current = ' pgn-btn-disabled ' . $this->pagination_config['css_current_class'];
+				$current = " pgn-btn-disabled pgn-cur-btn";
 			}
-			$buttons .= '<a class="' . $this->pagination_config['css_class'] . $current . '" href="' . $uri . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
+			$buttons .= '<a class="pgn-btn' . $current . '" href="' . $uri . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
 		}
-		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_end . '" href="' . $uri . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
-		$buttons .= '<a class="' . $this->pagination_config['css_class'] . $disabled_end . '" href="' . $uri . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $uri . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $uri . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
 		$links['buttons'] = $buttons;
 		$goto = '<select class="pgn-goto" name="pgn-goto" id="pgn-goto">';
 		for ($i = 1; $i <= $pages; $i++) {
@@ -368,6 +358,7 @@ abstract class Model
 	 */
 	public function hasOne($model_class, $foreign_table_fk)
 	{
+		//TODO: Prepraviti
 		$m = new $model_class();
 		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->limit(1)->get();
 		return $result;
@@ -384,6 +375,7 @@ abstract class Model
 	 */
 	public function hasMany($model_class, $foreign_table_fk)
 	{
+		//TODO: Prepraviti
 		$m = new $model_class();
 		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
 		if ($this->getLastCount() === 1) {
@@ -404,6 +396,7 @@ abstract class Model
 	 */
 	public function belongsTo($model_class, $this_table_fk)
 	{
+		//TODO: Prepraviti
 		$m = new $model_class();
 		$result = $m->find($this->$this_table_fk);
 		return $result;
@@ -422,6 +415,7 @@ abstract class Model
 	 */
 	public function belongsToMany($model_class, $pivot_table, $pt_this_table_fk, $pt_foreign_table_fk)
 	{
+		//TODO: Prepraviti
 		$m = new $model_class();
 		$result = $m->select()
 			->join($pivot_table, $m->getPrimaryKey(), $pt_foreign_table_fk)

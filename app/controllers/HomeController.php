@@ -8,13 +8,18 @@ use App\Models\Komintent;
 use App\Models\VrstaUpisnika;
 use App\Classes\QueryBuilder;
 use App\Classes\Validator;
+use App\Classes\Auth;
 
 class HomeController extends Controller
 {
 	public function getHome($request, $response)
 	{
-
-		dd("");
+		$auth = new Auth();
+		$auth->login("админ", "чаша");
+		dd($auth->isLoggedIn(), false, false);
+		$auth->logout();
+		dd($auth->isLoggedIn(), false, false);
+		dd("TES");
 		$this->render($response, 'home.twig', compact('rezultat'));
 	}
 

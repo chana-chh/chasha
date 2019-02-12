@@ -42,11 +42,9 @@ final class Config
             // Podesavanja za stranicenje
             'per_page' => 10,
             'page_span' => 3,
-            'css_class' => 'pgn-btn',
-            'css_current_class' => 'pgn-cur-btn',
         ],
-        // Podesavanja za PDO MySQL konekciju
         'db' => [
+            // Podesavanja za PDO MySQL konekciju
             'dsn' => 'mysql:host=127.0.0.1;dbname=jp;charset=utf8mb4',
             'username' => 'root',
             'password' => '',
