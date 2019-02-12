@@ -14,8 +14,6 @@ namespace App\Classes;
 
 use App\Classes\Paginator;
 
-// TODO: Dodati with (EAGER LOADING) - ovo je u modelu
-
 /**
  * Model
  *
@@ -30,12 +28,6 @@ abstract class Model
 	 * @var \App\Classes\Db
 	 */
 	protected $db;
-
-	/**
-	 * Query builder
-	 * @var \App\Classes\QueryBuilder
-	 */
-	protected $qb;
 
 	/**
 	 * Naziv tabele modela
@@ -56,40 +48,16 @@ abstract class Model
 	protected $model;
 
 	/**
-	 * Konfiguracija za model
+	 * Konfiguracija za paginaciju
 	 * @var array
 	 */
 	protected $pagination_config;
 
 	/**
-	 * Kolone u tabeli
-	 * @var array
-	 */
-	protected $table_fields;
-
-	/**
-	 * Kljucevi u tabeli
-	 * @var array
-	 */
-	protected $table_keys;
-
-	/**
-	 * Originalne vrednosti polja
-	 * @var array
-	 */
-	protected $original_instance_fields;
-
-	/**
-	 * KOnacne vrednosti polja
-	 * @var array
-	 */
-	protected $instance_fields;
-
-	/**
 	 * Ukupan broj redova za paginaciju
 	 * @var integer
 	 */
-	protected $qb_rows_count;
+	protected $pagination_rows_count;
 
 	/**
 	 * Konstruktor
@@ -97,62 +65,11 @@ abstract class Model
 	 * @param \App\Classes\QueryBuilder Query builder
 	 * @throws \Exception Ako tabele u QueryBuilder-u i Model-u nisu iste
 	 */
-	public function __construct($qb = null)
+	public function __construct()
 	{
 		$this->db = Db::instance();
-
 		$this->pagination_config = Config::get('pagination');
-
-		if ($qb) {
-			if ($qb->getTable() !== $this->table) {
-				throw new \Exception('Tabela iz QueryBuilder-a ne odgovara tabeli iz Model-a');
-			}
-			$this->qb = $qb;
-		} else {
-			$this->qb = new QueryBuilder($this->table);
-		}
 		$this->model = get_class($this);
-		$this->original_instance_fields = $this->extractInstanceFields();
-	}
-
-	/**
-	 * Vraca polja sa vrednostima instance modela
-	 */
-	protected function extractInstanceFields()
-	{
-		$fields = (new \ReflectionObject($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
-		$result = [];
-		foreach ($fields as $field) {
-			$result[$field->name] = $this->{$field->name};
-		}
-		return $result;
-	}
-
-	/**
-	 * Popunjava nazive i svojstva kolona u tabeli
-	 */
-	protected function extractTableFields()
-	{
-		$columns = $this->db->sel("SHOW COLUMNS FROM {$this->table};");
-		foreach ($columns as $column) {
-			$this->table_fields[$column->Field]['type'] = $column->Type;
-			$this->table_fields[$column->Field]['key'] = $column->Key;
-			$this->table_fields[$column->Field]['default'] = $column->Default;
-		}
-	}
-
-	/**
-	 * Popunjava nazive i svojstva kljuceva u tabeli
-	 */
-	protected function extractTableKeys()
-	{
-		$keys = $this->db->sel("SHOW KEYS FROM {$this->table};");
-		foreach ($keys as $key) {
-			$this->table_keys[$key->Key_name][$key->Seq_in_index]['column'] = $key->Column_name;
-			$this->table_keys[$key->Key_name][$key->Seq_in_index]['unique'] = $key->Non_unique === 0 ? true : false;
-			$this->table_keys[$key->Key_name][$key->Seq_in_index]['colation'] = $key->Collation;
-			$this->table_keys[$key->Key_name][$key->Seq_in_index]['cardinality'] = $key->Cardinality;
-		}
 	}
 
 	/**
@@ -165,9 +82,9 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return \PDOStatement
 	 */
-	protected function query(string $sql, array $params = null)
+	public function run(string $sql, array $params = null)
 	{
-		return $this->db->qry($sql, $params);
+		return $this->db->run($sql, $params);
 	}
 
 	/**
@@ -180,25 +97,9 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return array Niz rezultata (instanci Model-a) upita
 	 */
-	protected function fetch(string $sql, array $params = null)
+	public function fetch(string $sql, array $params = null)
 	{
-		return $this->db->fetch($sql, $params, $this->model, [$this->qb]);
-	}
-
-	/**
-	 * Izvrsava sirovi upit
-	 *
-	 * @param string $sql SQL izraz
-	 * @param array $params Parametri za parametrizovani upit
-	 * @return array|\PDOStatement Niz rezultata (instanci Model-a) upita ili PDOStatement
-	 */
-	public function raw(string $sql, array $params = null)
-	{
-		if (strpos($sql, 'SELECT') !== false) {
-			return $this->fetch($sql, $params);
-		} else {
-			return $this->query($sql, $params);
-		}
+		return $this->db->fetch($sql, $params, $this->model);
 	}
 
 	/**
@@ -208,12 +109,13 @@ abstract class Model
 	 * @param string $sort Ncin sortiranja
 	 * @return array|\App\Classes\Model Niz modela ili jedan model
 	 */
-	public function all($sort_column = null, $sort = 'ASC')
+	public function all(string $sort_column = null, $sort = 'ASC')
 	{
-		$order_by = !empty(trim($sort_column)) ? ["{$sort_column} {$sort}"] : null;
-		$this->qb->reset();
-		$order_by ? $this->qb->select()->orderBy($order_by) : $this->qb->select();
-		return $this->get();
+		$sort = ($sort === 'DESC') ? $sort : 'ASC';
+		$order_by = !empty(trim($sort_column)) ? " ORDER BY :{$sort_column} {$sort}" : '';
+		$sql = "SELECT * FROM {$this->table}{$order_by};";
+		$params = [":{$sort_column}" => $sort_column];
+		return $this->fetch($sql, $params);
 	}
 
 	/**
@@ -224,72 +126,71 @@ abstract class Model
 	 */
 	public function find(int $id)
 	{
-		$this->qb->reset();
-		$this->qb->select()->where([["{$this->pk}", '=', (int)$id]]);
-		return $this->get();
+		$sql = "SELECT * FROM {$this->table} WHERE {$this->pk} = :id LIMIT 1;";
+		$params = [":id" => $id];
+		return $this->fetch($sql, $params)[0];
 	}
 
 	/**
-	 * Snima novi ili izmenjeni red
-	 *
-	 * @throws \Exception Ako je pozvan save na prazan model
+	 * Vraca SELECT sa navedenim kolonama
 	 */
-	public function save()
+	public function select(array $columns)
 	{
-		$this->instance_fields = $this->getInstanceFields();
+		$cols = implode(', ', $columns);
+		$sql = "SELECT {$cols} FROM {$this->table};";
+		return $this->fetch($sql);
+	}
 
-		if (count($this->original_instance_fields) === 0 && count($this->instance_fields) > 0) {
-			$this->qb->reset();
-			$this->qb->insert($this->instance_fields);
-			$this->run();
-			return;
+	/**
+	 * Vraca broj redova u tabeli
+	 */
+	public function countTable()
+	{
+		$sql = "SELECT COUNT(*) AS table_count FROM {$this->table}";
+		return (int)$this->fetch($sql)[0]->table_count;
+	}
+
+	/**
+	 * Upisuje red u tabelu
+	 */
+	public function insert(array $data)
+	{
+		foreach ($data as $key => $value) {
+			$cols[] = $key;
+			$pars[] = ':' . $key;
+			$vals[] = $value;
 		}
-		if (count($this->original_instance_fields) > 0 && count($this->instance_fields) > 0) {
-			$dif = [];
-			foreach ($this->original_instance_fields as $key => $value) {
-				if (isset($this->instance_fields[$key]) && $this->instance_fields[$key] !== $value) {
-					$dif[$key] = $this->instance_fields[$key];
-				}
-			}
-			if (!empty($dif)) {
-				$this->qb->reset();
-				$this->qb->update($dif)->where([["{$this->pk}", '=', $this->{$this->pk}]]);
-				$this->run();
-			}
-			return;
-		}
-		throw new \Exception('Nije moguce uneti prazan red u tabelu');
-	}
-
-
-	public function delete()
-	{
-		// TODO: Brisanje povezanih sranja
-		$this->qb->reset();
-		$this->qb->delete($this->{$this->pk});
-		$this->run();
+		$params = array_combine($pars, $vals);
+		$c = implode(', ', $cols);
+		$v = implode(', ', $pars);
+		$sql = "INSERT INTO {$this->table} ({$c}) VALUES ({$v});";
+		return $this->run($sql, $params);
 	}
 
 	/**
-	 * Kada se nizanje zavrsi ovom metodom se vracaju redovi
-	 *
-	 * @return array Niz Model-a koji predstavljaju red u tabeli
+	 * Menja red u tabeli
 	 */
-	public function get()
+	public function update(array $data, int $id)
 	{
-		// INFO: Ovo ide za SELECT
-		return $this->fetch($this->qb->getSql(), $this->qb->getParams());
+
 	}
 
 	/**
-	 * Kada se nizanje zavrsi ovom metodom se izvrsava upit
-	 *
-	 * @return \PDOStatement
+	 * Brise red u tabeli sa prosledjenim ID
 	 */
-	public function run()
+	public function deleteOne(int $id)
 	{
-		// INFO: Ovo ide za INSERT, UPDATE i DELETE
-		return $this->query($this->qb->getSql(), $this->qb->getParams());
+		$sql = "DELETE FROM `{$this->table}` WHERE `{$this->pk}` = :id";
+		$params = [':id' => $id];
+		return $this->run($sql, $params);
+	}
+
+	/**
+	 * Brise redove u tabeli na osnovu prosledjenog kriterijuma
+	 */
+	public function delete(array $where)
+	{
+
 	}
 
 	/**
@@ -304,9 +205,9 @@ abstract class Model
 	{
 		$sql = "SELECT DATA_TYPE, COLUMN_TYPE
 				FROM INFORMATION_SCHEMA.COLUMNS
-				WHERE TABLE_NAME = ? AND COLUMN_NAME = ?;";
-		$params = [1 => $this->table, 2 => $column];
-		$result = $this->db->sel($sql, $params);
+				WHERE TABLE_NAME = :tn AND COLUMN_NAME = :cn;";
+		$params = [':tn' => $this->table, ':cn' => $column];
+		$result = $this->db->fetch($sql, $params);
 		if ($result->DATA_TYPE === 'enum' || $result->DATA_TYPE === 'set') {
 			$list = explode(
 				",",
@@ -360,7 +261,7 @@ abstract class Model
 		}
 		$offset = ($page - 1) * $perpage;
 
-		$this->qb_rows_count = $this->qb->getCountSql();
+		$this->pagination_rows_count = $this->qb->getCountSql();
 		$this->qb->limit($perpage)->offset($offset);
 		$data = $this->get();
 		return $data;
@@ -371,8 +272,8 @@ abstract class Model
 	 */
 	protected function foundRows()
 	{
-		$count = $this->db->sel("SELECT FOUND_ROWS() AS count;");
-		return (int)$count->count;
+		$sql = "SELECT FOUND_ROWS() AS count;";
+		return (int)$this->db->fetch($sql)[0]->count;
 	}
 
 	/**
@@ -388,7 +289,7 @@ abstract class Model
 		$links['per_page'] = $perpage;
 		$span = $this->pagination_config['page_span'];
 		$links['span'] = $span;
-		$cnt = $this->db->sel($this->qb_rows_count->getSql(), $this->qb_rows_count->getParams());
+		$cnt = $this->db->sel($this->pagination_rows_count->getSql(), $this->pagination_rows_count->getParams());
 		$count = (int)$cnt->row_count;
 		$links['rows_total'] = $count;
 		$u = Config::$container['request']->getUri();
@@ -593,44 +494,13 @@ abstract class Model
 	}
 
 	/**
-	 * Vraca poslednji parametrizovani upit
-	 *
-	 * @return string
+	 * Vraca poslednji izvrseni SQL upit
 	 */
-	public function getSql()
+	public function lastSql()
 	{
-		return $this->qb->getSql();
-	}
-
-	/**
-	 * Vraca parametre za upit upit
-	 *
-	 * @return string
-	 */
-	public function getParams()
-	{
-		return $this->qb->getParams();
-	}
-
-	/**
-	 * Vraca polja sa originalnim vrednostima instance modela
-	 *
-	 * @return array
-	 */
-	public function getOriginalInstanceFields()
-	{
-		return $this->original_instance_fields;
-	}
-
-	/**
-	 * Vraca polja sa vrednostima instance modela
-	 *
-	 * @return array
-	 */
-	public function getInstanceFields()
-	{
-		$this->instance_fields = $this->extractInstanceFields();
-		return $this->instance_fields;
+		$length = (int)getStringBetween($this->getLastQuery(), 'SQL: [', ']');
+		$start = strlen('SQL: [' . $length . '] ');
+		return substr($this->getLastQuery(), $start, $length);
 	}
 
 	/**
@@ -640,8 +510,8 @@ abstract class Model
 	 */
 	public function getTableFields()
 	{
-		$this->extractTableFields();
-		return $this->table_fields;
+		$sql = "SHOW COLUMNS FROM {$this->table};";
+		return $this->fetch($sql);
 	}
 
 	/**
@@ -651,25 +521,8 @@ abstract class Model
 	 */
 	public function getTableKeys()
 	{
-		$this->extractTableKeys();
-		return $this->table_keys;
-	}
-
-	public function __call($method, $arguments)
-	{
-		if (is_callable([$this->qb, $method])) {
-			if ($arguments) {
-				$this->qb->$method(...$arguments);
-			} else {
-				$this->qb->$method();
-			}
-			return $this;
-		}
-	}
-
-	public function getSqlWithParams()
-	{
-		return $this->qb->getSqlWithParams();
+		$sql = "SHOW KEYS FROM {$this->table};";
+		return $this->fetch($sql);
 	}
 
 }

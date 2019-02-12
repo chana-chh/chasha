@@ -173,7 +173,7 @@ class Db
 	}
 
 	/**
-	 * Vraca posledni uneti ID
+	 * Vraca ID poslednnjeg upisa
 	 *
 	 * @return string
 	 */
