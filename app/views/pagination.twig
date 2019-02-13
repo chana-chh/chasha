@@ -8,19 +8,33 @@
 <table style="width:100%" id="data_table">
     <thead>
         <tr>
-            <th style="width:20%;text-align:left;">Id</th>
-            <th style="width:30%;text-align:left;">Name</th>
-            <th style="width:30%;text-align:left;">Username</th>
-            <th style="width:20%;text-align:left;">Level</th>
+            <th style="width:10%;text-align:left;">Id</th>
+            <th style="width:20%;text-align:left;">Broj</th>
+            <th style="width:20%;text-align:left;">Vrsta</th>
+            <th style="width:25%;text-align:left;">Tuzioci</th>
+            <th style="width:25%;text-align:left;">Tuzeni</th>
         </tr>
     </thead>
     <tbody>
-        {% for d in korisnici.data %}
+        {% for predmet in predmeti.data %}
         <tr>
-            <td>{{ d.id }}</td>
-            <td>{{ d.name }}</td>
-            <td>{{ d.username }}</td>
-            <td>{{ d.level }}</td>
+            <td>{{ predmet.id }}</td>
+            <td>{{ predmet.broj() }}</td>
+            <td>{{ predmet.vrstaPredmeta().naziv }}</td>
+            <td>
+                <ul>
+                    {% for tuzilac in predmet.tuzioci() %}
+                    <li>{{ tuzilac.naziv }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for tuzeni in predmet.tuzeni() %}
+                    <li>{{ tuzeni.naziv }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -28,71 +42,16 @@
 
 <table style="width: 100%;">
     <tr>
-        <td style="width:30%;">{{ korisnici.links.buttons|raw }}</td>
-        <td style="width:40%;">Go to page {{ korisnici.links.select|raw }}</td>
+        <td style="width:30%;">{{ predmeti.links.buttons|raw }}</td>
+        <td style="width:40%;">Go to page {{ predmeti.links.select|raw }}</td>
         <td style="width:30%;">
             Prikazani redovi od
-            <span id="start">{{ korisnici.links.row_from }}</span> do {{ korisnici.links.row_to }}
-            od ukupno {{ korisnici.links.rows_total }}
+            <span id="start">{{ predmeti.links.row_from }}</span> do {{ predmeti.links.row_to }}
+            od ukupno {{ predmeti.links.total_rows }}
         </td>
     </tr>
 </table>
 
-<h2>Pagination</h2>
-<table style="width: 100%;">
-    <tr>
-        <th style="text-align: left; width: 10%;">current_page</th>
-        <td>{{ korisnici.links.current_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">pages_total</th>
-        <td>{{ korisnici.links.pages_total }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">per_page</th>
-        <td>{{ korisnici.links.per_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">rows_total</th>
-        <td>{{ korisnici.links.rows_total }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">uri</th>
-        <td>{{ korisnici.links.uri }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">span</th>
-        <td>{{ korisnici.links.span }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">full_span</th>
-        <td>{{ korisnici.links.full_span }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">prev_page</th>
-        <td>{{ korisnici.links.prev_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">next_page</th>
-        <td>{{ korisnici.links.next_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">span_start_page</th>
-        <td>{{ korisnici.links.span_start_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">span_end_page</th>
-        <td>{{ korisnici.links.span_end_page }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">row_from</th>
-        <td>{{ korisnici.links.row_from }}</td>
-    </tr>
-    <tr>
-        <th style="text-align: left; width: 10%;">row_to</th>
-        <td>{{ korisnici.links.row_to }}</td>
-    </tr>
-</table>
 {# {{ csrf|raw }} #}
 <script>
     document.querySelector("#pgn-goto").addEventListener('change', function (e) {

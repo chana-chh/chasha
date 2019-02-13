@@ -71,9 +71,9 @@ class Validator
      *
      * @param App\Classes\Db $db PDO wrapper
      */
-    public function __construct($db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->db = Db::instance();
     }
 
     /**
@@ -201,8 +201,8 @@ class Validator
     protected function unique($field, $value, $option)
     {
         $option = explode('.', $option);
-        $sql = "SELECT COUNT(*) AS broj FROM {$option[0]} WHERE {$option[1]} = :par";
-        $res = $this->db->sel($sql, [':par' => $value]);
+        $sql = "SELECT COUNT(*) AS broj FROM {$option[0]} WHERE {$option[1]} = :{$option[1]}";
+        $res = $this->db->fetch($sql, [":{$option[1]}" => $value]);
         return (int)$res->broj > 0 ? false : true;
     }
 

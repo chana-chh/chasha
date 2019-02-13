@@ -78,7 +78,7 @@ abstract class Model
 	 */
 	public function run(string $sql, array $params = null)
 	{
-		return $this->db->run($sql, $params);
+		return Db::run($sql, $params);
 	}
 
 	/**
@@ -91,9 +91,10 @@ abstract class Model
 	 * @param array $params Parametri za parametrizovani upit
 	 * @return array Niz rezultata (instanci Model-a) upita
 	 */
-	public function fetch(string $sql, array $params = null)
+	public function fetch(string $sql, array $params = null, string $model = null)
 	{
-		return $this->db->fetch($sql, $params, $this->model);
+		$model = ($model === null) ? $this->model : $model;
+		return Db::fetch($sql, $params, $model);
 	}
 
 	/**
@@ -222,7 +223,7 @@ abstract class Model
 				FROM INFORMATION_SCHEMA.COLUMNS
 				WHERE TABLE_NAME = :tn AND COLUMN_NAME = :cn;";
 		$params = [':tn' => $this->table, ':cn' => $column];
-		$result = $this->db->fetch($sql, $params);
+		$result = $this->fetch($sql, $params);
 		if ($result->DATA_TYPE === 'enum' || $result->DATA_TYPE === 'set') {
 			$list = explode(
 				",",
@@ -282,7 +283,7 @@ abstract class Model
 	protected function foundRows()
 	{
 		$sql = "SELECT FOUND_ROWS() AS count;";
-		return (int)$this->db->fetch($sql)[0]->count;
+		return (int)$this->fetch($sql)[0]->count;
 	}
 
 	/**
@@ -297,16 +298,14 @@ abstract class Model
 		}
 		$links['per_page'] = $perpage;
 		$span = $this->pagination_config['page_span'];
-		$links['span'] = $span;
 		$count = $this->foundRows();
-		$links['rows_total'] = $count;
+		$links['total_rows'] = $count;
 		$u = Config::getContainer('request')->getUri();
-		$uri = $u->getBaseUrl() . '/' . $u->getPath();
-		$links['uri'] = $uri;
+		$url = $u->getBaseUrl() . '/' . $u->getPath();
+		$links['url'] = $url;
 		$pages = (int)ceil($count / $perpage);
-		$links['pages_total'] = $pages;
+		$links['total_pages'] = $pages;
 		$full_span = (($span * 2 + 1) > $pages) ? $pages : $span * 2 + 1;
-		$links['full_span'] = $full_span;
 		$prev = ($page > 2) ? $page - 1 : 1;
 		$links['prev_page'] = $prev;
 		$next = ($page < $pages) ? $page + 1 : $pages;
@@ -325,31 +324,26 @@ abstract class Model
 			$start = 1;
 			$end = $pages;
 		}
-		$links['span_start_page'] = $start;
-		$links['span_end_page'] = $end;
-
 		$disabled_begin = ($page === 1) ? " pgn-btn-disabled" : "";
 		$disabled_end = ($page === $pages) ? " pgn-btn-disabled" : "";
-
 		$zapis_od = (($page - 1) * $perpage) + 1;
 		$zapis_do = ($zapis_od + $perpage) - 1;
 		$zapis_do = $zapis_do >= $count ? $count : $zapis_do;
-
 		$links['row_from'] = $zapis_od;
 		$links['row_to'] = $zapis_do;
 
 		$buttons = "";
-		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $uri . '?page=1" tabindex="-1">1</a>';
-		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $uri . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=1" tabindex="-1">1</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
 		for ($i = $start; $i <= $end; $i++) {
 			$current = '';
 			if ($page === $i) {
 				$current = " pgn-btn-disabled pgn-cur-btn";
 			}
-			$buttons .= '<a class="pgn-btn' . $current . '" href="' . $uri . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
+			$buttons .= '<a class="pgn-btn' . $current . '" href="' . $url . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
 		}
-		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $uri . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
-		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $uri . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
 		$links['buttons'] = $buttons;
 		$goto = '<select class="pgn-goto" name="pgn-goto" id="pgn-goto">';
 		for ($i = 1; $i <= $pages; $i++) {
@@ -357,7 +351,7 @@ abstract class Model
 			if ($page === $i) {
 				$selected = ' selected';
 			}
-			$goto .= '<option value="' . $uri . '?page=' . $i . '"' . $selected . '>' . $i . '</option>';
+			$goto .= '<option value="' . $url . '?page=' . $i . '"' . $selected . '>' . $i . '</option>';
 		}
 		$goto .= '</select>';
 		$links['select'] = $goto;
@@ -376,10 +370,12 @@ abstract class Model
 	 */
 	public function hasOne($model_class, $foreign_table_fk)
 	{
-		//TODO: Prepraviti
 		$m = new $model_class();
-		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->limit(1)->get();
-		return $result;
+		$sql = "SELECT * FROM {$m->getTable()} WHERE {$foreign_table_fk} = :{$foreign_table_fk};";
+		$pk = $this->getPrimaryKey();
+		$params = [":{$foreign_table_fk}" => $this->$pk];
+		$result = $this->fetch($sql, $params, $model_class);
+		return $result[0];
 	}
 
 	/**
@@ -393,12 +389,11 @@ abstract class Model
 	 */
 	public function hasMany($model_class, $foreign_table_fk)
 	{
-		//TODO: Prepraviti
 		$m = new $model_class();
-		$result = $m->select()->where([[$foreign_table_fk, '=', $this->{$this->pk}]])->get();
-		if ($this->getLastCount() === 1) {
-			return [$result];
-		}
+		$sql = "SELECT * FROM {$m->getTable()} WHERE {$foreign_table_fk} = :{$foreign_table_fk};";
+		$pk = $this->getPrimaryKey();
+		$params = [":{$foreign_table_fk}" => $this->$pk];
+		$result = $this->fetch($sql, $params, $model_class);
 		return $result;
 	}
 
@@ -414,10 +409,11 @@ abstract class Model
 	 */
 	public function belongsTo($model_class, $this_table_fk)
 	{
-		//TODO: Prepraviti
 		$m = new $model_class();
-		$result = $m->find($this->$this_table_fk);
-		return $result;
+		$sql = "SELECT * FROM {$m->getTable()} WHERE {$m->getPrimaryKey()} = :{$m->getPrimaryKey()};";
+		$params = [":{$m->getPrimaryKey()}" => $this->$this_table_fk];
+		$result = $this->fetch($sql, $params, $model_class);
+		return $result[0];
 	}
 
 	/**
@@ -433,15 +429,12 @@ abstract class Model
 	 */
 	public function belongsToMany($model_class, $pivot_table, $pt_this_table_fk, $pt_foreign_table_fk)
 	{
-		//TODO: Prepraviti
 		$m = new $model_class();
-		$result = $m->select()
-			->join($pivot_table, $m->getPrimaryKey(), $pt_foreign_table_fk)
-			->where([[$pivot_table . '.' . $pt_this_table_fk, '=', $this->{$this->pk}]])
-			->get();
-		if ($this->getLastCount() === 1) {
-			return [$result];
-		}
+		$tbl = $m->getTable();
+		$pk = $this->getPrimaryKey();
+		$params = [":{$pk}" => $this->$pk];
+		$sql = "SELECT {$tbl}.* FROM {$tbl} JOIN {$pivot_table} ON {$tbl}.{$m->getPrimaryKey()} = {$pivot_table}.{$pt_foreign_table_fk} WHERE {$pivot_table}.{$pt_this_table_fk} = :{$pk};";
+		$result = $this->fetch($sql, $params, $model_class);
 		return $result;
 	}
 
@@ -472,7 +465,7 @@ abstract class Model
 	 */
 	public function getLastId()
 	{
-		return $this->db->getLastId();
+		return Db::getLastInsertedId();
 	}
 
 	/**
@@ -482,7 +475,7 @@ abstract class Model
 	 */
 	public function getLastCount()
 	{
-		return $this->db->getLastCount();
+		return Db::getLastRowCount();
 	}
 
 	/**
@@ -492,7 +485,7 @@ abstract class Model
 	 */
 	public function getLastError()
 	{
-		return $this->db->getLastError();
+		return Db::getLastError();
 	}
 
 	/**
@@ -502,17 +495,7 @@ abstract class Model
 	 */
 	public function getLastQuery()
 	{
-		return $this->db->getLastQuery();
-	}
-
-	/**
-	 * Vraca poslednji izvrseni SQL upit
-	 */
-	public function lastSql()
-	{
-		$length = (int)getStringBetween($this->getLastQuery(), 'SQL: [', ']');
-		$start = strlen('SQL: [' . $length . '] ');
-		return substr($this->getLastQuery(), $start, $length);
+		return Db::getLastQuery();
 	}
 
 	/**

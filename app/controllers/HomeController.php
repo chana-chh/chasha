@@ -23,9 +23,10 @@ class HomeController extends Controller
 		parse_str($request->getUri()->getQuery(), $query);
 		$page = isset($query['page']) ? (int)$query['page'] : 1;
 
-		$model = new Korisnik;
-		$korisnici = $model->paginate($page, null, null, 10);
-		$this->render($response, 'pagination.twig', compact('korisnici'));
+		$model = new Predmet();
+		$predmeti = $model->paginate($page);
+
+		$this->render($response, 'pagination.twig', compact('predmeti'));
 	}
 
 }
