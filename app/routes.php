@@ -25,5 +25,4 @@ $app->group('', function () {
 $app->group('', function () {
 	$this->get('/odjava', '\App\Controllers\AuthController:getOdjava')->setName('odjava');
 	$this->get('/strana', '\App\Controllers\HomeController:getPagination')->setName('strainicenje');
-	$this->post('/ajax', '\App\Controllers\HomeController:postAjaxPagination')->setName('ajax.pagination');
 })->add(new AuthMiddleware($container));

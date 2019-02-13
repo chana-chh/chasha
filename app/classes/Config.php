@@ -118,7 +118,7 @@ final class Config
      * @param mixed $default Podrazumevana vrednost ako nije pronadjeno podesavanje
      * @return mixed
      */
-    public static function get($key = null, $default = null)
+    public static function get(string $key = null, $default = null)
     {
         if ($key === null) {
             return static::$config;
@@ -138,6 +138,8 @@ final class Config
                 }
                 $data = $data[$k];
             }
+        } else {
+            return isset($data[$key]) ? $data[$key] : $default;
         }
         return $data === null ? $default : $data;
     }

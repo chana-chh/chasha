@@ -18183,3 +18183,11 @@ Stack trace:
 [12-Feb-2019 21:54:59 Europe/Belgrade] PHP  30. call_user_func:{D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:41}() D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:41
 [12-Feb-2019 21:54:59 Europe/Belgrade] PHP  31. App\Controllers\HomeController->getHome() D:\xampp\htdocs\chasha\vendor\slim\slim\Slim\Handlers\Strategies\RequestResponse.php:41
 [12-Feb-2019 21:54:59 Europe/Belgrade] PHP  32. App\Classes\Auth->login() D:\xampp\htdocs\chasha\app\controllers\HomeController.php:18
+[13-Feb-2019 09:38:06 Europe/Belgrade] PHP Notice:  Undefined variable: limit in C:\xampp\htdocs\chasha\app\classes\Model.php on line 273
+[13-Feb-2019 09:40:12 Europe/Belgrade] PHP Notice:  Undefined variable: limit in C:\xampp\htdocs\chasha\app\classes\Model.php on line 273
+[13-Feb-2019 09:42:21 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 09:44:18 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 09:51:04 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 09:52:54 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 09:53:51 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 09:57:59 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299

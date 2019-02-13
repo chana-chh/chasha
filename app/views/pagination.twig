@@ -4,62 +4,36 @@
 <h1>Stranicenje</h1>
 <div id="ajax"></div>
 <h2>Data</h2>
-<table style="width:100%;background-color:#c99;">
-    <td style="width:50%;text-align:left;">
-        <select name="rows" id="rows" class="pgn-goto">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-    </td>
-    <td style="width:50%;text-align:right;">
-        <input type="text" name="search" id="search" class="pgn-goto">
-        <button id="btn_search">Lupica</button>
-    </td>
-</table>
+
 <table style="width:100%" id="data_table">
     <thead>
         <tr>
-            <th style="width:10%;text-align:left;" id="column_id">Id</th>
-            <th style="width:10%;text-align:left;" id="column_btoj">Broj</th>
-            <th style="width:20%;text-align:left;" id="column_vrsta">Vrsta predmeta</th>
-            <th style="width:20%;text-align:left;" id="column_tuzioci">Tuzioci</th>
-            <th style="width:20%;text-align:left;" id="column_tuzeni">Tuzeni</th>
+            <th style="width:20%;text-align:left;">Id</th>
+            <th style="width:30%;text-align:left;">Name</th>
+            <th style="width:30%;text-align:left;">Username</th>
+            <th style="width:20%;text-align:left;">Level</th>
         </tr>
     </thead>
     <tbody>
-        {% for d in predmeti.data %}
+        {% for d in korisnici.data %}
         <tr>
             <td>{{ d.id }}</td>
-            <td>{{ d.broj() }}</td>
-            <td>{{ d.vrstaPredmeta().naziv }}</td>
-            <td>
-                <ul>
-                    {% for t1 in d.tuzioci() %}
-                    <li>{{t1.naziv}}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-            <td>
-                <ul>
-                    {% for t2 in d.tuzeni() %}
-                    <li>{{t2.naziv}}</li>
-                    {% endfor %}
-                </ul>
-            </td>
+            <td>{{ d.name }}</td>
+            <td>{{ d.username }}</td>
+            <td>{{ d.level }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<table style="width: 100%;background-color:#c99;">
+
+<table style="width: 100%;">
     <tr>
-        <td style="width:30%;">{{ predmeti.pagination.buttons|raw }}</td>
-        <td style="width:40%;">Go to page: {{ predmeti.pagination.select|raw }}</td>
+        <td style="width:30%;">{{ korisnici.links.buttons|raw }}</td>
+        <td style="width:40%;">Go to page {{ korisnici.links.select|raw }}</td>
         <td style="width:30%;">
-            Prikazani redovi od:
-            <span id="start">{{ predmeti.pagination.row_from }}</span> do {{ predmeti.pagination.row_to }}
-            od ukupno {{ predmeti.pagination.rows_total }}
+            Prikazani redovi od
+            <span id="start">{{ korisnici.links.row_from }}</span> do {{ korisnici.links.row_to }}
+            od ukupno {{ korisnici.links.rows_total }}
         </td>
     </tr>
 </table>
@@ -68,117 +42,61 @@
 <table style="width: 100%;">
     <tr>
         <th style="text-align: left; width: 10%;">current_page</th>
-        <td>{{ predmeti.pagination.current_page }}</td>
+        <td>{{ korisnici.links.current_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">pages_total</th>
-        <td>{{ predmeti.pagination.pages_total }}</td>
+        <td>{{ korisnici.links.pages_total }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">per_page</th>
-        <td>{{ predmeti.pagination.per_page }}</td>
+        <td>{{ korisnici.links.per_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">rows_total</th>
-        <td>{{ predmeti.pagination.rows_total }}</td>
+        <td>{{ korisnici.links.rows_total }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">uri</th>
-        <td>{{ predmeti.pagination.uri }}</td>
+        <td>{{ korisnici.links.uri }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span</th>
-        <td>{{ predmeti.pagination.span }}</td>
+        <td>{{ korisnici.links.span }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">full_span</th>
-        <td>{{ predmeti.pagination.full_span }}</td>
+        <td>{{ korisnici.links.full_span }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">prev_page</th>
-        <td>{{ predmeti.pagination.prev_page }}</td>
+        <td>{{ korisnici.links.prev_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">next_page</th>
-        <td>{{ predmeti.pagination.next_page }}</td>
+        <td>{{ korisnici.links.next_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span_start_page</th>
-        <td>{{ predmeti.pagination.span_start_page }}</td>
+        <td>{{ korisnici.links.span_start_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">span_end_page</th>
-        <td>{{ predmeti.pagination.span_end_page }}</td>
+        <td>{{ korisnici.links.span_end_page }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">row_from</th>
-        <td>{{ predmeti.pagination.row_from }}</td>
+        <td>{{ korisnici.links.row_from }}</td>
     </tr>
     <tr>
         <th style="text-align: left; width: 10%;">row_to</th>
-        <td>{{ predmeti.pagination.row_to }}</td>
+        <td>{{ korisnici.links.row_to }}</td>
     </tr>
 </table>
-{{ csrf|raw }}
+{# {{ csrf|raw }} #}
 <script>
     document.querySelector("#pgn-goto").addEventListener('change', function (e) {
         location = this.value;
-    });
-
-    var csrf_name = document.querySelector("input[name=csrf_name]").value;
-    var csrf_value = document.querySelector("input[name=csrf_value]").value;
-    var ajax_route = "{{ path_for('ajax.pagination') }}";
-    var send_data = {};
-    var order = [0, false];
-    var rows = document.querySelector("#rows");
-    var search = document.querySelector("#search");
-    var start = document.querySelector("#start");
-    var lupica = document.querySelector("#btn_search");
-    var columns = document.querySelectorAll("#data_table>thead th");
-
-    function makeSendData() {
-        send_data.csrf_name = csrf_name;
-        send_data.csrf_value = csrf_value;
-        send_data.rows = parseInt(rows.value);
-        send_data.search = search.value;
-        send_data.start = parseInt(start.innerHTML);
-        send_data.order = order;
-        console.log(send_data);
-        axios.post(ajax_route, send_data)
-            .then(function (response) {
-                csrf_name = response.data.csrf_name;
-                csrf_value = response.data.csrf_value;
-                document.querySelector("#ajax").innerHTML = JSON.stringify(response.data);
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    columns.forEach(function (col, index) {
-        col.addEventListener("click", function (e) {
-            if (index === order[0]) {
-                if (order[1] === false) {
-                    order = [index, "asc"];
-                } else if (order[1] === "asc") {
-                    order = [index, "desc"];
-                } else {
-                    order = [index, false];
-                }
-            } else {
-                order = [index, "asc"];
-            }
-            makeSendData();
-        });
-    });
-
-    rows.addEventListener('change', function (e) {
-        makeSendData();
-    });
-
-    lupica.addEventListener('click', function (e) {
-        makeSendData();
     });
 </script>
 

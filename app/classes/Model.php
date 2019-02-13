@@ -153,11 +153,11 @@ abstract class Model
 	 */
 	public function insert(array $data)
 	{
-		foreach ($data as $key => $value) {
-			$cols[] = $key;
-			$pars[] = ':' . $key;
-			$vals[] = $value;
-		}
+		$cols = array_column($data, 0);
+		$pars = array_map(function ($col) {
+			return ':' . $col;
+		}, $cols);
+		$vals = array_column($data, 1);
 		$params = array_combine($pars, $vals);
 		$c = implode(', ', $cols);
 		$v = implode(', ', $pars);
@@ -170,7 +170,21 @@ abstract class Model
 	 */
 	public function update(array $data, int $id)
 	{
-		//TODO: Napraviti
+		$cols = array_column($data, 0);
+		$pars = array_map(function ($col) {
+			return ':' . $col;
+		}, $cols);
+		$vals = array_column($data, 1);
+		$params = array_combine($pars, $vals);
+		$params[':id'] = $id;
+		$cv = array_combine($cols, $pars);
+		$c = '';
+		foreach ($cv as $key => $val) {
+			$c .= ", {$key} = {$val}";
+		}
+		$c = ltrim($c, ', ');
+		$sql = "UPDATE `{$this->table}` SET {$c} WHERE {$this->pk} = :id;";
+		return $this->run($sql, $params);
 	}
 
 	/**
@@ -188,7 +202,10 @@ abstract class Model
 	 */
 	public function delete(array $where)
 	{
-		//TODO: Napraviti
+		list($column, $operator, $value) = $where;
+		$sql = "DELETE FROM {$this->table} WHERE {$column} {$operator} :{$column};";
+		$params = [":{$column}" => $value];
+		return $this->run($sql, $params);
 	}
 
 	/**
@@ -251,6 +268,7 @@ abstract class Model
 		if ($perpage === null) {
 			$perpage = $this->pagination_config['per_page'];
 		}
+		$limit = $perpage;
 		$offset = ($page - 1) * $perpage;
 		$sql = rtrim($sql, ';');
 		$sql .= " LIMIT {$limit} OFFSET {$offset};";
@@ -282,7 +300,7 @@ abstract class Model
 		$links['span'] = $span;
 		$count = $this->foundRows();
 		$links['rows_total'] = $count;
-		$u = Config::$container['request']->getUri();
+		$u = Config::getContainer('request')->getUri();
 		$uri = $u->getBaseUrl() . '/' . $u->getPath();
 		$links['uri'] = $uri;
 		$pages = (int)ceil($count / $perpage);
