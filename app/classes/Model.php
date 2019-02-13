@@ -126,7 +126,7 @@ abstract class Model
 	{
 		$sql = "SELECT * FROM {$this->table} WHERE {$this->pk} = :id LIMIT 1;";
 		$params = [":id" => $id];
-		return $this->fetch($sql, $params)[0];
+		return $this->fetch($sql, $params) === [] ? null : $this->fetch($sql, $params)[0];
 	}
 
 	/**
@@ -153,15 +153,15 @@ abstract class Model
 	 */
 	public function insert(array $data)
 	{
-		$cols = array_column($data, 0);
-		$pars = array_map(function ($col) {
-			return ':' . $col;
-		}, $cols);
-		$vals = array_column($data, 1);
+		foreach ($data as $key => $value) {
+			$cols[] = $key;
+			$pars[] = ':' . $key;
+			$vals[] = $value;
+		}
 		$params = array_combine($pars, $vals);
 		$c = implode(', ', $cols);
 		$v = implode(', ', $pars);
-		$sql = "INSERT INTO {$this->table} ({$c}) VALUES ({$v});";
+		$sql = "INSERT INTO `{$this->table}` ({$c}) VALUES ({$v});";
 		return $this->run($sql, $params);
 	}
 
@@ -170,20 +170,20 @@ abstract class Model
 	 */
 	public function update(array $data, int $id)
 	{
-		$cols = array_column($data, 0);
-		$pars = array_map(function ($col) {
-			return ':' . $col;
-		}, $cols);
-		$vals = array_column($data, 1);
+		foreach ($data as $key => $value) {
+			$cols[] = $key;
+			$pars[] = ':' . $key;
+			$vals[] = $value;
+		}
 		$params = array_combine($pars, $vals);
-		$params[':id'] = $id;
+		$params[":{$this->pk}"] = $id;
 		$cv = array_combine($cols, $pars);
 		$c = '';
 		foreach ($cv as $key => $val) {
 			$c .= ", {$key} = {$val}";
 		}
 		$c = ltrim($c, ', ');
-		$sql = "UPDATE `{$this->table}` SET {$c} WHERE {$this->pk} = :id;";
+		$sql = "UPDATE `{$this->table}` SET {$c} WHERE {$this->pk} = :{$this->pk};";
 		return $this->run($sql, $params);
 	}
 
@@ -192,8 +192,8 @@ abstract class Model
 	 */
 	public function deleteOne(int $id)
 	{
-		$sql = "DELETE FROM `{$this->table}` WHERE `{$this->pk}` = :id";
-		$params = [':id' => $id];
+		$sql = "DELETE FROM {$this->table} WHERE {$this->pk} = :{$this->pk}";
+		$params = [":{$this->pk}" => $id];
 		return $this->run($sql, $params);
 	}
 

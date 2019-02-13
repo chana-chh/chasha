@@ -18191,3 +18191,4 @@ Stack trace:
 [13-Feb-2019 09:52:54 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
 [13-Feb-2019 09:53:51 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
 [13-Feb-2019 09:57:59 Europe/Belgrade] PHP Notice:  Undefined index: page_span in C:\xampp\htdocs\chasha\app\classes\Model.php on line 299
+[13-Feb-2019 13:58:22 Europe/Belgrade] PHP Notice:  Undefined offset: 0 in C:\xampp\htdocs\chasha\app\classes\Model.php on line 129

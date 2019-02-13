@@ -14,8 +14,6 @@ class HomeController extends Controller
 {
 	public function getHome($request, $response)
 	{
-		// Za testiranje modela koristiti s_komintenti (id, naziv)
-
 		$this->render($response, 'home.twig', compact('rezultat'));
 	}
 
@@ -26,7 +24,7 @@ class HomeController extends Controller
 		$page = isset($query['page']) ? (int)$query['page'] : 1;
 
 		$model = new Korisnik;
-		$korisnici = $model->paginate($page);
+		$korisnici = $model->paginate($page, null, null, 10);
 		$this->render($response, 'pagination.twig', compact('korisnici'));
 	}
 
