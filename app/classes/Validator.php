@@ -44,12 +44,16 @@ class Validator
      */
     protected $rules = [
         'required',
+        'len',
         'minlen',
         'maxlen',
         'email',
-        'alnum',
+        'alnum', // + space
         'match_field',
         'unique',
+        'min',
+        'max',
+        'equal',
     ];
 
     /**
@@ -58,12 +62,16 @@ class Validator
      */
     protected $messages = [
         'required' => "Polje :field je obavezno",
+        'len' => "Polje :field mora da ima tacno :option karaktera",
         'minlen' => "Polje :field mora da ima najmanje :option karaktera",
         'maxlen' => "Polje :field mora da ima najvise :option karaktera",
         'email' => "Polje :field mora da sadrzi ispravnu email adresu",
         'alnum' => "Polje :field sme da sadrzi samo slova i brojeve",
         'match_field' => "Polja :field i :option moraju da budu ista",
         'unique' => "U bazi vec postoji :field sa istom vrednoscu",
+        'max' => "Polje :field mora da bude broj ne veci od :option",
+        'min' => "Polje :field mora da bude broj ne mani od :option",
+        'equal' => "Polje :field mora da bude jednako :option",
     ];
 
     /**
@@ -132,6 +140,18 @@ class Validator
     }
 
     /**
+     * Pravilo - odredjena duzina
+     *
+     * @param string $field Naziv podatka
+     * @param string $field Vrednost podatka
+     * @param mixed $option Vrednost parametra za zadovoljavanje pravila
+     */
+    protected function len($field, $value, $option)
+    {
+        return mb_strlen($value, 'UTF-8') === $option;
+    }
+
+    /**
      * Pravilo - minimalna duzina
      *
      * @param string $field Naziv podatka
@@ -168,7 +188,7 @@ class Validator
     }
 
     /**
-     * Pravilo - alfanumerik
+     * Pravilo - alfanumerik + space
      *
      * @param string $field Naziv podatka
      * @param string $field Vrednost podatka
@@ -176,7 +196,7 @@ class Validator
      */
     protected function alnum($field, $value, $option)
     {
-        return preg_match("/^[\p{L}\p{Z}]+$/ui", $value);
+        return preg_match("/^[\p{L}\p{Z}A-Za-z0-9 ]+$/ui", $value);
     }
 
     /**
@@ -202,8 +222,46 @@ class Validator
     {
         $option = explode('.', $option);
         $sql = "SELECT COUNT(*) AS broj FROM {$option[0]} WHERE {$option[1]} = :{$option[1]}";
-        $res = $this->db->fetch($sql, [":{$option[1]}" => $value]);
-        return (int)$res->broj > 0 ? false : true;
+        $params= [":{$option[1]}" => $value];
+        $res = $this->db->fetch($sql, $params);
+        return (int)$res[0]->broj > 0 ? false : true;
+    }
+
+    /**
+     * Pravilo - maksimum
+     *
+     * @param string $field Naziv podatka
+     * @param string $field Vrednost podatka
+     * @param mixed $option Vrednost parametra za zadovoljavanje pravila
+     */
+    protected function max($field, $value, $option)
+    {
+        return $value <= $option;
+    }
+
+    /**
+     * Pravilo - minimum
+     *
+     * @param string $field Naziv podatka
+     * @param string $field Vrednost podatka
+     * @param mixed $option Vrednost parametra za zadovoljavanje pravila
+     */
+    protected function min($field, $value, $option)
+    {
+        return $value >= $option;
+    }
+
+    /**
+     * Pravilo - jednakost
+     *
+     * @param string $field Naziv podatka
+     * @param string $field Vrednost podatka
+     * @param mixed $option Vrednost parametra za zadovoljavanje pravila
+     */
+    protected function equal($field, $value, $option)
+    {
+        // dd(gettype($option));
+        return (string)$value === (string)$option;
     }
 
     /**

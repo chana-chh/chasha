@@ -3,12 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Predmet;
-use App\Models\Korisnik;
-use App\Models\Komintent;
-use App\Models\VrstaUpisnika;
-use App\Classes\QueryBuilder;
 use App\Classes\Validator;
-use App\Classes\Auth;
 
 class HomeController extends Controller
 {
