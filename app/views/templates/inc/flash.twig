@@ -2,6 +2,7 @@
 <div class="flash flash-info">
 	{% for msg in flash('info') %}
 	<p>{{ msg }}</p>
+	<button class="close">&times; </button>
 	{% endfor %}
 </div>
 {% endif %}
@@ -9,6 +10,7 @@
 <div class="flash flash-warning">
 	{% for msg in flash('warning') %}
 	<p>{{ msg }}</p>
+	<button class="close">&times; </button>
 	{% endfor %}
 </div>
 {% endif %}
@@ -16,6 +18,7 @@
 <div class="flash flash-success">
 	{% for msg in flash('success') %}
 	<p>{{ msg }}</p>
+	<button class="close">&times; </button>
 	{% endfor %}
 </div>
 {% endif %}
@@ -23,6 +26,7 @@
 <div class="flash flash-danger">
 	{% for msg in flash('danger') %}
 	<p>{{ msg }}</p>
+	<button class="close">&times; </button>
 	{% endfor %}
 </div>
 {% endif %}

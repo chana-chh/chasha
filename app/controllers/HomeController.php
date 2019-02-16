@@ -19,7 +19,10 @@ class HomeController extends Controller
 		$page = isset($query['page']) ? (int)$query['page'] : 1;
 
 		$model = new Predmet();
-		$predmeti = $model->paginate($page);
+
+		$sql = "SELECT * FROM predmeti ORDER BY datum_tuzbe DESC;";
+
+		$predmeti = $model->paginate($page, $sql);
 
 		$this->render($response, 'pagination.twig', compact('predmeti'));
 	}

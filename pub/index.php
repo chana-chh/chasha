@@ -1,9 +1,6 @@
 <?php
 
-use App\Classes\Db;
-use App\Classes\Model;
 use App\Classes\Config;
-use App\Models\Korisnik;
 
 /**
  * ChaSha
@@ -15,6 +12,5 @@ use App\Models\Korisnik;
  * @copyright Copyright (c) 2019, ChaSha
  */
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'ini.php';
-session_start();
 Config::instance($container);
 $app->run();

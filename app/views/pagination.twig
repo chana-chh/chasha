@@ -9,8 +9,9 @@
     <thead>
         <tr>
             <th style="width:10%;text-align:left;">Id</th>
-            <th style="width:20%;text-align:left;">Broj</th>
-            <th style="width:20%;text-align:left;">Vrsta</th>
+            <th style="width:10%;text-align:left;">Datum</th>
+            <th style="width:15%;text-align:left;">Broj</th>
+            <th style="width:15%;text-align:left;">Vrsta</th>
             <th style="width:25%;text-align:left;">Tuzioci</th>
             <th style="width:25%;text-align:left;">Tuzeni</th>
         </tr>
@@ -19,6 +20,7 @@
         {% for predmet in predmeti.data %}
         <tr>
             <td>{{ predmet.id }}</td>
+            <td>{{ predmet.datum_tuzbe }}</td>
             <td>{{ predmet.broj() }}</td>
             <td>{{ predmet.vrstaPredmeta().naziv }}</td>
             <td>
@@ -42,21 +44,14 @@
 
 <table style="width: 100%;">
     <tr>
-        <td style="width:30%;">{{ predmeti.links.buttons|raw }}</td>
-        <td style="width:40%;">Go to page {{ predmeti.links.select|raw }}</td>
-        <td style="width:30%;">
+        <td style="width:40%;padding: .5rem 0;">{{ predmeti.links.buttons|raw }}</td>
+        <td style="width:40%;padding: .5rem 0;">Go to page {{ predmeti.links.select|raw }}</td>
+        <td style="width:20%;padding: .5rem 0;">
             Prikazani redovi od
-            <span id="start">{{ predmeti.links.row_from }}</span> do {{ predmeti.links.row_to }}
-            od ukupno {{ predmeti.links.total_rows }}
+            <strong>{{ predmeti.links.row_from }}</strong> do <strong>{{ predmeti.links.row_to }}</strong>
+            od ukupno <strong>{{ predmeti.links.total_rows }}</strong>
         </td>
     </tr>
 </table>
-
-{# {{ csrf|raw }} #}
-<script>
-    document.querySelector("#pgn-goto").addEventListener('change', function (e) {
-        location = this.value;
-    });
-</script>
 
 {% endblock sadrzaj %}

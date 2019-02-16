@@ -1,14 +1,65 @@
 <nav>
-	<h1 class="logo"><a href="{{ path_for('pocetna') }}">ChaSha</a></h1>
-	<a href="{{ path_for('pocetna') }}">Pocetna</a>
-	<a href="{{ path_for('strainicenje', {id: 1}) }}">Stranicenje</a>
-	<a href="https://mariadb.org/" target="_blank">MariaDB</a>
-	<a href="http://www.mysqltutorial.org/" target="_blank">MySQL tutorial</a>
-	{% if auth.logged %}
-	<a href="{{ path_for('odjava') }}">Odjava</a>
-	{% else %}
-	<a href="{{ path_for('registracija') }}">Registracija</a>
-	<a href="{{ path_for('prijava') }}">Prijava</a>
-	{% endif %}
-
+	<ul>
+		<li>
+			<a class="logo" href="{{ path_for('pocetna') }}">ChaSha</a>
+		</li>
+		<li>
+			<a href="{{ path_for('pocetna') }}">
+				<i class="fas fa-home"></i> Pocetna
+			</a>
+		</li>
+		<li>
+			<a href="{{ path_for('strainicenje', {id: 1}) }}">
+				<i class="fas fa-file"></i> Stranicenje
+			</a>
+		</li>
+		<li>
+			<a><i class="fas fa-question-circle"></i> Tutorijali <i class="fas fa-caret-down"></i></a>
+			<ul class="nav-dropdown">
+				<li>
+					<a href="https://mariadb.org/" target="_blank">
+						<i class="fas fa-home"></i> MariaDB
+					</a>
+				</li>
+				<li>
+					<a href="http://www.mysqltutorial.org/" target="_blank">
+						<i class="fas fa-home"></i> MySQL tutorial
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a><i class="fas fa-question-circle"></i> Tutorijali <i class="fas fa-caret-down"></i></a>
+			<ul class="nav-dropdown">
+				<li>
+					<a href="https://mariadb.org/" target="_blank">
+						<i class="fas fa-home"></i> MariaDB
+					</a>
+				</li>
+				<li>
+					<a href="http://www.mysqltutorial.org/" target="_blank">
+						<i class="fas fa-home"></i> MySQL tutorial
+					</a>
+				</li>
+			</ul>
+		</li>
+		{% if auth.logged %}
+		<li>
+			<a href="{{ path_for('odjava') }}">
+				<i class="fas fa-sign-out-alt"></i> Odjava
+			</a>
+		</li>
+		{% else %}
+		<li>
+			<a href="{{ path_for('registracija') }}">
+				<i class="fas fa-user-plus"></i> Registracija
+			</a>
+		</li>
+		<li>
+			<a href="{{ path_for('prijava') }}">
+				<i class="fas fa-sign-in-alt"></i> Prijava
+			</a>
+		</li>
+		{% endif %}
+	</ul>
 </nav>

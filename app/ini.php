@@ -21,7 +21,7 @@ require DIR . 'app/fje.php';
 require DIR . 'app/cfg.php';
 
 define('HOST', filter_input(INPUT_SERVER, 'REQUEST_SCHEME', FILTER_SANITIZE_STRING) . '://'
-                . filter_input( INPUT_SERVER, 'SERVER_NAME', FILTER_SANITIZE_STRING));
+    . filter_input(INPUT_SERVER, 'SERVER_NAME', FILTER_SANITIZE_STRING));
 
 $app = new \Slim\App($config);
 
@@ -59,3 +59,18 @@ ini_set('session.hash_bits_per_character', 5);
 ini_set('session.use_trans_sid', 0);
 ini_set('session.use_only_cookies', 1);
 ini_set('session.save_path', DIR . DS . 'app' . DS . 'tmp' . DS . 'ses');
+
+session_start();
+
+// Session expiration time in minutes
+$sess_expire = 30;
+
+if (isset($_SESSION['LAST_ACTION'])) {
+    $sec = time() - $_SESSION['LAST_ACTION'];
+    $expire = $sess_expire * 60;
+    if ($sec >= $expire) {
+        session_unset();
+        session_destroy();
+    }
+}
+$_SESSION['LAST_ACTION'] = time();

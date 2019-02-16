@@ -1,3 +1,7 @@
+/*
+
+
+*/
 html,
 body {
   margin: 0;
@@ -16,9 +20,7 @@ body {
   flex-direction: column;
 }
 
-main,
-header,
-footer {
+main {
   padding: .5rem 2rem;
 }
 
@@ -28,43 +30,97 @@ main {
 
 header,
 footer {
-  background-color: #ddd;
+  background-color: #333;
+  color: #fff;
+  padding: 0 2rem;
 }
 
 nav {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 nav .logo {
-  display: inline-block;
-  font-size: 3rem;
+  font-weight: bold;
+  text-align: left;
+  text-decoration: none;
+  padding: .5rem 3rem .5rem 0;
+  color: #FF4500 !important;
+  /* font-size: 1.3rem; */
+  /* line-height: 2; */
   margin: 0;
-  padding-right: 3rem;
 }
 
-nav>.logo>a {
-  text-decoration: none;
-  color: #009;
-}
-
-nav>.logo>a:hover {
-  color: #339;
-}
-
-nav>a {
-  text-decoration: none;
-  color: #009;
-  padding: 0.3rem 1.5rem;
-}
-
-nav>a:hover {
+nav .logo:hover {
   color: #fff;
-  background-color: #339;
+  background-color: #333;
+  border: 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  position: relative;
+  display: inline-block;
+}
+
+nav ul li a,
+nav ul li a:visited {
+  display: block;
+  padding: .5rem 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  background-color: #333;
+}
+
+nav ul li a:hover {
+  color: orangered;
+  background-color: #111;
+}
+
+.nav-dropdown-active {
+  color: orange;
+  background-color: #111;
+}
+
+nav ul li ul li {
+  min-width: 190px;
+}
+
+nav ul li ul li a {
+  padding: .5rem 1.5rem;
+  /* line-height: 20px; */
+}
+
+.nav-dropdown {
+  position: absolute;
+  display: none;
+  z-index: 1000;
 }
 
 .flash {
-  padding: 0 1rem;
-  border-radius: 0.5rem;
+  padding: 0 4rem 0 1rem;
+  border-radius: .5rem;
+  position: relative;
+}
+
+.flash .close {
+  position: absolute;
+  top: 0;
+  right: .3rem;
+  padding: .7rem .7rem;
+  background-color: transparent;
+  border: 0;
+  font-size: 1.5rem;
+  color: inherit;
+}
+
+.close:active,
+.close:focus {
+  outline: 0;
 }
 
 .flash-info {
@@ -95,7 +151,7 @@ nav>a:hover {
   margin-left: -1px;
   border: 1px solid #aaa;
   text-decoration: none;
-  padding: 5px 10px;
+  padding: .5rem 1rem;
   text-align: center;
   background-color: #eee;
   color: #333;
@@ -106,7 +162,7 @@ nav>a:hover {
 }
 
 .pgn-cur-btn {
-  background-color: rgb(50, 50, 150) !important;
+  background-color: #339 !important;
   color: #fff !important;
 }
 
@@ -118,14 +174,17 @@ nav>a:hover {
 
 .pgn-goto {
   border: 1px solid #aaa;
-  padding: 5px 10px;
+  padding: .5rem 1rem;
   background-color: #eee;
   color: #333;
   font-size: 1rem;
 }
 
-th,
-td {
+table {
+  border-collapse: collapse;
+}
+
+tr {
   border-bottom: 1px solid black;
 }
 

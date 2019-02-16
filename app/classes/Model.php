@@ -334,7 +334,7 @@ abstract class Model
 
 		$buttons = "";
 		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=1" tabindex="-1">1</a>';
-		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i>&lt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
 		for ($i = $start; $i <= $end; $i++) {
 			$current = '';
 			if ($page === $i) {
@@ -342,7 +342,7 @@ abstract class Model
 			}
 			$buttons .= '<a class="pgn-btn' . $current . '" href="' . $url . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
 		}
-		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i>&gt;</a>';
+		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i></a>';
 		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
 		$links['buttons'] = $buttons;
 		$goto = '<select class="pgn-goto" name="pgn-goto" id="pgn-goto">';
