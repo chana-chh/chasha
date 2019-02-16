@@ -1,2 +1,20 @@
-1. Proveriti Validator
-2. css
+CSS
+
+Frameworks
+
+BOOTSTRAP		https://getbootstrap.com/
+PURE			https://purecss.io/
+MILIGRAM		https://milligram.io/
+BULMA			https://bulma.io/
+MINI			https://minicss.org/
+DSG				https://github.com/mourner/dead-simple-grid
+
+Stranicenje
+
+Za strelice koristiti [https://fontawesome.com/] Font Awesome. Potrebno uvrstiti sledece klase.
+	[class="pgn-btn"] - osnovni stil dugmeta za stranice
+	[class="pgn-btn-disabled"] - dugme neaktivne stranice
+	[class="pgn-cur-btn"] - dugme za trenutnu stranicu
+	[class="pgn-goto"] - stil za padajucu listu sa stranicama
+
+Navigacija
