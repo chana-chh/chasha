@@ -333,7 +333,7 @@ abstract class Model
 		$links['row_to'] = $zapis_do;
 
 		$buttons = "";
-		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=1" tabindex="-1">1</a>';
+		$buttons .= '<a class="pgn-btn pgn-first' . $disabled_begin . '" href="' . $url . '?page=1" tabindex="-1">1</a>';
 		$buttons .= '<a class="pgn-btn' . $disabled_begin . '" href="' . $url . '?page=' . $prev . '" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
 		for ($i = $start; $i <= $end; $i++) {
 			$current = '';
@@ -343,7 +343,7 @@ abstract class Model
 			$buttons .= '<a class="pgn-btn' . $current . '" href="' . $url . '?page=' . $i . '" tabindex="-1">' . $i . '</a>';
 		}
 		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $next . '" tabindex="-1"><i class="fas fa-angle-right"></i></a>';
-		$buttons .= '<a class="pgn-btn' . $disabled_end . '" href="' . $url . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
+		$buttons .= '<a class="pgn-btn pgn-last' . $disabled_end . '" href="' . $url . '?page=' . $pages . '" tabindex="-1">' . $pages . '</a>';
 		$links['buttons'] = $buttons;
 		$goto = '<select class="pgn-goto" name="pgn-goto" id="pgn-goto">';
 		for ($i = 1; $i <= $pages; $i++) {

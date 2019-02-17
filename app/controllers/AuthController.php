@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Classes\Auth;
 use App\Models\Korisnik;
+use App\Classes\Validator;
 
 class AuthController extends Controller
 {
@@ -38,9 +39,16 @@ class AuthController extends Controller
         ];
 
         $this->validator->validate($data, $validation_rules);
-        dd($this->validator, true);
-
-        return $response->withRedirect($this->router->pathFor('prijava'));
+        
+        if($this->validator->hasErrors())
+        {
+            $_SESSION['errors']= $this->validator->getErrors();
+            $this->flash->addMessage('danger', 'Doslo je do greske prilikom registracije korisnika!');
+            return $response->withRedirect($this->router->pathFor('registracija'));
+        }else{
+            $this->flash->addMessage('success', 'Al si se logovo. Svaka chas!');
+            return $response->withRedirect($this->router->pathFor('prijava'));
+        }
     }
 
     public function getPrijava($request, $response)

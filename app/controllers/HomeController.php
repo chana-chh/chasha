@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Predmet;
-use App\Classes\Validator;
 
 class HomeController extends Controller
 {

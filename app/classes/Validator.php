@@ -74,10 +74,10 @@ class Validator
      *
      * @param App\Classes\Db $db PDO wrapper
      */
-    // public function __construct()
-    // {
-    //     $this->db = Db::instance();
-    // }
+    public function __construct()
+    {
+        $this->db = Db::instance();
+    }
 
     /**
      * Vrsi validaciju podataka prema pravilima
@@ -218,7 +218,7 @@ class Validator
         // $option - tabela.kolona
         $option = explode('.', $option);
         $sql = "SELECT COUNT(*) AS broj FROM {$option[0]} WHERE {$option[1]} = :{$option[1]}";
-        $params= [":{$option[1]}" => $value];
+        $params = [":{$option[1]}" => $value];
         // dd([$sql, $params],true);
         $res = Db::fetch($sql, $params);
         return (int)$res[0]->broj > 0 ? false : true;

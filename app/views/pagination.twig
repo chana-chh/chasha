@@ -8,18 +8,18 @@
 <table style="width:100%" id="data_table">
     <thead>
         <tr>
-            <th style="width:10%;text-align:left;">Id</th>
+            <th style="width:5%;text-align:left;">Id</th>
             <th style="width:10%;text-align:left;">Datum</th>
-            <th style="width:15%;text-align:left;">Broj</th>
+            <th style="width:10%;text-align:left;">Broj</th>
             <th style="width:15%;text-align:left;">Vrsta</th>
-            <th style="width:25%;text-align:left;">Tuzioci</th>
-            <th style="width:25%;text-align:left;">Tuzeni</th>
+            <th style="width:30%;text-align:left;">Tuzioci</th>
+            <th style="width:30%;text-align:left;">Tuzeni</th>
         </tr>
     </thead>
     <tbody>
         {% for predmet in predmeti.data %}
         <tr>
-            <td>{{ predmet.id }}</td>
+            <td><em>{{ predmet.id }}</em></td>
             <td>{{ predmet.datum_tuzbe }}</td>
             <td>{{ predmet.broj() }}</td>
             <td>{{ predmet.vrstaPredmeta().naziv }}</td>
@@ -40,18 +40,28 @@
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4.000,00</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+    </tfoot>
 </table>
 
-<table style="width: 100%;">
+<table class="pagination">
     <tr>
-        <td style="width:40%;padding: .5rem 0;">{{ predmeti.links.buttons|raw }}</td>
-        <td style="width:40%;padding: .5rem 0;">Go to page {{ predmeti.links.select|raw }}</td>
-        <td style="width:20%;padding: .5rem 0;">
+        <td style="width:50%;">{{ predmeti.links.buttons|raw }}</td>
+        <td style="width:20%;">Idi na stranu {{ predmeti.links.select|raw }}</td>
+        <td style="width:30%;text-align:right;">
             Prikazani redovi od
             <strong>{{ predmeti.links.row_from }}</strong> do <strong>{{ predmeti.links.row_to }}</strong>
             od ukupno <strong>{{ predmeti.links.total_rows }}</strong>
         </td>
     </tr>
 </table>
-
+<p hidden>HIDDEN</p>
 {% endblock sadrzaj %}

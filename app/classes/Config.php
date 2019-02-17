@@ -40,8 +40,8 @@ final class Config
     private static $config = [
         'pagination' => [
             // Podesavanja za stranicenje
-            'per_page' => 5,
-            'page_span' => 4,
+            'per_page' => 10,
+            'page_span' => 3,
         ],
         'db' => [
             // Podesavanja za PDO MySQL konekciju
