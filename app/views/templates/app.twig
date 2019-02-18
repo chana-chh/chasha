@@ -13,15 +13,28 @@
 </head>
 
 <body>
-	<header>
-		{% include 'templates/inc/navigation.twig' %}
+	<header class="row">
+		<div class="col">
+			{% include 'templates/inc/navigation.twig' %}
+		</div>
 	</header>
-	<main>
-		{% include 'templates/inc/flash.twig' %}
-		{% block sadrzaj %}{% endblock sadrzaj %}
+	<div class="row">{% include 'templates/inc/flash.twig' %}</div>
+	<main class="container">
+		<div class="row">
+			<div class="col content">
+
+				{% block sadrzaj %}{% endblock sadrzaj %}
+			</div>
+			<div class="col sidebar">
+				{% block traka %}{% endblock traka %}
+			</div>
+		</div>
 	</main>
+
 	<footer>
-		{% include 'templates/inc/footer.twig' %}
+		<div class="col">
+			{% include 'templates/inc/footer.twig' %}
+		</div>
 	</footer>
 	<script src="{{base_url()}}/js/app.js"></script>
 </body>

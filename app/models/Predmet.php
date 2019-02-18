@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Classes\Model;
+use DateTime;
 
 class Predmet extends Model
 {
@@ -11,6 +12,11 @@ class Predmet extends Model
 	public function broj()
 	{
 		return $this->vrstaUpisnika()->slovo . '-' . $this->broj_predmeta . '/' . $this->godina_predmeta;
+	}
+
+	public function datum_tuzbe()
+	{
+		return DateTime::createFromFormat('Y-m-d', $this->datum_tuzbe)->format('d.m.Y');
 	}
 
 	public function vrstaUpisnika()

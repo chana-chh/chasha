@@ -2,25 +2,25 @@
 
 {% block sadrzaj %}
 <h1>Stranicenje</h1>
-<div id="ajax"></div>
 <h2>Data</h2>
 
-<table style="width:100%" id="data_table">
+<table>
+    <caption>Tabela bre</caption>
     <thead>
         <tr>
-            <th style="width:5%;text-align:left;">Id</th>
-            <th style="width:10%;text-align:left;">Datum</th>
-            <th style="width:10%;text-align:left;">Broj</th>
-            <th style="width:15%;text-align:left;">Vrsta</th>
-            <th style="width:30%;text-align:left;">Tuzioci</th>
-            <th style="width:30%;text-align:left;">Tuzeni</th>
+            <th style="width:5%;">Id</th>
+            <th style="width:10%;">Datum</th>
+            <th style="width:10%;">Broj</th>
+            <th style="width:25%;">Vrsta</th>
+            <th style="width:25%;">Tuzioci</th>
+            <th style="width:25%;">Tuzeni</th>
         </tr>
     </thead>
     <tbody>
         {% for predmet in predmeti.data %}
         <tr>
             <td><em>{{ predmet.id }}</em></td>
-            <td>{{ predmet.datum_tuzbe }}</td>
+            <td>{{ predmet.datum_tuzbe() }}</td>
             <td>{{ predmet.broj() }}</td>
             <td>{{ predmet.vrstaPredmeta().naziv }}</td>
             <td>
@@ -52,16 +52,19 @@
     </tfoot>
 </table>
 
-<table class="pagination">
-    <tr>
-        <td style="width:50%;">{{ predmeti.links.buttons|raw }}</td>
-        <td style="width:20%;">Idi na stranu {{ predmeti.links.select|raw }}</td>
-        <td style="width:30%;text-align:right;">
+<div class="flex-row">
+    <div class="flex-col-3">{{ predmeti.links.buttons|raw }}</div>
+    <div class="flex-col-1">Idi na stranu {{ predmeti.links.select|raw }}</div>
+    <div class="flex-col-2" style="text-align: right;">
+        <p>
             Prikazani redovi od
             <strong>{{ predmeti.links.row_from }}</strong> do <strong>{{ predmeti.links.row_to }}</strong>
             od ukupno <strong>{{ predmeti.links.total_rows }}</strong>
-        </td>
-    </tr>
-</table>
-<p hidden>HIDDEN</p>
+        </p>
+    </div>
+</div>
 {% endblock sadrzaj %}
+
+{% block traka %}
+<h1>Sidebar</h1>
+{% endblock traka %}
