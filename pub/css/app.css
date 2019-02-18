@@ -5,15 +5,15 @@
   /* base colors */
   --color-white: #fff;
   --color-black: #000;
-  --color-text-primary: #000;
-  --color-text-secondary: #ddd;
+  --color-text-dark: #000;
+  --color-text-light: #ddd;
   --color-text-grey: #555;
   --color-text-info: #0B2545;
   --color-text-success: #058C42;
   --color-text-warning: #FF5805;
   --color-text-danger: #C81D25;
-  --color-bg-primary: #fff;
-  --color-bg-secondary: #333;
+  --color-bg-light: #fff;
+  --color-bg-dark: #333;
   --color-bg-grey: #999;
   --color-bg-info: rgba(108, 190, 237, .5);
   --color-bg-success: rgba(91, 229, 114, .5);
@@ -50,7 +50,7 @@ body {
 
 body {
   color: var(--color-text-main);
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -66,8 +66,8 @@ main {
 
 header,
 footer {
-  color: var(--color-text-secondary);
-  background-color: var(--color-bg-secondary);
+  color: var(--color-text-light);
+  background-color: var(--color-bg-dark);
   padding: 0 var(--pm-large);
 }
 
@@ -88,7 +88,7 @@ nav .logo {
 }
 
 nav .logo:hover {
-  color: var(--color-text-secondary) !important;
+  color: var(--color-text-light) !important;
 }
 
 nav ul {
@@ -107,8 +107,8 @@ nav ul li a:visited {
   display: block;
   padding: var(--pm-small) 1.5rem;
   text-decoration: none;
-  color: var(--color-text-secondary);
-  background-color: var(--color-bg-secondary);
+  color: var(--color-text-light);
+  background-color: var(--color-bg-dark);
 }
 
 nav ul li a:hover {
@@ -138,10 +138,10 @@ button,
   font-size: 1rem;
   text-decoration: none;
   text-align: center;
-  background-color: var(--color-text-secondary);
-  color: var(--color-text-primary);
+  background-color: var(--color-text-light);
+  color: var(--color-text-dark);
   padding: .5rem var(--pm-small);
-  border: 1px solid var(--color-text-primary);
+  border: 1px solid var(--color-text-dark);
   border-radius: calc(var(--radius-default) / 2);
 }
 
@@ -197,14 +197,14 @@ button,
 }
 
 .pagination tr:hover {
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-light);
 }
 
 .pgn-btn {
   margin-left: -1px;
   border: 1px solid var(--color-text-grey);
   padding: calc(var(--pm-small) / 2) var(--pm-small);
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-light);
   color: var(--color-text-grey);
 }
 
@@ -222,12 +222,13 @@ button,
 }
 
 .pgn-btn:hover {
-  background-color: var(--color-bg-info);
+  color: var(--color-white);
+  background-color: var(--color-text-info);
 }
 
 .pgn-cur-btn {
-  background-color: var(--color-text-info) !important;
-  color: var(--color-text-secondary) !important;
+  background-color: var(--color-bg-info) !important;
+  color: var(--color-text-dark) !important;
 }
 
 .pgn-btn-disabled {
@@ -240,8 +241,8 @@ button,
   border: 1px solid var(--color-text-grey);
   border-radius: var(--radius-default);
   padding: calc(var(--pm-small) / 2) var(--pm-small);
-  background-color: var(--color-text-info) !important;
-  color: var(--color-text-secondary) !important;
+  background-color: var(--color-bg-info) !important;
+  color: var(--color-text-dark) !important;
   text-align: center;
 }
 
@@ -260,7 +261,7 @@ table {
 table thead th,
 table thead td,
 table tfoot td {
-  color: var(--color-text-secondary);
+  color: var(--color-text-light);
   background-color: var(--color-bg-grey);
 }
 
@@ -299,7 +300,7 @@ input {
   border: 1px solid var(--color-text-info);
   border-radius: calc(var(--radius-default) / 2);
   margin-top: calc(var(--pm-table) / 2);
-  background-color: var(--color-text-secondary);
+  background-color: var(--color-text-light);
 }
 
 input:active,

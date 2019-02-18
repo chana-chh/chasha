@@ -38,6 +38,7 @@ final class Config
      * @var array
      */
     private static $config = [
+        'cyrillic' => false, // da li je aplikacija cirilicna
         'pagination' => [
             // Podesavanja za stranicenje
             'per_page' => 10,

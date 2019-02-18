@@ -40,12 +40,10 @@ class AuthController extends Controller
 
         $this->validator->validate($data, $validation_rules);
         
-        if($this->validator->hasErrors())
-        {
-            $_SESSION['errors']= $this->validator->getErrors();
+        if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Doslo je do greske prilikom registracije korisnika!');
             return $response->withRedirect($this->router->pathFor('registracija'));
-        }else{
+        } else {
             $this->flash->addMessage('success', 'Al si se logovo. Svaka chas!');
             return $response->withRedirect($this->router->pathFor('prijava'));
         }

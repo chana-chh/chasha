@@ -13,6 +13,7 @@
 namespace App\Classes;
 
 use App\Classes\Db;
+use App\Classes\Config;
 
 /**
  * Validator podataka
@@ -26,6 +27,8 @@ class Validator
      * @var array
      */
     protected $items;
+
+    protected $convert = false;
 
     /**
      * Niz gresaka validacije
@@ -57,15 +60,15 @@ class Validator
      */
     protected $messages = [
         'required' => "Polje :field je obavezno",
-        'len' => "Polje :field mora da ima tacno :option karaktera",
+        'len' => "Polje :field mora da ima tačno :option karaktera",
         'minlen' => "Polje :field mora da ima najmanje :option karaktera",
-        'maxlen' => "Polje :field mora da ima najvise :option karaktera",
-        'email' => "Polje :field mora da sadrzi ispravnu email adresu",
-        'alnum' => "Polje :field sme da sadrzi samo slova i brojeve",
+        'maxlen' => "Polje :field mora da ima najviše :option karaktera",
+        'email' => "Polje :field mora da sadrži ispravnu email adresu",
+        'alnum' => "Polje :field sme da sadrži samo slova i brojeve",
         'match_field' => "Polja :field i :option moraju da budu ista",
-        'unique' => "U bazi vec postoji :field sa istom vrednoscu",
-        'max' => "Polje :field mora da bude broj ne veci od :option",
-        'min' => "Polje :field mora da bude broj ne mani od :option",
+        'unique' => "U bazi već postoji :field sa istom vrednošću",
+        'max' => "Polje :field mora da bude broj ne veći od :option",
+        'min' => "Polje :field mora da bude broj ne manji od :option",
         'equal' => "Polje :field mora da bude jednako :option",
     ];
 
@@ -77,6 +80,9 @@ class Validator
     public function __construct()
     {
         $this->db = Db::instance();
+        if (Config::get('cyrillic')) {
+            $this->convert = true;
+        }
     }
 
     /**
@@ -98,6 +104,9 @@ class Validator
                 ]);
             }
         }
+        if ($this->hasErrors()) {
+            $_SESSION['errors'] = $this->getErrors();
+        }
     }
 
     /**
@@ -112,11 +121,12 @@ class Validator
         foreach ($item['rules'] as $rule => $option) {
             if (in_array($rule, $this->rules)) {
                 if (!call_user_func_array([$this, $rule], [$field, $value, $option])) {
-                    $this->errors[$field][] = str_replace(
+                    $text = str_replace(
                         [':field', ':option'],
                         ['[' . ucfirst(str_replace(['-', '_'], ' ', $field)) . ']', '[' . ucfirst($option) . ']'],
                         $this->messages[$rule]
                     );
+                    $this->errors[$field][] = $this->convert ? latinicaUCirilicu($text) : $text;
                 }
             }
         }
