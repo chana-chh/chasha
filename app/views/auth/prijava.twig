@@ -4,10 +4,10 @@
 <h1>Prijava</h1>
 <form action="{{ path_for('prijava') }}" method="POST">
     {{ csrf|raw }}
-    <label for="username">Korisnicko ime</label><br>
-    <input type="text" name="username" id="username" value="{{ old.username }}" autocomplete="off"><br><br>
-    <label for="password">Lozinka</label><br>
-    <input type="password" name="password" id="password" autocomplete="off"><br><br>
+    <label for="korisnicko_ime">Korisnicko ime</label><br>
+    <input type="text" name="korisnicko_ime" id="korisnicko_ime" value="{{ old.korisnicko_ime }}" autocomplete="off"><br><br>
+    <label for="lozinka">Lozinka</label><br>
+    <input type="password" name="lozinka" id="lozinka" autocomplete="off"><br><br>
     <input type="submit" value="Prijavi se" class="btn-info">
     <a href="{{ path_for('pocetna') }}" class="btn btn-info">Otkaži prijavu</a>
 </form>

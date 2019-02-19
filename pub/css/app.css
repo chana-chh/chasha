@@ -3,19 +3,52 @@
 /* Variables */
 :root {
   /* base colors */
+
+  /*
+  tekst
+    bela
+    crna
+    siva
+    primarna
+    sekundarna
+    info
+    success
+    warning
+    danger
+  tekst - 
+    tamna
+    svetla
+    siva
+    primarna
+    sekundarna
+    info
+    success
+    warning
+    danger
+  pozadina
+    tamna
+    svetla
+    siva
+    primarna
+    sekundarna
+    info
+    success
+    warning
+    danger
+  */
   --color-white: #fff;
   --color-black: #000;
   --color-text-dark: #000;
   --color-text-light: #ddd;
   --color-text-grey: #555;
-  --color-text-info: #0B2545;
+  --color-text-info: #027cc5;
   --color-text-success: #058C42;
   --color-text-warning: #FF5805;
   --color-text-danger: #C81D25;
   --color-bg-light: #fff;
   --color-bg-dark: #333;
   --color-bg-grey: #999;
-  --color-bg-info: #6cbeed80;
+  --color-bg-info: #027cc580;
   --color-bg-success: #5be57280;
   --color-bg-warning: #ffd23f80;
   --color-bg-danger: #ff794c80;

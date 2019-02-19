@@ -10,8 +10,8 @@ class Korisnik extends Model
 
 	public function findByUsername(string $username)
 	{
-		$sql = "SELECT * FROM {$this->table} WHERE username = :un LIMIT 1;";
-		$params = [':un' => $username];
+		$sql = "SELECT * FROM {$this->table} WHERE korisnicko_ime = :kime LIMIT 1;";
+		$params = [':kime' => $username];
 		return $this->fetch($sql, $params)[0];
 	}
 }

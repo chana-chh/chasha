@@ -46,7 +46,7 @@ final class Config
         ],
         'db' => [
             // Podesavanja za PDO MySQL konekciju
-            'dsn' => 'mysql:host=127.0.0.1;dbname=jp;charset=utf8mb4',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=kartoteka;charset=utf8mb4',
             'username' => 'root',
             'password' => '',
             'options' => [

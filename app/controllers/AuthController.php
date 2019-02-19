@@ -39,12 +39,13 @@ class AuthController extends Controller
         ];
 
         $this->validator->validate($data, $validation_rules);
-        
+        // TODO: Upisati novog korisnika
+        die();
         if ($this->validator->hasErrors()) {
             $this->flash->addMessage('danger', 'Doslo je do greske prilikom registracije korisnika!');
             return $response->withRedirect($this->router->pathFor('registracija'));
         } else {
-            $this->flash->addMessage('success', 'Al si se logovo. Svaka chas!');
+            $this->flash->addMessage('success', 'Al si se upiso u usere. Svaka chas!');
             return $response->withRedirect($this->router->pathFor('prijava'));
         }
     }
@@ -56,7 +57,7 @@ class AuthController extends Controller
 
     public function postPrijava($request, $response)
     {
-        $ok = $this->auth->login($request->getParam('username'), $request->getParam('password'));
+        $ok = $this->auth->login($request->getParam('korisnicko_ime'), $request->getParam('lozinka'));
         if ($ok) {
             $this->flash->addMessage('success', 'Al si se logovo. Svaka chas!');
             return $response->withRedirect($this->router->pathFor('pocetna'));

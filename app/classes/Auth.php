@@ -53,7 +53,7 @@ class Auth
 		if (!$user) {
 			return false;
 		}
-		if ($this->checkPassword($password, $user->password)) {
+		if ($this->checkPassword($password, $user->lozinka)) {
 			$_SESSION['user'] = $user->id;
 			return true;
 		}
