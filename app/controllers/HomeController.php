@@ -9,9 +9,6 @@ class HomeController extends Controller
 {
 	public function getHome($request, $response)
 	{
-		// $model = new Korisnik();
-		// $korisnici = $model->all();
-		// dd($korisnici, true);
 		$this->render($response, 'home.twig', compact('rezultat'));
 	}
 
